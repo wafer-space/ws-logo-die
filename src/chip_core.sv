@@ -29,74 +29,47 @@ module chip_core #(
     output wire [NUM_BIDIR_PADS-1:0] bidir_pu,   // Pull-up
     output wire [NUM_BIDIR_PADS-1:0] bidir_pd,   // Pull-down
 
-    inout  wire [NUM_ANALOG_PADS-1:0] analog  // Analog
-);
-
-    // See here for usage: https://gf180mcu-pdk.readthedocs.io/en/latest/IPs/IO/gf180mcu_fd_io/digital.html
+    inout  wire [NUM_ANALOG_PADS-1:0] analog,  // Analog
     
-    // Disable pull-up and pull-down for input
-    assign input_pu = '0;
+    input wire [7:0] vga_outputs,
+    output wire rst_n_vga
+);
+    
+    assign input_pu = '1;
     assign input_pd = '0;
 
     // Set the bidir as output
-    assign bidir_oe = '1;
-    assign bidir_cs = '0;
     assign bidir_sl = '0;
     assign bidir_ie = ~bidir_oe;
-    assign bidir_pu = '0;
-    assign bidir_pd = '0;
     
     logic _unused;
     assign _unused = &bidir_in;
+    
+    assign rst_n_vga = rst_n && !input_in[7];
+    wire [39:0] qcpu_oe;
+    wire [39:0] qcpu_pu;
+    wire [39:0] qcpu_pd;
+    wire [39:0] qcpu_cs;
+    wire [39:0] qcpu_out;
+    
+    assign bidir_oe  = {input_in[7] ? qcpu_oe[39:32] : 8'hFF, qcpu_oe[31:0]};
+    assign bidir_pu  = {input_in[7] ? qcpu_pu[39:32] : 8'h00, qcpu_pu[31:0]};
+    assign bidir_pd  = {input_in[7] ? qcpu_pd[39:32] : 8'h00, qcpu_pd[31:0]};
+    assign bidir_cs  = {input_in[7] ? qcpu_cs[39:32] : 8'h00, qcpu_cs[31:0]};
+    assign bidir_out = {input_in[7] ? qcpu_out[39:32] : vga_outputs, qcpu_out[31:0]};
 
-    logic [NUM_BIDIR_PADS-1:0] count;
-
-    always_ff @(posedge clk) begin
-        if (!rst_n) begin
-            count <= '0;
-        end else begin
-            if (&input_in) begin
-                count <= count + 1;
-            end
-        end
-    end
-
-    logic [7:0] sram_0_out;
-
-    gf180mcu_fd_ip_sram__sram512x8m8wm1 sram_0 (
-        `ifdef USE_POWER_PINS
-        .VDD  (VDD),
-        .VSS  (VSS),
-        `endif
-
-        .CLK  (clk),
-        .CEN  (1'b1),
-        .GWEN (1'b0),
-        .WEN  (8'b0),
-        .A    ('0),
-        .D    ('0),
-        .Q    (sram_0_out)
+    wrapped_qcpu wrapped_qcpu(
+        .clk_i(clk),
+        .rst_n(rst_n && input_in[7]),
+        .io_in(bidir_in),
+        .io_out(qcpu_out),
+        .io_oe(qcpu_oe),
+        .io_pu(qcpu_pu),
+        .io_pd(qcpu_pd),
+        .io_cs(qcpu_cs),
+        .inputs(input_in[7:0])
     );
-
-    logic [7:0] sram_1_out;
-
-    gf180mcu_fd_ip_sram__sram512x8m8wm1 sram_1 (
-        `ifdef USE_POWER_PINS
-        .VDD  (VDD),
-        .VSS  (VSS),
-        `endif
-
-        .CLK  (clk),
-        .CEN  (1'b1),
-        .GWEN (1'b0),
-        .WEN  (8'b0),
-        .A    ('0),
-        .D    ('0),
-        .Q    (sram_1_out)
-    );
-
-    assign bidir_out = count ^ {24'd0, sram_0_out, sram_1_out};
-
+    
 endmodule
 
 `default_nettype wire

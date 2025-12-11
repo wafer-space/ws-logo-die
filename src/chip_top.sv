@@ -167,6 +167,9 @@ module chip_top #(
 
     // Core design
 
+    wire [7:0] vga_outputs;
+    wire rst_n_vga;
+    
     chip_core #(
         .NUM_INPUT_PADS  (NUM_INPUT_PADS),
         .NUM_BIDIR_PADS  (NUM_BIDIR_PADS),
@@ -193,7 +196,22 @@ module chip_top #(
         .bidir_pu   (bidir_CORE2PAD_PU),
         .bidir_pd   (bidir_CORE2PAD_PD),
         
-        .analog     (analog_PAD)
+        .analog     (analog_PAD),
+        
+        .vga_outputs(vga_outputs),
+        .rst_n_vga(rst_n_vga)
+    );
+    
+    (* keep *)
+    wrapped_vga wrapped_vga(
+        `ifdef USE_POWER_PINS
+        .VDD        (VDD),
+        .VSS        (VSS),
+        `endif
+        .clk_i(clk_PAD2CORE),
+        .rst_n(rst_n_vga),
+        .inputs(input_PAD2CORE[10:4]),
+        .outputs(vga_outputs)
     );
     
     // Chip ID - do not remove, necessary for tapeout
@@ -203,6 +221,9 @@ module chip_top #(
     // wafer.space logo - can be removed
     (* keep *)
     gf180mcu_ws_ip__logo wafer_space_logo ();
+    
+    (* keep *)
+    big_logo big_logo ();
 
 endmodule
 

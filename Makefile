@@ -3,7 +3,7 @@ MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 RUN_TAG = $(shell ls librelane/runs/ | tail -n 1)
 TOP = chip_top
 
-PDK_ROOT ?= $(MAKEFILE_DIR)/gf180mcu
+PDK_ROOT ?= $(MAKEFILE_DIR)/gf180mcu_pdk
 PDK ?= gf180mcuD
 PDK_TAG ?= 1.6.4
 
@@ -13,7 +13,7 @@ DEFAULT_SLOT = 1x1
 # Slot can be any of AVAILABLE_SLOTS
 SLOT ?= $(DEFAULT_SLOT)
 
-ifeq ($(SLOT),default)        
+ifeq ($(SLOT),default)
     SLOT = $(DEFAULT_SLOT)
 endif
 
@@ -34,8 +34,8 @@ all: librelane ## Build the project (runs LibreLane)
 .PHONY: all
 
 clone-pdk: ## Clone the GF180MCU PDK repository
-	rm -rf $(MAKEFILE_DIR)/gf180mcu
-	git clone https://github.com/wafer-space/gf180mcu.git $(MAKEFILE_DIR)/gf180mcu --depth 1 --branch ${PDK_TAG}
+	rm -rf $(MAKEFILE_DIR)/gf180mcu_pdk
+	git clone https://github.com/wafer-space/gf180mcu.git $(MAKEFILE_DIR)/gf180mcu_pdk --depth 1 --branch ${PDK_TAG}
 .PHONY: clone-pdk
 
 librelane: ## Run LibreLane flow (synthesis, PnR, verification)
@@ -85,5 +85,5 @@ copy-final: ## Copy final output files from the last run
 
 render-image: ## Render an image from the final layout (after copy-final)
 	mkdir -p img/
-	PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 scripts/lay2img.py final/gds/${TOP}.gds img/${TOP}.png --width 2048 --oversampling 4
+	PDK_ROOT=${PDK_ROOT} PDK=${PDK} python3 scripts/lay2img.py final/gds/${TOP}.gds img/${TOP}.png --width 8192 --oversampling 4
 .PHONY: copy-final

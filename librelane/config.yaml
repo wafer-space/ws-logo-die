@@ -28,6 +28,11 @@ DESIGN_NAME: chip_top
 VERILOG_FILES:
 - dir::../src/chip_top.sv
 - dir::../src/chip_core.sv
+- dir::../src/multiplier.v
+- dir::../src/qcpu.v
+- dir::../src/spi.v
+- dir::../src/uart.v
+- dir::../src/wrapped_qcpu.v
 
 # Enable plugin for better SystemVerilog support
 # USE_SLANG: True
@@ -41,6 +46,8 @@ PNR_SDC_FILE: dir::chip_top.sdc
 SIGNOFF_SDC_FILE: dir::chip_top.sdc
 FALLBACK_SDC: dir::chip_top.sdc
 
+SYNTH_STRATEGY: DELAY 4
+
 # Power / ground nets
 VDD_NETS:
 - VDD
@@ -53,24 +60,28 @@ IGNORE_DISCONNECTED_MODULES:
 - gf180mcu_fd_io__bi_24t
 - gf180mcu_ws_ip__id
 - gf180mcu_ws_ip__logo
+- big_logo
 
 # Clock
 CLOCK_PORT: clk_PAD
 CLOCK_NET: clk_pad/Y
-CLOCK_PERIOD: 40 # 25 MHz
+CLOCK_PERIOD: 35 # 25 MHz
 
 # Fix hold violations
-PL_RESIZER_HOLD_SLACK_MARGIN: 0.35
-GRT_RESIZER_HOLD_SLACK_MARGIN: 0.3
+PL_RESIZER_HOLD_SLACK_MARGIN: 0.5
+PL_RESIZER_SETUP_SLACK_MARGIN: 0.1
+GRT_RESIZER_HOLD_SLACK_MARGIN: 0.5
+GRT_RESIZER_SETUP_SLACK_MARGIN: 0.1
 
 # Increase for more logic
 # on your die
-PL_TARGET_DENSITY_PCT: 35
-GRT_ALLOW_CONGESTION: true
+#PL_TARGET_DENSITY_PCT: 35
+#GRT_ALLOW_CONGESTION: true
 
 # Fix antenna violations after DRT
 DRT_ANTENNA_REPAIR_ITERS: 10
-DRT_ANTENNA_MARGIN: 10 # %
+DRT_ANTENNA_MARGIN: 15 # %
+DIODE_ON_PORTS: both
 
 # PDN - Straps
 PDN_VWIDTH: 5
@@ -139,6 +150,34 @@ KLAYOUT_FILLER_OPTIONS:
 MAGIC_EXT_UNIQUE: notopports
 
 MACROS:
+  wrapped_vga:
+    gds:
+      - dir::../vga_screensaver/runs/latest/final/gds/wrapped_vga.gds
+    lef:
+      - dir::../vga_screensaver/runs/latest/final/lef/wrapped_vga.lef
+    pnl:
+      - dir::../vga_screensaver/runs/latest/final/pnl/wrapped_vga.pnl.v
+    nl:
+      - dir::../vga_screensaver/runs/latest/final/nl/wrapped_vga.nl.v
+    spef:
+      min_*: dir::../vga_screensaver/runs/latest/final/spef/min/wrapped_vga.min.spef
+      nom_*: dir::../vga_screensaver/runs/latest/final/spef/nom/wrapped_vga.nom.spef
+      max_*: dir::../vga_screensaver/runs/latest/final/spef/max/wrapped_vga.max.spef
+    lib:
+      max_ff_n40C_5v50: dir::../vga_screensaver/runs/latest/final/lib/max_ff_n40C_5v50/wrapped_vga__max_ff_n40C_5v50.lib
+      max_ss_125C_4v50: dir::../vga_screensaver/runs/latest/final/lib/max_ss_125C_4v50/wrapped_vga__max_ss_125C_4v50.lib
+      max_tt_025C_5v00: dir::../vga_screensaver/runs/latest/final/lib/max_tt_025C_5v00/wrapped_vga__max_tt_025C_5v00.lib
+      min_ff_n40C_5v50: dir::../vga_screensaver/runs/latest/final/lib/min_ff_n40C_5v50/wrapped_vga__min_ff_n40C_5v50.lib
+      min_ss_125C_4v50: dir::../vga_screensaver/runs/latest/final/lib/min_ss_125C_4v50/wrapped_vga__min_ss_125C_4v50.lib
+      min_tt_025C_5v00: dir::../vga_screensaver/runs/latest/final/lib/min_tt_025C_5v00/wrapped_vga__min_tt_025C_5v00.lib
+      nom_ff_n40C_5v50: dir::../vga_screensaver/runs/latest/final/lib/nom_ff_n40C_5v50/wrapped_vga__nom_ff_n40C_5v50.lib
+      nom_ss_125C_4v50: dir::../vga_screensaver/runs/latest/final/lib/nom_ss_125C_4v50/wrapped_vga__nom_ss_125C_4v50.lib
+      nom_tt_025C_5v00: dir::../vga_screensaver/runs/latest/final/lib/nom_tt_025C_5v00/wrapped_vga__nom_tt_025C_5v00.lib
+    instances:
+      wrapped_vga:
+        location: [800, 605]
+        orientation: N
+    
   gf180mcu_ws_ip__id:
     gds:
       - dir::../ip/gf180mcu_ws_ip__id/gds/gf180mcu_ws_ip__id.gds
@@ -168,35 +207,21 @@ MACROS:
       wafer_space_logo:
         location: ["expr::$DIE_AREA[2] + -169.25", "expr::$DIE_AREA[3] + -169.25"]
         orientation: N
-
-  gf180mcu_fd_ip_sram__sram512x8m8wm1:
+        
+  big_logo:
     gds:
-      - pdk_dir::libs.ref/gf180mcu_fd_ip_sram/gds/gf180mcu_fd_ip_sram__sram512x8m8wm1.gds
+      - dir::../big_logo/big_logo.gds
     lef:
-      - pdk_dir::libs.ref/gf180mcu_fd_ip_sram/lef/gf180mcu_fd_ip_sram__sram512x8m8wm1.lef
+      - dir::../big_logo/big_logo.lef
     vh:
-      - pdk_dir::libs.ref/gf180mcu_fd_ip_sram/verilog/gf180mcu_fd_ip_sram__sram512x8m8wm1__blackbox.v
+      - dir::../big_logo/big_logo.v
     lib:
-      "*_tt_025C_5v00":
-        - pdk_dir::libs.ref/gf180mcu_fd_ip_sram/lib/gf180mcu_fd_ip_sram__sram512x8m8wm1__tt_025C_5v00.lib
-      "*_ff_n40C_5v50":
-        - pdk_dir::libs.ref/gf180mcu_fd_ip_sram/lib/gf180mcu_fd_ip_sram__sram512x8m8wm1__ff_n40C_5v50.lib
-      "*_ss_125C_4v50":
-        - pdk_dir::libs.ref/gf180mcu_fd_ip_sram/lib/gf180mcu_fd_ip_sram__sram512x8m8wm1__ss_125C_4v50.lib
+      "*":
+        - dir::../big_logo/big_logo.lib
     instances:
-      # Make sure to specify the SRAMs in pdn_cfg.tcl
-      i_chip_core.sram_0:
-        location: [490, 500]
+      big_logo:
+        location: [700, 1305]
         orientation: N
-      i_chip_core.sram_1:
-        location: [970, 500]
-        orientation: E
-
-# This is an alternative method compared to
-# specifying the power connections in the RTL
-PDN_MACRO_CONNECTIONS:
-- "i_chip_core.sram_0 VDD VSS VDD VSS"
-- "i_chip_core.sram_1 VDD VSS VDD VSS"
 
 # Halo size around macros while cutting rows.
 # Workaround for: https://github.com/The-OpenROAD-Project/OpenROAD/issues/8868
@@ -212,9 +237,24 @@ PDN_CFG: dir::pdn_cfg.tcl
 LVS_FLATTEN_CELLS:
 - gf180mcu_ws_ip__id
 - gf180mcu_ws_ip__logo
+- big_logo
 
 # gf180mcu_ws_ip__id/logo has no ports and components
 # therefore make it an abstract cell in the layout
 MAGIC_EXT_ABSTRACT_CELLS:
 - gf180mcu_ws_ip__id
 - gf180mcu_ws_ip__logo
+- big_logo
+
+# Remove everything between this comment end the one below to disable use of the custom DFF cells
+LIB:
+  "*_tt_025C_5v00": ["pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__tt_025C_5v00.lib", "pdk_dir::libs.ref/gf180mcu_fd_io/lib/gf180mcu_fd_io__tt_025C_5v00.lib", "pdk_dir::libs.ref/gf180mcu_fd_io/lib/gf180mcu_ws_io__tt_025C_5v00.lib", "dir::../gf180mcu_as_ex_mcu7t5v0/lib/gf180mcu_as_ex_mcu7t5v0__tt_025C_5v00.lib"]
+  "*_ss_125C_4v50": ["pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__ss_125C_4v50.lib", "pdk_dir::libs.ref/gf180mcu_fd_io/lib/gf180mcu_fd_io__ss_125C_4v50.lib", "pdk_dir::libs.ref/gf180mcu_fd_io/lib/gf180mcu_ws_io__ss_125C_4v50.lib", "dir::../gf180mcu_as_ex_mcu7t5v0/lib/gf180mcu_as_ex_mcu7t5v0__ss_125C_4v50.lib"]
+  "*_ff_n40C_5v50": ["pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__ff_n40C_5v50.lib", "pdk_dir::libs.ref/gf180mcu_fd_io/lib/gf180mcu_fd_io__ff_n40C_5v50.lib", "pdk_dir::libs.ref/gf180mcu_fd_io/lib/gf180mcu_ws_io__ff_n40C_5v50.lib", "dir::../gf180mcu_as_ex_mcu7t5v0/lib/gf180mcu_as_ex_mcu7t5v0__ff_n40C_5v50.lib"]
+CELL_LEFS: ["pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lef/gf180mcu_fd_sc_mcu7t5v0.lef", "dir::../gf180mcu_as_ex_mcu7t5v0/lef/gf180mcu_as_ex_mcu7t5v0.lef"]
+CELL_GDS: ["pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/gds/gf180mcu_fd_sc_mcu7t5v0.gds", "dir::../gf180mcu_as_ex_mcu7t5v0/gds/gf180mcu_as_ex_mcu7t5v0__dfxtp_2.gds"]
+CELL_VERILOG_MODELS: ["pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/gf180mcu_fd_sc_mcu7t5v0.v", "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/verilog/primitives.v", "dir::../gf180mcu_as_ex_mcu7t5v0/verilog/gf180mcu_as_ex_mcu7t5v0.v"]
+CELL_SPICE_MODELS: ["pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/spice/gf180mcu_fd_sc_mcu7t5v0.spice", "dir::../gf180mcu_as_ex_mcu7t5v0/cds/gf180mcu_as_ex_mcu7t5v0.spice"]
+
+EXTRA_EXCLUDED_CELLS: ["gf180mcu_fd_sc_mcu7t5v0__dff*", "gf180mcu_as_ex_mcu7t5v0__dy_*", "*_1"]
+#End

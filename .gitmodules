@@ -1,0 +1,6 @@
+[submodule "gf180mcu_as_ex_mcu7t5v0"]
+	path = gf180mcu_as_ex_mcu7t5v0
+	url = https://github.com/AvalonSemiconductors/gf180mcu_as_ex_mcu7t5v0
+[submodule "vga_screensaver/tt-waferspace-vga-screensaver"]
+	path = vga_screensaver/tt-waferspace-vga-screensaver
+	url = https://github.com/TinyTapeout/tt-waferspace-vga-screensaver
