@@ -1,0 +1,2966 @@
+                                                                                                                                                                                                BQ51013B
+www.ti.com                                                                                                                                                BQ51013B
+                                                                                                                       SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+                                                                                                                       SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+     BQ51013B Highly Integrated Wireless Receiver Qi (WPC v1.2) Compliant Power
+                                       Supply
+
+1 Features                                                                                        3 Description
+•   Integrated Wireless Power Supply Receiver                                                     The BQ51013B device is a single-chip, advanced,
+    Solution                                                                                      flexible, secondary-side device for wireless power
+    – 93% Overall peak AC-DC efficiency                                                           transfer in portable applications capable of providing
+    – Full synchronous rectifier                                                                  up to 5 W. The BQ51013B devices provide the
+    – WPC v1.2 compliant communication control                                                    receiver (RX) AC-to-DC power conversion and
+                                                                                                  regulation while integrating the digital control required
+    – Output voltage conditioning
+                                                                                                  to comply with the Wireless Power Consortium (WPC)
+    – Only IC required between Rx coil and output                                                 Qi v1.2 communication protocol. Together with the
+•   Wireless power consortium (WPC) v1.2 compliant                                                BQ50012A primary-side controller (or other Qi
+    (FOD enabled) highly accurate current sense                                                   transmitter), the BQ51013B enables a complete
+•   Dynamic rectifier control for improved load                                                   contactless power transfer system for a wireless
+    transient response                                                                            power supply solution. Global feedback is established
+•   Dynamic efficiency scaling for optimized                                                      from the secondary to the primary to control the power
+    performance over wide range of output power                                                   transfer process using the Qi v1.2 protocol.
+•   Adaptive communication limit for robust                                                       The      BQ51013B      integrates   a    low-resistance
+    communication                                                                                 synchronous rectifier, low-dropout regulator (LDO),
+•   Supports 20-V maximum input                                                                   digital control, and accurate voltage and current loops
+•   Low-power dissipative rectifier overvoltage clamp                                             to ensure high efficiency and low power dissipation.
+    (VOVP = 15 V)
+                                                                                                  The BQ51013B also includes a digital controller that
+•   Thermal shutdown
+                                                                                                  calculates the amount of power received by the
+•   Multifunction NTC and control pin for temperature                                             mobile device within the limits set by the WPC v1.2
+    monitoring, charge complete, and fault host control                                           standard. The controller then communicates this
+2 Applications                                                                                    information to the transmitter (TX) to allow the TX to
+                                                                                                  determine if a foreign object is present within the
+•   WPC v1.2 compliant receivers                                                                  magnetic interface and introduces a higher level of
+•   Cell phones and smart phones                                                                  safety within magnetic field. This Foreign Object
+•   Headsets                                                                                      Detection (FOD) method is part of the requirements
+•   Digital cameras                                                                               under the WPC v1.2 specification.
+•   Portable media players                                                                                                    Device Information (1)
+•   Handheld devices                                                                                    PART NUMBER                            PACKAGE                          BODY SIZE (NOM)
+                                                                                                                                      VQFN (20)                                4.50 mm × 3.50 mm
+                                                                                                  BQ51013B
+                                                                                                                                      DSBGA (28)                               3.00 mm × 1.90 mm
+
+                                                                                                  (1)    For all available packages, see the orderable addendum at
+                                                                                                         the end of the data sheet.
+                              AD-EN                                             System
+                                                                                                                                      Power                    BQ51013B
+                                                                                 Load
+                              AD
+                                                     OUT
+                    CCOMM1                                                                                                                                              Voltage/
+                              COMM1                             C4                                                                                                                    System
+                    CBOOT1                                                 D1                              AC to DC         Drivers                   Rectification      Current
+                              BOOT1                             ROS                                                                                                    Conditioning    Load
+              C1                                    RECT
+                              AC1                                     R4
+                                                           C3
+                                                                                 HOST                                                         Communication
+                                         BQ51013B
+             COIL     C2
+                                                 TS/CTRL
+                              AC2
+                                                           NTC
+                              BOOT2                                                                                                                                       Battery     LI-Ion
+                    CBOOT2                                                                                                             V/I             Controller                     Battery
+                                                                                                              Controller                                                  Charger
+                              COMM2
+                    CCOMM2
+                                                     CHG
+                                                                                 Tri-State                                            Sense
+                              CLAMP2                 EN1                         Bi-State
+                    CCLAMP2
+                                                     EN2                         Bi-State
+                              CLAMP1
+                    CCLAMP1                                                                                           BQ500212A
+                                  ILIM     FOD      PGND
+                                                                                                                       Transmitter                                  Receiver
+                             R1
+                                         RFOD
+
+
+                                                                                                             Wireless Power System Overview
+                                  Simplified Schematic
+
+
+      An IMPORTANT NOTICE at the end of this data sheet addresses availability, warranty, changes, use in safety-critical applications,
+Copyright © 2020 Texas
+       intellectual    Instruments
+                    property       Incorporated
+                             matters  and other important disclaimers. PRODUCTION DATA.                Submit Document Feedback                                                                            1
+                                                                                 Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                                                   www.ti.com
+
+
+                                                                        Table of Contents
+1 Features............................................................................1     8.4 Device Functional Modes..........................................29
+2 Applications..................................................................... 1     9 Application and Implementation.................................. 30
+3 Description.......................................................................1       9.1 Application Information............................................. 30
+4 Revision History.............................................................. 2          9.2 Typical Applications.................................................. 30
+5 Device Comparison Table...............................................4                 10 Power Supply Recommendations..............................38
+6 Pin Configuration and Functions...................................5                     11 Layout........................................................................... 38
+  Pin Functions.................................................................... 5       11.1 Layout Guidelines................................................... 38
+7 Specifications.................................................................. 6        11.2 Layout Example...................................................... 39
+  7.1 Absolute Maximum Ratings........................................ 6                  12 Device and Documentation Support..........................40
+  7.2 ESD Ratings............................................................... 6          12.1 Device Support....................................................... 40
+  7.3 Recommended Operating Conditions.........................7                            12.2 Receiving Notification of Documentation Updates..40
+  7.4 Thermal Information....................................................7              12.3 Support Resources................................................. 40
+  7.5 Electrical Characteristics.............................................7              12.4 Trademarks............................................................. 40
+  7.6 Typical Characteristics.............................................. 10              12.5 Electrostatic Discharge Caution..............................40
+8 Detailed Description......................................................14              12.6 Glossary..................................................................40
+  8.1 Overview................................................................... 14      13 Mechanical, Packaging, and Orderable
+  8.2 Functional Block Diagram......................................... 15                  Information.................................................................... 40
+  8.3 Feature Description...................................................15
+
+
+
+4 Revision History
+NOTE: Page numbers for previous revisions may differ from page numbers in the current version.
+Changes from Revision C (March 2018) to Revision D (September 2020)                                                                                         Page
+• Updated the numbering format for tables, figures, and cross-references throughout the document..................1
+• Added device comparison table..........................................................................................................................4
+• Changed From: "No Response" To: "EPT 0x00, Unknown" in the EPT column of Table 8-3 .......................... 19
+• Changed From: "Termination" To: "EPT 0x01, Charge Complete" in the EPT column of Table 8-3 ................ 19
+• Changed "RO is fixed at 20 kΩ" To: "R2 is fixed at 20 kΩ"................................................................................24
+• Changed β = 4500 To: β = 3380 in the title of Figure 8-13 .............................................................................. 24
+• Changed "Fault indication" To: "Over-Temperature Fault" in the 3-State Driver Recommendations for the TS/
+  CTRL Pin section .............................................................................................................................................26
+• Changed: "Charge done indication" To: "End Power Transfer 0x00 (EPT Unknown)" in the 3-State Driver
+  Recommendations for the TS/CTRL Pin section ............................................................................................. 26
+• Changed Table 8-6 .......................................................................................................................................... 26
+• Replaced the paragraph following Table 8-6 ................................................................................................... 26
+
+
+
+Changes from Revision B (August 2015) to Revision C (March 2018)                                                                              Page
+• Changed From: WPC v1.1 To: WPC v1.2 throughout the document .................................................................1
+• Deleted the Device Comparison Table .............................................................................................................. 5
+
+
+
+
+2       Submit Document Feedback                                                                                            Copyright © 2020 Texas Instruments Incorporated
+
+                                                                     Product Folder Links: BQ51013B
+                                                                                                                                                     BQ51013B
+www.ti.com                                                                                            SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+Changes from Revision A (October 2013) to Revision B (August 2015)                                                                                          Page
+• Added ESD Ratings table, Feature Description section, Device Functional Modes, Application and
+  Implementation section, Power Supply Recommendations section, Layout section, Device and
+  Documentation Support section, and Mechanical, Packaging, and Orderable Information section................... 1
+• Added VAD for clarity...........................................................................................................................................7
+• Changed UVLO to VUVLO for clarity.................................................................................................................... 7
+• Added VHYS-UVLO for clarity.................................................................................................................................7
+• Added VHYS-OVP for clarity.................................................................................................................................. 7
+• Added VCOLD-Hyst for clarity.................................................................................................................................7
+• Added VHOT-Hyst for clarity...................................................................................................................................7
+• Changed VCTRL for clarity................................................................................................................................... 7
+• Changed TJ-SD and TJ-Hys for clarity................................................................................................................... 7
+• Added VAD-Pres and VAD-PresH for clarity..............................................................................................................7
+• Changed to VAD-Diff for clarity..............................................................................................................................7
+• Added IOUT-SR and IOUT-SRH for clarity.................................................................................................................7
+• Changed Conditons for correct EPT packet..................................................................................................... 20
+
+Changes from Revision * (March 2013) to Revision A (October 2013)                                                                                        Page
+• Changed UVLO spec MIN value from 2.6 to 2.5 V............................................................................................. 7
+• Changed ILIM_SC spec MIN value from 120 to 116 mA....................................................................................... 7
+• Changed VOUT-REG , ILOAD = 1000 mA, MIN value from 4.93 to 4.95 V and ILOAD= 10 mA, MIN value from 4.93
+  to 4.96 V and MAX value from 5.04 to 5.06 V.................................................................................................... 7
+• Changed ICOMM spec MIN, TYP, MAX values from 343, 378, 425 to 330, 381, and 426 mA respectively......... 7
+• Changed IOUT spec MAX value from 130 to 135 mA for ILOAD 200 → 0 mA; and, TYP value from 25 to 30 mA
+  for ILOAD 0 → 200 mA......................................................................................................................................... 7
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                             Submit Document Feedback                  3
+                                                              Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                             www.ti.com
+
+
+5 Device Comparison Table
+     DEVICE                FUNCTION                VOUT (VBAT-REG)          PROTOCOL              MAXIMUM POUT                I2C
+    BQ51003    Wireless Receiver                         5V                       Qi v1.2               2.5 W                 No
+    BQ51013B Wireless Receiver                           5V                       Qi v1.2                5W                   No
+    BQ51010B Wireless Receiver                           7V                       Qi v1.1                5W                   No
+    BQ51020    Wireless Receiver                      4.5 to 8 V                  Qi v1.1                5W                   No
+    BQ51021    Wireless Receiver                      4.5 to 8 V                  Qi v1.1                5W                  Yes
+    BQ51221    Dual Mode Wireless Receiver            4.5 to 8 V            Qi v1.1, PMA                 5W                  Yes
+    BQ51025    Wireless Receiver                     4.5 to 10 V        Qi v1.2 (in 5 W mode)           10 W                 Yes
+             Wireless Receiver and Direct
+    BQ51050B                                            4.2 V                     Qi v1.1                5W                   No
+             Charger
+               Wireless Receiver and Direct
+    BQ51051B                                           4.35 V                     Qi v1.1                5W                   No
+               Charger
+               Wireless Receiver and Direct
+    BQ51052B                                            4.4 V                     Qi v1.1                5W                   No
+               Charger
+
+
+
+
+4        Submit Document Feedback                                                           Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                                       BQ51013B
+www.ti.com                                                                                            SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+
+6 Pin Configuration and Functions
+
+
+
+
+                                                                                                               PGND
+
+
+
+
+                                                                                                                                PGND
+                         1             2             3           4
+
+
+
+
+            A          PGND           PGND          PGND       PGND
+
+
+
+
+                                                                                                               1
+
+
+
+
+                                                                                                                                20
+            B           AC2           AC2           AC1         AC1                          AC1          2                             19            AC2
+
+                                                                                          BOOT1           3                             18            RECT
+
+
+            C         BOOT2           RECT          RECT       BOOT1                        OUT           4                             17            BOOT2
+
+                                                                                         CLAMP1           5           Thermal           16            CLAMP2
+                                                                                                                       Pad
+                                                                                         COMM1            6                             15            COMM2
+            D          OUT            OUT           OUT         OUT
+
+                                                                                            CHG           7                             14            FOD
+
+                                                                                          AD-EN           8                             13            TS/CTRL
+            E         COMM2          CLAMP2        CLAMP1     COMM1
+                                                                                              AD          9                             12            ILIM
+
+
+
+
+                                                                                                               10
+
+
+
+
+                                                                                                                                11
+            F         TS/CTRL         FOD          AD-EN        CHG
+
+
+                                                                                                                                       Not to scale
+
+
+
+
+                                                                                                               EN1
+
+
+
+
+                                                                                                                                EN2
+            G           ILIM          EN2           EN1         AD
+                                                                                        The exposed thermal pad should be connected to ground.
+                                                                                      Figure 6-2. RHL Package 20-Pin VQFN Top View
+                                                               Not to scale
+
+   Figure 6-1. YFP Package 28-Pin DSBGA Top View
+
+Pin Functions
+                PIN
+                                           I/O                                                DESCRIPTION
+ NAME             YFP           RHL
+ AC1             B3, B4          2          I
+                                                 AC input from receiver coil.
+ AC2             B1, B2         19          I
+                                                 If AD functionality is used, connect this pin to the wired adapter input. When VAD-Pres is applied to this
+ AD               G4             9          I    pin wireless charging is disabled and AD_EN is driven low. Connect a 1-µF capacitor from AD to
+                                                 PGND. If unused, the capacitor is not required and AD should be connected directly to PGND.
+ AD-EN             F3            8         O     Push-pull driver for external PFET when wired charging is active. Float if not used.
+ BOOT1             C4            3         O     Bootstrap capacitors for driving the high-side FETs of the synchronous rectifier. Connect a 10-nF
+ BOOT2             C1           17         O     ceramic capacitor from BOOT1 to AC1 and from BOOT2 to AC2.
+
+ CHG               F4            7         O     Open-drain output – active when OUT is enabled. Float or tie to PGND if unused.
+ CLAMP2            E2           16         O     Open-drain FETs which are used for a non-power dissipative overvoltage AC clamp protection. When
+                                                 the RECT voltage goes above 15 V, both switches will be turned on and the capacitors will act as a
+ CLAMP1            E3            5         O     low impedance to protect the device from damage. If used, capacitors are used to connect CLAMP1 to
+                                                 AC1 and CLAMP2 to AC2. Recommended connections are 0.47-µF capacitors.
+ COMM1             E4            6         O     Open-drain outputs used to communicate with primary by varying reflected impedance. Connect a
+                                                 capacitor from COMM1 to AC1 and a capacitor from COMM2 to AC2 for capacitive load modulation.
+ COMM2             E1           15         O     For resistive modulation connect COMM1 and COMM2 to RECT through a single resistor. See Section
+                                                 8.3.10 for more information.
+ EN1              G3            10          I    Inputs that allow user to enable and disable wireless and wired charging <EN1 EN2>:
+                                                 <00> Wireless charging is enabled unless AD voltage > VAD_Pres.
+                                                 <01> Dynamic communication current limit disabled.
+ EN2              G2            11          I    <10> AD-EN pulled low, wireless charging disabled.
+                                                 <11> Wired and wireless charging disabled.
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                              Submit Document Feedback             5
+                                                                  Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                            www.ti.com
+
+                    PIN
+                                      I/O                                               DESCRIPTION
+    NAME              YFP     RHL
+    FOD               F2       14      I    Input for the rectified power measurement. See Section 8.3.16 for details.
+                                          Programming pin for the over current limit. The total resistance from ILIM to GND (RILIM) sets the
+    ILIM              G1       12     I/O current limit. The schematic shown in Figure 9-1 illustrates the RILIM as R1 + RFOD. Details can be
+                                          found in Section 7.5 and Figure 9-1.
+                    D1, D2,
+    OUT                         4     O     Output pin, delivers power to the load.
+                    D3, D4
+                    A1, A2,
+    PGND                      1, 20         Power ground
+                    A3, A4
+                                            Filter capacitor for the internal synchronous rectifier. Connect a ceramic capacitor to PGND.
+    RECT            C2, C3     18     O
+                                            Depending on the power levels, the value may be 4.7 μF to 22 μF.
+                                            Dual function pin: Temperature Sense (TS) and Control (CTRL) pin functionality.
+                                            For the TS functionality connect TS/CTRL to ground through a Negative Temperature Coefficient
+                                            (NTC) resistor. If an NTC function is not desired, connect to PGND with a 10-kΩ resistor. See Section
+    TS/CTRL           F1       13      I
+                                            8.3.13 for more details.
+                                            For the CTRL functionality pull below VCTRL-Low or pull above VCTRL-High to send an End Power
+                                            Transfer Packet. See Table 8-4 for more details.
+    —                 —       PAD     —     The exposed thermal pad should be connected to ground (PGND)
+
+
+7 Specifications
+7.1 Absolute Maximum Ratings
+over operating free-air temperature range (unless otherwise noted)(1) (2)
+                                                                                                              MIN             MAX            UNIT
+                                                AC1, AC2                                                      –0.8             20
+                                                RECT, COMM1, COMM2, OUT, CHG, CLAMP1,
+                                                                                                              –0.3             20
+                                                CLAMP2
+    Input voltage                                                                                                                             V
+                                                AD, AD-EN                                                     –0.3             30
+                                                BOOT1, BOOT2                                                  –0.3             26
+                                                EN1, EN2, FOD, TS/CTRL, ILIM                                  –0.3              7
+    Input current                               AC1, AC2                                                                        2           A(RMS)
+    Output current                              OUT                                                                            1.5            A
+                                                CHG                                                                            15            mA
+    Output sink current
+                                                COMM1, COMM2                                                                    1             A
+    Junction temperature, TJ                                                                                   –40            150             °C
+    Storage temperature, Tstg                                                                                  –65            150             °C
+
+(1)        All voltages are with respect to the VSS terminal, unless otherwise noted.
+(2)        Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings
+           only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating
+           Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
+
+7.2 ESD Ratings
+                                                                                                                             VALUE           UNIT
+                                               Human body model (HBM), per ANSI/ESDA/JEDEC JS-001(1)                          ±2000
+    V(ESD)     Electrostatic discharge         Charged device model (CDM), per JEDEC specification JESD22-                    ±500             V
+                                               C101(2)
+
+(1)        JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
+(2)        JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
+
+
+
+
+6          Submit Document Feedback                                                                        Copyright © 2020 Texas Instruments Incorporated
+
+                                                            Product Folder Links: BQ51013B
+                                                                                                                                              BQ51013B
+www.ti.com                                                                                    SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+
+7.3 Recommended Operating Conditions
+over operating free-air temperature range (unless otherwise noted)
+                                                                                                                             MIN       MAX      UNIT
+ VRECT       Voltage                 RECT                                                                                          4    10       V
+             Current through
+ IRECT                               RECT                                                                                               1.5      A
+             internal rectifier
+ IOUT        Output current          OUT                                                                                                1.5      A
+ VAD         Adapter voltage         AD                                                                                                 15       V
+ IAD-EN      Sink current            AD-EN                                                                                               1      mA
+ ICOMM       COMMx sink current      COMM1, COMM2                                                                                      500      mA
+ TJ          Junction temperature                                                                                                  0   125       °C
+
+
+7.4 Thermal Information
+                                                                                                                BQ51013B
+                                     THERMAL METRIC(1)                                              RHL (VQFN)          YFP (DSBGA)            UNIT
+                                                                                                       20 PiNS             28 PINS
+ RθJA             Junction-to-ambient thermal resistance                                                37.7                58.9               °C/W
+ RθJC(top)        Junction-to-case (top) thermal resistance                                             35.5                 0.2               °C/W
+ RθJB             Junction-to-board thermal resistance                                                  13.6                 9.1               °C/W
+ ψJT              Junction-to-top characterization parameter                                             0.5                 1.4               °C/W
+ ψJB              Junction-to-board characterization parameter                                          13.5                 8.9               °C/W
+ RθJC(bot)        Junction-to-case (bottom) thermal resistance                                           2.7                 n/a               °C/W
+
+(1)      For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application
+         report.
+
+7.5 Electrical Characteristics
+over operating free-air temperature range, –40°C to 125°C (unless otherwise noted)
+                            PARAMETER                             TEST CONDITIONS                              MIN         TYP         MAX      UNIT
+ VUVLO             Undervoltage lockout                           VRECT: 0 V → 3 V                              2.5         2.7         2.8      V
+ VHYS-UVLO         Hysteresis on UVLO                             VRECT: 3 V → 2 V                                         250                  mV
+ VRECT-OVP         Input overvoltage threshold                    VRECT: 5 V → 16 V                            14.5         15         15.5      V
+ VHYS-OVP          Hysteresis on OVP                              VRECT: 16 V → 5 V                                        150                  mV
+ VRECT-Th1         Dynamic VRECT Threshold 1                      ILOAD < 0.1 x IIMAX (ILOAD rising)                       7.08                  V
+                                                                  0.1 x IIMAX < ILOAD < 0.2 x IIMAX
+ VRECT-Th2         Dynamic VRECT Threshold 2                                                                               6.28                  V
+                                                                  (ILOAD rising)
+                                                                  0.2 x IIMAX < ILOAD < 0.4 x IIMAX
+ VRECT-Th3         Dynamic VRECT Threshold 3                                                                               5.53                  V
+                                                                  (ILOAD rising)
+ VRECT-Th4         Dynamic VRECT Threshold 4                      ILOAD > 0.4 x IIMAX (ILOAD rising)                       5.11                  V
+                                                                  In current limit, voltage above
+ VRECT-Track       VRECT TRACKING                                                                                     VOUT+0.25                  V
+                                                                  VOUT
+                   ILOAD Hysteresis for dynamic VRECT
+ ILOAD                                                            ILOAD falling                                             4%
+                   thresholds as a % of IILIM
+                   Rectifier undervoltage protection, restricts
+ VRECT-DPM                                                                                                       3          3.1         3.2      V
+                   IOUT at VRECT-DPM
+                   Rectifier reverse voltage protection at the    VRECT-REV = VOUT - VRECT,
+ VRECT-REV                                                                                                                   8           9       V
+                   output                                         VOUT = 10 V
+ QUIESCENT CURRENT
+                   Active chip quiescent current consumption
+ IRECT                                                            ILOAD = 0 mA, 0°C ≤ TJ ≤ 85°C                              8          10      mA
+                   from RECT
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                       Submit Document Feedback           7
+                                                           Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                                www.ti.com
+
+over operating free-air temperature range, –40°C to 125°C (unless otherwise noted)
+                            PARAMETER                                TEST CONDITIONS                          MIN          TYP        MAX       UNIT
+                                                                     ILOAD = 300 mA,
+                                                                                                                               2          3      mA
+                                                                     0°C ≤ TJ ≤ 85°C
+                     Quiescent current at the output when
+    IOUT                                                             VOUT = 5 V, 0°C ≤ TJ ≤ 85°C                             20          35      µA
+                     wireless power is disabled (Standby)
+    ILIM SHORT CIRCUIT
+                     Highest value of ILIM resistance to ground
+                                                                     RILIM: 200 Ω → 50 Ω. IOUT
+    RILIM-SHORT      (RILIM) considered a fault (short). Monitored                                                                     120        Ω
+                                                                     latches off, cycle power to reset
+                     for IOUT > 100 mA
+                     Deglitch time transition from ILIM short to
+    tDGL-Short                                                                                                                 1                 ms
+                     IOUT disable
+                   ILIM-SHORT,OK enables the ILIM short
+    IILIM_SHORT,OK comparator when IOUT is greater than this         ILOAD: 0 mA → 200 mA                     116           145        165       mA
+                   value
+    IILIM_SHORT,OK
+                     Hysteresis for ILIM-SHORT,OK comparator         ILOAD: 0 mA → 200 mA                                    30                  mA
+    HYST
+
+                                                                     Maximum ILOAD that will be
+    IOUT             Maximum output current limit, CL                delivered for 1 ms when ILIM is                                   2.45       A
+                                                                     shorted
+    OUTPUT
+                                                                     ILOAD = 1000 mA                         4.95          5.00        5.04
+    VOUT-REG         Regulated output voltage                                                                                                     V
+                                                                     ILOAD = 10 mA                           4.96          5.01        5.06
+                                                                     RILIM = KILIM / IILIM, where IILIM is
+                     Current programming factor for hardware
+    KILIM                                                            the hardware current limit.              303           314        321       AΩ
+                     protection
+                                                                     IOUT = 1 A
+                                                                     IIMAX = KIMAX / RILIM where IMAX
+                     Current programming factor for the nominal      is the maximum normal
+    KIMAX                                                                                                                   262                  AΩ
+                     operating current                               operating current.
+                                                                     IOUT = 1 A
+    IOUT             Current limit programming range                                                                                  1500       mA
+                                                                     IOUT > 300 mA                                    IOUT + 50                  mA
+    ICOMM            Current limit during WPC communication
+                                                                     IOUT < 300 mA                            330           381        426       mA
+                     Hold off time for the communication current
+    tHOLD                                                                                                                      1                  s
+                     limit during start-up
+    TS / CTRL FUNCTIONALITY
+                     Internal TS Bias Voltage (VTS is the voltage
+                                                                     ITS-Bias < 100 µA (periodically
+    VTS-Bias         at the TS/CTRL pin, VTS-Bias is thet internal                                               2           2.2        2.4       V
+                                                                     driven see tTS/CTRL)
+                     bias voltage)
+    VCOLD            Rising threshold                                VTS-Bias: 50% → 60%                     56.5          58.7        60.8 %VTS-Bias
+    VCOLD-Hyst       Falling hysteresis                              VTS-Bias: 60% → 50%                                       2              %VTS-Bias
+    VHOT             Falling threshold                               VTS-Bias: 20% → 15%                     18.5          19.6        20.7 %VTS-Bias
+    VHOT-Hyst        Rising hysteresis                               VTS-Bias: 15% → 20%                                       3              %VTS-Bias
+    VCTRL-High       Voltage on CTRL pin for a high                                                            0.2                        5       V
+    VCTRL-Low        Voltage on CTRL pin for a low                                                               0                     0.05      mV
+                     Time period of TS/CTRL measurements             Synchronous to the
+    tTS/CTRL-Meas                                                                                                            24                  ms
+                     (when VTS-Bias is being driven internally)      communication period
+    tTS-Deglitch     Deglitch time for all TS comparators                                                                    10                  ms
+                     Pullup resistor for the NTC network. Pulled
+    RTS                                                                                                         18           20          22      kΩ
+                     up to VTB-Bias
+    THERMAL PROTECTION
+    TJ-SD            Thermal shutdown temperature                                                                           155                  °C
+    TJ-Hys           Thermal shutdown hysteresis                                                                             20                  °C
+    OUTPUT LOGIC LEVELS ON CHG
+
+8            Submit Document Feedback                                                                        Copyright © 2020 Texas Instruments Incorporated
+
+                                                            Product Folder Links: BQ51013B
+                                                                                                                                BQ51013B
+www.ti.com                                                                                 SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+over operating free-air temperature range, –40°C to 125°C (unless otherwise noted)
+                          PARAMETER                               TEST CONDITIONS                    MIN        TYP      MAX      UNIT
+ VOL              Open-drain CHG pin                              ISINK = 5 mA                                            500     mV
+ IOFF             CHG leakage current when disabled               V CHG = 20 V                                              1     µA
+ COMM PIN
+ RDS(ON)          COMM1 and COMM2                                 VRECT = 2.6 V                                  1.5               Ω
+ fCOMM            Signaling frequency on COMM pin                                                                  2              kbps
+ IOFF             COMMx pin leakage current                       VCOMM1 = 20 V, VCOMM2 = 20 V                              1     µA
+ CLAMP PIN
+ RDS(ON)          CLAMP1 and CLAMP2                                                                              0.8               Ω
+ ADAPTER ENABLE
+ VAD-Pres         VAD Rising threshold voltage                    VAD 0 V → 5 V                       3.5        3.6      3.8      V
+ VAD-PresH        VAD hysteresis                                  VAD 5 V → 0 V                                  400              mV
+ IAD              Input leakage current                           VRECT = 0 V, VAD = 5 V                                   60     μA
+                  Pullup resistance from AD-ENto OUT when
+ RAD              adapter mode is disabled and VOUT > VAD,        VAD = 0 V, VOUT = 5 V                          200      350      Ω
+                  EN-OUT
+                  Voltage difference between VAD and V AD-EN
+ VAD-Diff                                                    VAD = 5 V, 0°C ≤ TJ ≤ 85°C                 3        4.5        5      V
+                  when adapter mode is enabled
+ SYNCHRONOUS RECTIFIER
+                  IOUT at which the synchronous rectifier
+ IOUT-SR                                                          ILOAD 200 mA → 0 mA                  80        100      135     mA
+                  enters half-synchronous mode, SYNC_EN
+                  Hysteresis for IOUT,SR (full-synchronous
+ IOUT-SRH                                                         ILOAD 0 mA → 200 mA                             30              mA
+                  mode enabled)
+                  High-side diode drop when the rectifier is in   IAC-VRECT = 250 mA and
+ VHS-DIODE                                                                                                       0.7               V
+                  half-synchronous mode                           TJ = 25°C
+ EN1 AND EN2
+ VIL              Input low threshold for EN1 and EN2                                                                     0.4      V
+ VIH              Input high threshold for EN1 and EN2                                                1.3                          V
+ RPD              EN1 and EN2 pulldown resistance                                                                200              kΩ
+ ADC (WPC RELATED MEASUREMENTS AND COEFFICIENTS)
+                  Accuracy of the current sense over the load
+ IOUT SENSE                                                   IOUT = 750 mA - 1000 mA              –1.5%         0%      0.9%
+                  range
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                             Submit Document Feedback        9
+                                                         Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                                                                                            www.ti.com
+
+7.6 Typical Characteristics
+                             100                                                                                                   80
+
+
+                                                                                                                                   70
+                               90
+                                                                                                                                   60
+
+                               80
+                                                                                                                                   50
+              Efficiency (%)
+
+
+
+
+                                                                                                                  Efficiency (%)
+                               70                                                                                                  40
+
+
+                                                                                                                                   30
+                               60
+                                                                                                                                   20
+
+                               50
+                                                                                                                                   10
+
+
+                               40                                                                                                    0
+                                    0      1       2               3         4           5                                               0         1           2               3          4          5
+                                                       Power (W)                                                                                                   Power (W)
+
+
+                   Input: RX AC power                          Output: RX RECT power                                      Input: TX DC power                               Output: RX RECT power
+                             Efficiency: Output Power / Input Power                                                                Efficiency: Output Power / Input Power
+
+
+                               Figure 7-1. Rectifier Efficiency                                        Figure 7-2. System Efficiency From DC Input to DC
+                                                                                                                             Output
+                               80                                                                                                  7.5
+
+
+                               70
+                                                                                                                                                                                   VRECT_RISING
+                                                                                                                                   7.0
+                               60                                                                                                                                                  VRECT_FALLING
+
+
+                               50
+                                                                                                                                   6.5
+            Efficiency (%)
+
+
+
+
+                                                                                                                VRECT (V)
+
+
+
+
+                               40
+
+
+                               30                                                                                                  6.0
+
+
+                               20
+                                                                       RILIM = 250 Ω                                               5.5
+                               10                                      RILIM = 500 Ω
+
+
+                                0                                                                                                  5.0
+                                    0       1      2               3         4            5                                              0   200         400         600           800   1000      1200
+                                                       Power (W)                                                                                               Iout (mA)
+
+                    Input: TX DC power                         Output: RX RECT power                                                                   RILIM = 250 Ω
+                                    Plot: Output Power / Input Power
+
+                                                                                                          Figure 7-4. Impact of Load Current ( ILOAD) on
+        Figure 7-3. Light Load System Efficiency
+                                                                                                                     Rectifier Voltage (VRECT)
+     Improvement Due to Dynamic Efficiency Scaling
+                       Feature ( 1 )
+
+
+
+
+10     Submit Document Feedback                                                                                                                          Copyright © 2020 Texas Instruments Incorporated
+
+                                                                                       Product Folder Links: BQ51013B
+                                                                                                                                                                                         BQ51013B
+www.ti.com                                                                                                                              SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+                                  7.5                                                                                           4.99
+
+                                                                                                                          4.985
+                                                                           RILIM = 250 Ω
+                                  7.0                                      RILIM = 750 Ω                                        4.98
+
+                                                                                                                          4.975
+                                  6.5
+             VRECT (V)
+
+
+
+
+                                                                                                                                4.97
+
+
+
+
+                                                                                                                    Vout(V)
+                                                                                                                          4.965
+                                  6.0
+
+                                                                                                                                4.96
+
+
+                                  5.5                                                                                     4.955
+
+                                                                                                                                4.95
+
+                                  5.0                                                                                     4.945
+                                        0     200     400       600        800    1000     1200                                0.0           0.2   0.4        0.6      0.8   1.0    1.2
+                                                              IOUT (mA)
+                                                                                                                                                     Output Current (A)
+
+                                             RILIM = 250 Ω and 750 Ω                                                                        Maximum Current = 1 A
+
+     Figure 7-5. Impact of Maximum Current setting                                                            Figure 7-6. Impact of Load Current on Output
+           (RILIM) on Rectifier Voltage (VRECT)                                                                                  Voltage
+                                  100.0
+                                                                                                                                5.004
+
+                                   90.0
+
+
+                                   80.0
+                                                                                                                                5.002
+             Output Ripple (mV)
+
+
+
+
+                                   70.0
+                                                                                                                     Vout (V)
+
+
+
+
+                                   60.0                                                                                         5.000
+
+
+
+                                   50.0
+
+                                                                                                                                4.998
+                                   40.0
+
+
+                                   30.0
+                                       0.0      0.2         0.4       0.6        0.8       1.0                                          0     20    40       60         80   100   120
+                                                             Load Current (A)                                                                            Temperature (°C)
+
+
+                                             COUT = 1 µf                  Without Communication                                 Figure 7-8. VOUT vs Temperature
+
+      Figure 7-7. Impact of Load Current on Output
+                          Ripple
+
+
+
+
+                                                                                                           Figure 7-10. 1-A Load Step Full System Response
+      Figure 7-9. 1-A Instantaneous Load Dump ( 2 )
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                                                                Submit Document Feedback         11
+                                                                                           Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                   www.ti.com
+
+
+
+                                                                                          VRECT
+
+
+
+
+                                                                                   VOUT
+
+
+
+
+ Figure 7-11. 1-A Load Dump Full System Response
+                                                                 Figure 7-12. Rectifier Overvoltage Clamp (fop = 110
+                                                                                         kHz)
+
+
+
+
+                       VTS/CTRL
+
+
+
+
+                                                                                          VRECT
+               VRECT
+
+                                                                            VOUT
+
+
+
+
+                    Figure 7-13. TS Fault                             Figure 7-14. Adapter Insertion (VAD = 10 V)
+
+
+
+
+                                                                                      VAD
+
+
+
+                       VRECT
+
+
+
+                                                                                   VRECT
+             VOUT
+
+
+
+
+      Figure 7-15. Adapter Insertion (VAD = 10 V)                 Figure 7-16. On-the-Go Enabled (VOTG = 3.5 V) ( 3 )
+      Illustrating Break-Before-Make Operation
+
+
+
+
+12    Submit Document Feedback                                                                    Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                        BQ51013B
+www.ti.com                                                                         SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+
+
+
+                 IOUT
+
+                                                                                                IOUT
+
+
+                                                                                        VRECT
+
+
+               VRECT      VOUT
+
+                                                                                        VOUT
+
+
+
+
+  Figure 7-17. BQ51013B Typical Start-Up With a 1-A Figure 7-18. Adaptive Communication Limit Event
+                    System Load                     Where the 400 mA Current Limit is Enabled (IOUT-DC
+                                                                        < 300 mA)
+
+
+
+
+                         IOUT
+
+
+
+
+                         VRECT
+
+
+
+
+                         VOUT
+
+
+
+
+                                                                   Figure 7-20. RX Communication Packet Structure
+  Figure 7-19. Adaptive Communication Limit Event
+  Where the Current Limit is IOUT + 50 mA (IOUT-DC >
+                       300 mA)
+
+1. Efficiency measured from DC input to the transmitter to DC output of the receiver. The BQ500210EVM-689
+   TX was used for these measurements. Measurement subject to change if an alternate TX is used.
+2. Total droop experienced at the output is dependent on receiver coil design. The output impedance must be
+   low enough at that particular operating frequency in order to not collapse the rectifier below 5 V.
+3. On-the-go mode is enabled by driving EN1 high. In this test, the external PMOS is connected between the
+   output of the BQ51013B device and the AD pin; therefore, any voltage source on the output is supplied to the
+   AD pin.
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                        Submit Document Feedback   13
+                                                  Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                         www.ti.com
+
+
+8 Detailed Description
+8.1 Overview
+A wireless system consists of a charging pad (transmitter, TX or primary) and the secondary-side equipment
+(receiver, RX or secondary). There is a coil in the charging pad and in the secondary equipment which are
+magnetically coupled to each other when the secondary is placed on the primary. Power is then transferred from
+the transmitter to the receiver through coupled inductors (effectively an air-core transformer). Controlling the
+amount of power transferred is achieved by sending feedback (error signal) communication to the primary (to
+increase or decrease power).
+The receiver communicates with the transmitter by changing the load seen by the transmitter. This load variation
+results in a change in the transmitter coil current, which is measured and interpreted by a processor in the
+charging pad. The communication is digital; packets are transferred from the receiver to the transmitter.
+Differential bi-phase encoding is used for the packets. The bit rate is 2-kbps.
+Various types of communication packets have been defined. These include identification and authentication
+packets, error packets, control packets, end power packets, and power usage packets.
+The transmitter coil stays powered off most of the time. It occasionally wakes up to see if a receiver is present.
+When a receiver authenticates itself to the transmitter, the transmitter will remain powered on. The receiver
+maintains full control over the power transfer using communication packets.
+
+                                         Power                             BQ51013B
+
+                                                                                      Voltage/
+                                                                                       Current                     System
+     AC to DC              Drivers                             Rectification                                        Load
+                                                                                     Conditioning
+
+                                                  Communication
+
+
+
+
+                                                                                        Battery                   LI-Ion
+                                        V/I                     Controller                                        Battery
+         Controller                                                                     Charger
+                                       Sense
+
+
+                 BQ500212A
+                    Transmitter                                                   Receiver
+
+       Figure 8-1. WPC Wireless Power System Indicating the Functional Integration of the BQ51013B
+
+
+
+
+14     Submit Document Feedback                                                         Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                                     BQ51013B
+www.ti.com                                                                                           SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+
+8.2 Functional Block Diagram
+
+    RECT                             ,                                                                                                                OUT
+
+                                                            VREF,ILIM                                        VOUT,FB
+                                                                        +                                _
+                                                              VILIM     _                                +   VOUT,REG
+
+
+                                                           VREF,IABS
+                                                                        +
+                                                            VIABS,FB    _
+
+     ILIM
+                                                             VIN,FB
+                                                                        +
+                                                            VIN,DPM     _                                                                              AD
+
+                                                                                                                                         +
+                                                                                                                                         _
+
+                                                                                                                                       VREFAD,OVP
+  BOOT2                                                                                                                                  _
+                                                                                                                                         +
+  BOOT1
+                                                                                                                                       VREFAD,UVLO
+
+
+
+                                                                                                                                                       AD-EN
+     AC1
+     AC2                                                                     Sync
+                                                                            Rectifier                   VREF,TS-BIAS
+                                                                                                                        +                    VFOD
+                                                                            Control                                     _                              FOD
+
+
+
+
+ COMM1                                                                                                                 TS_COLD     +
+                                                                                        VBG,REF                                    _
+
+                                                                                         VIN,FB
+ COMM2                                                                                  VOUT,FB                         TS_HOT     +
+                                                                                                                                   _
+                                                             DATA_                       VILIM
+                                                              OUT                        VIABS,FB
+                                                                            ADC
+CLAMP1                                                                                   VIABS,REF                                                    TS/CTRL
+                                                                                         VIC,TEMP                 TS_DETECT        +
+                                                                                                                                         VREF_100MV
+                                                                                                                                   _
+
+                                         Digital Control                                 VFOD
+CLAMP2
+
+
+
+    CHG
+                                                                                                                                                       EN1
+                                                                                                                                        200k:
+
+              VRECT
+            VOVP,REF
+                       +     OVP                                                                                                                       EN2
+                       _
+                                                                                                                                       200k:
+
+
+
+
+                                                                                            PGND
+
+8.3 Feature Description
+8.3.1 Details of a Qi Wireless Power System and BQ51013 Power Transfer Flow Diagrams
+The BQ51013B integrates a fully compliant WPC v1.2 communication algorithm in order to streamline receiver
+designs (no extra software development required). Other unique algorithms such as Dynamic Rectifier Control
+are also integrated to provide best-in-class system performance. This section provides a high level overview of
+these features by illustrating the wireless power transfer flow diagram from start-up to active operation.
+During start-up operation, the wireless power receiver must comply with proper handshaking to be granted a
+power contract from the TX. The TX will initiate the handshake by providing an extended digital ping. If an RX is
+present on the TX surface, the RX will then provide the signal strength, configuration and identification packets
+to the TX (see volume 1 of the WPC specification for details on each packet). These are the first three packets
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                             Submit Document Feedback           15
+                                                                Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                            www.ti.com
+
+sent to the TX. The only exception is if there is a true shutdown condition on the EN1/EN2, AD, or TS/CTRL pins
+where the RX will shut down the TX immediately. See Table 8-4 for details. Once the TX has successfully
+received the signal strength, configuration and identification packets, the RX will be granted a power contract
+and is then allowed to control the operating point of the power transfer. With the use of the BQ51013B Dynamic
+Rectifier Control algorithm, the RX will inform the TX to adjust the rectifier voltage above 7 V prior to enabling the
+output supply. This method enhances the transient performance during system start-up. See Figure 8-2 for the
+start-up flow diagram details.
+
+                                               TX Powered
+                                               without RX
+                                                  Active
+
+
+
+
+                                         TX Extended Digital Ping
+
+
+
+
+                                          EN1/EN2/AD/TS/CTRL                   Send EPT packet with
+                                                                      YES
+                                             EPT Condition?                        reason value
+
+
+                                                    NO
+
+
+                                             Identification &
+                                       Configuration & SS, Received           NO
+                                                  by TX?
+
+                                                    YES
+
+                                        Power Contract Established.
+                                          All proceeding control is
+                                             dictated by the RX.
+
+
+
+
+                                                                            Send control error packet to
+                                             VRECT < VRECT-TH1 ?      YES
+                                                                                   increase VRECT
+
+
+                                                    NO
+
+                                          Startup operating point
+                                        established. Enable the RX
+                                                  output.
+
+
+
+
+                                                   RX
+                                              Active Power
+                                              Transfer Stage
+
+
+
+
+                                 Figure 8-2. Wireless Power Start-Up Flow Diagram
+
+Once the start-up procedure has been established, the RX enters the active power transfer stage. This is
+considered the “main loop” of operation. The Dynamic Rectifier Control algorithm determines the rectifier voltage
+target based on a percentage of the maximum output current level setting (set by KIMAX and the ILIM resistance
+to GND). The RX sends control error packets in order to converge on these targets. As the output current
+changes, the rectifier voltage target will dynamically change. The feedback loop of the WPC system is relatively
+slow where it can take up to 90 ms to converge on a new rectifier voltage target. It should be understood that the
+instantaneous transient response of the system is open loop and dependent on the RX coil output impedance at
+that operating point. More details on this is covered in the section Receiver Coil Load-Line Analysis. The “main
+loop” also determines if any conditions in Table 8-4 are true in order to discontinue power transfer. See Figure
+8-3 which illustrates the active power transfer loop.
+
+
+16    Submit Document Feedback                                                                             Copyright © 2020 Texas Instruments Incorporated
+
+                                                   Product Folder Links: BQ51013B
+                                                                                                                                                BQ51013B
+www.ti.com                                                                                                   SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+
+                                                       RX
+                                                  Active Power
+                                                  Transfer Stage
+
+
+
+
+                                                   RX Shutdown                                                         TX Powered
+                                                                                 Send EPT packet with
+                                                  conditions per         YES                                           without RX
+                                                                                     reason value
+                                                  the EPT Table?                                                          Active
+
+
+                                                       NO
+
+
+                                                                                 VRECT target = VRECT-Th1.
+                                              IOUT < 10% of IIMAX?       YES   Send control error packets
+                                                                                      to converge.
+
+
+                                                       NO
+
+
+                                                                                 VRECT target = VRECT-Th2.
+                                              IOUT < 20% of IIMAX?       YES   Send control error packets
+                                                                                      to converge.
+
+
+                                                       NO
+
+
+                                                                                 VRECT target = VRECT-Th3.
+                                               IOUT < 40% of IIMAX?      YES   Send control error packets
+                                                                                      to converge.
+
+
+                                                       NO
+
+                                             VRECT target = VRECT-Th4.
+                                           Send control error packets
+                                                  to converge.
+
+
+
+
+                                           Measure Rectified Power
+                                            and Send Value to TX
+
+
+
+
+                                          Figure 8-3. Active Power Transfer Flow Diagram
+
+Another requirement of the WPC v1.2 specification is to send the measured received power. This task is enabled
+on the device by measuring the voltage on the FOD pin which is proportional to the output current and can be
+scaled based on the choice of the resistor to ground on the FOD pin.
+8.3.2 Dynamic Rectifier Control
+The Dynamic Rectifier Control algorithm offers the end system designer optimal transient response for a given
+maximum output current setting. This is achieved by providing enough voltage headroom across the internal
+regulator at light loads in order to maintain regulation during a load transient. The WPC system has a relatively
+slow global feedback loop where it can take more than 90 ms to converge on a new rectifier voltage target.
+Therefore, the transient response is dependent on the loosely coupled transformers output impedance profile.
+The Dynamic Rectifier Control allows for a 2 V change in rectified voltage before the transient response will be
+observed at the output of the internal regulator (output of the BQ51013B). A 1-A application allows up to a 1.5-Ω
+output impedance. The Dynamic Rectifier Control behavior is illustrated in Figure 7-4 where RILIM is set to 220 Ω.
+8.3.3 Dynamic Efficiency Scaling
+The Dynamic Efficiency Scaling feature allows for the loss characteristics of the BQ51013B to be scaled based
+on the maximum expected output power in the end application. This effectively optimizes the efficiency for each
+application. This feature is achieved by scaling the loss of the internal LDO based on a percentage of the
+maximum output current. Note that the maximum output current is set by the KIMAX term and the RILIM resistance
+(where RILIM = KIMAX / IMAX). The flow diagram shown in Figure 8-3 illustrates how the rectifier is dynamically
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                                Submit Document Feedback   17
+                                                                Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                             www.ti.com
+
+controlled (Dynamic Rectifier Control) based on a fixed percentage of the IMAX setting. Table 8-1 summarizes
+how the rectifier behavior is dynamically adjusted based on two different RILIM settings.
+                                       Table 8-1. Dynamic Efficiency Scaling
+       OUTPUT CURRENT                   RILIM = 500 Ω                    RILIM = 220 Ω
+                                                                                                                  VRECT
+         PERCENTAGE                     IMAX = 0.5 A                     IMAX = 1.14 A
+            0 to 10%                    0 A to 0.05 A                    0 A to 0.114 A                          7.08 V
+           10 to 20%                   0.05 A to 0.1 A                 0.114 A to 0.227 A                        6.28 V
+           20 to 40%                    0.1 A to 0.2 A                 0.227 A to 0.454 A                        5.53 V
+             >40%                          > 0.2 A                         > 0.454 A                             5.11 V
+
+
+Figure 7-5 illustrates the shift in the Dynamic Rectifier Control behavior based on the two different RILIM settings.
+With the rectifier voltage (VRECT) being the input to the internal LDO, this adjustment in the Dynamic Rectifier
+Control thresholds will dynamically adjust the power dissipation across the LDO where:
+
+            (               )
+     PDIS = VRECT - VOUT × IOUT
+                                                                                                                               (1)
+
+Figure 7-3 illustrates how the system efficiency is improved due to the Dynamic Efficiency Scaling feature. Note
+that this feature balances efficiency with optimal system transient response.
+8.3.4 RILIM Calculations
+The BQ51013B includes a means of providing hardware overcurrent protection by means of an analog current
+regulation loop. The hardware current limit provides an extra level of safety by clamping the maximum allowable
+output current (current compliance). The RILIM resistor size also sets the thresholds for the dynamic rectifier
+levels and thus providing efficiency tuning per each application’s maximum system current. The calculation for
+the total RILIM resistance is as follows:
+
+                    K IM A X
+     R IL IM =
+                     IM A X
+                                    K IL IM
+     I IL IM = 1 . 2 ´ I M A X =
+                                    R IL IM
+     R IL IM = R 1 + R F O D                                                                                                   (2)
+
+where
+•    IMAX is the expected maximum output current during normal operation.
+•    IILIM is the hardware over current limit.
+When referring to the application diagram shown in Figure 9-1, RILIM is the sum of RFOD and R1 (the total
+resistance from the ILIM pin to GND).
+8.3.5 Input Overvoltage
+If the input voltage suddenly increases in potential (for example, due to a change in position of the equipment on
+the charging pad), the voltage-control loop inside the BQ51013B becomes active, and prevents the output from
+going beyond VOUT-REG. The receiver then starts sending back error packets to the transmitter every 30 ms until
+the input voltage comes back to the VRECT-REG target, and then maintains the error communication every 250
+ms.
+If the input voltage increases in potential beyond VRECT-OVP, the device switches off the LDO and communicates
+to the primary to bring the voltage back to VRECT-REG. In addition, a proprietary voltage protection circuit is
+activated by means of CCLAMP1 and CCLAMP2 that protects the device from voltages beyond the maximum rating
+of the device.
+
+
+
+18    Submit Document Feedback                                                              Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                      BQ51013B
+www.ti.com                                                                                    SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+8.3.6 Adapter Enable Functionality and EN1/EN2 Control
+Figure 9-6 is an example application that shows the BQ51013B used as a wireless power receiver that can
+power mutliplex between wired or wireless power for the down-system electronics. In the default operating
+mode, pins EN1 and EN2 are low, which activates the adapter enable functionality. In this mode, if an adapter is
+not present the AD pin will be low, and AD-EN pin will be pulled to the higher of the OUT and AD pins so that the
+PMOS between OUT and AD will be turned off. If an adapter is plugged in and the voltage at the AD pin goes
+above V AD-EN , then wireless charging is disabled and the AD-EN pin will be pulled approximately VAD below the
+AD pin to connect AD to the secondary charger. The difference between AD and AD-EN is regulated to a
+maximum of VAD-Diff to ensure the VGS of the external PMOS is protected.
+The EN1 and EN2 pins include internal pulldown resistors (RPD), so that if these pins are not connected
+BQ51013B defaults to AD-EN control mode. However, these pins can be pulled high to enable other operating
+modes as described in Table 8-2:
+                                                  Table 8-2. Adapter Enable Functionality
+      EN1             EN2                                                          RESULT
+                             Adapter control enabled. If adapter is present then secondary charger is powered by adapter, otherwise wireless
+          0            0
+                             charging is enabled when wireless power is available. Communication current limit is enabled.
+          0            1     Disables communication current limit.
+          1            0     AD-EN is pulled low, whether or not adapter voltage is present. This feature can be used for USB OTG applications.
+          1            1     Adapter and wireless charging are disabled, power will not be delivered by the OUT pin in this mode.
+
+                                                           Table 8-3. EN1/EN2 Control
+   EN1           EN2       WIRELESS POWER         WIRED POWER         OTG MODE       ADAPTIVE COMMUNICATION LIMIT                    EPT
+      0           0            Enabled               Priority(1)       Disabled                     Enabled                     Not Sent to TX
+      0           1            Priority(1)           Enabled           Disabled                     Disabled                    Not Sent to TX
+      1           0            Disabled              Enabled          Enabled(2)                      N/A                    EPT 0x00, Unknown
+                                                                                                                                 EPT 0x01,
+      1           1            Disabled              Disabled          Disabled                       N/A
+                                                                                                                              Charge Complete
+
+(1)       If both wired and wireless power are present, wired or wireless is given priority based on EN2.
+(2)       Allows for a boost-back supply to be driven from the output terminal of the RX to the adapter port through the external back-to-back
+          PMOS FET.
+
+As described in Table 8-3, when EN1 is low, both wired and wireless power are useable. If both are present,
+priority is set between wired and wireless by EN2. When EN1 is high, wireless power is disabled and wired
+power functionality is set by EN2. When EN1 is high but EN2 is low, wired power is enabled if present.
+Additionally, USB OTG mode is active. In USB OTG mode, a charger connected to the OUT pin can power the
+AD pin. Note that EN1 must be pulled high from an active source (microcontroller). Finally, pulling both EN1 and
+EN2 high disables both wired and wireless charging.
+
+                                                                         Note
+              It is required to connect a back-to-back PMOS between AD and OUT so that voltage is blocked in
+              both directions. Also, when AD mode is enabled no load can be pulled from the RECT pin as this
+              could cause an internal device overvoltage in BQ51013B.
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                  Submit Document Feedback         19
+                                                             Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                www.ti.com
+
+8.3.7 End Power Transfer Packet (WPC Header 0x02)
+The WPC allows for a special command for the receiver to terminate power transfer from the transmitter termed
+End Power Transfer (EPT) packet. Table 8-4 specifies the v1.2 reasons column and their corresponding data
+field value. The condition column corresponds to the methodology used by BQ51013B to send equivalent
+message.
+                                        Table 8-4. End Power Transfer Packet
+                MESSAGE             VALUE               CONDITION
+                    Unknown                 0x00          AD > VAD-Pres, or <EN1 EN2> = <10>, or TS/CTRL > VCTRL-
+                                                                              High, or TS > VCOLD
+
+                 Charge Complete            0x01                             <EN1 EN2> = <11>
+                   Internal Fault           0x02                         TJ > 150°C or RILIM < 100 Ω
+                 Overtemperature            0x03                    TS < VHOT, or TS/CTRL < VCTRL-Low
+                   Overvoltage              0x04                        VRECT target does not converge
+                   Overcurrent              0x05                                    Not sent
+                  Battery Failure           0x06                                    Not sent
+                   Reconfigure              0x07                                    Not sent
+                   No Response              0x08                                    Not sent
+
+
+8.3.8 Status Outputs
+The BQ51013B has one status output, CHG. This output is an open-drain NMOS device that is rated to 20 V. The
+open-drain FET connected to the CHG pin will be turned on whenever the output of the power supply is enabled.
+The output of the power supply will not be enabled if the VRECT-REG does not converge at the no-load target
+voltage.
+8.3.9 WPC Communication Scheme
+The WPC communication uses a modulation technique termed “back-scatter modulation” where the receiver coil
+is dynamically loaded in order to provide amplitude modulation of the transmitter's coil voltage and current. This
+scheme is possible due to the fundamental behavior between two loosely coupled inductors (here between the
+TX and RX coils). This type of modulation can be accomplished by switching in and out a resistor at the output of
+the rectifier, or by switching in and out a capacitor across the AC1/AC2 net. Figure 8-4 shows how to implement
+resistive modulation.
+                                            CRES1
+                                                                  AC1
+                                                                          VRECT
+
+                                                                                    R MOD
+                                        COIL             C RES2
+
+                                                                  AC2       GND
+
+
+
+                                             Figure 8-4. Resistive Modulation
+
+Figure 8-5 shows how to implement capacitive modulation.
+
+
+
+
+20    Submit Document Feedback                                                                 Copyright © 2020 Texas Instruments Incorporated
+
+                                                   Product Folder Links: BQ51013B
+                                                                                                                                BQ51013B
+www.ti.com                                                                                   SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+                                                  CRES1
+                                                                                         AC1
+                                                                                                  VRECT
+
+                                                                              C MOD
+                                              COIL             C RES2
+
+                                                                                        AC2        GND
+
+
+
+                                                      Figure 8-5. Capacitive Modulation
+
+The amplitude change in the TX coil voltage or current can be detected by the transmitter's decoder. The
+resulting signal observed by the TX is shown in Figure 8-6.
+
+                                                       Power                       BQ51013B
+
+                                                                                                Voltage/
+                                                                                                 Current               System
+           AC to DC                   Drivers                            Rectification                                  Load
+                                                                                               Conditioning
+
+                                                               Communication
+
+
+
+
+                                                                                                   Battery            LI-Ion
+                                                       V/I                Controller                                  Battery
+                  Controller                                                                       Charger
+                                                      Sense
+
+
+                           BQ500212A
+
+
+
+                                                           1                   1
+                                                  0                  0                   0
+
+
+
+
+                                                      Figure 8-6. TX Coil Voltage/Current
+
+The WPC protocol uses a differential bi-phase encoding scheme to modulate the data bits onto the TX coil
+voltage/current. Each data bit is aligned at a full period of 0.5 ms (tCLK) or 2 kHz. An encoded ONE results in two
+transitions during the bit period and an encoded ZERO results in a single transition. See Figure 8-7 for an
+example of the differential bi-phase encoding.
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                              Submit Document Feedback     21
+                                                           Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                    www.ti.com
+
+
+
+
+       Figure 8-7. Differential Bi-Phase Encoding Scheme (WPC Volume 1: Low Power, Part 1 Interface
+                                                  Definition)
+
+The bits are sent LSB first and use an 11-bit asynchronous serial format for each portion of the packet. This
+includes one start bit, n-data bytes, a parity bit, and a single stop bit. The start bit is always ZERO and the parity
+bit is odd. The stop bit is always ONE. Figure 8-8 shows the details of the asynchronous serial format.
+
+
+
+
+     Figure 8-8. Asynchronous Serial Formatting (WPC Volume 1: Low Power, Part 1 Interface Definition)
+
+Each packet format is organized as shown in Figure 8-9.
+
+                        Preamble          Header                  Message         Checksum
+
+              Figure 8-9. Packet Format (WPC Volume 1: Low Power, Part 1 Interface Definition)
+
+Figure 7-20 shows an example waveform of the receiver sending a rectified power packet (header 0x04).
+8.3.10 Communication Modulator
+The BQ51013B device provides two identical, integrated communication FETs which are connected to the pins
+COMM1 and COMM2. These FETs are used for modulating the secondary load current which allows the
+BQ51013B to communicate error control and configuration information to the transmitter. Figure 8-10 shows how
+the COMMx pins can be used for resistive load modulation. Each COMMx pin can handle at most a 24-Ω
+communication resistor. Therefore, if a COMMx resistor between 12 Ω and 24 Ω is required, COMM1 and
+COMM2 pins must be connected in parallel. The BQ51013B device does not support a COMMx resistor less
+than 12 Ω.
+
+
+
+
+22    Submit Document Feedback                                                     Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                   BQ51013B
+www.ti.com                                                                                     SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+                                                                                        RECTIFIER
+
+
+
+                                                                            24 :                      24 :
+
+
+
+
+                                                                          COMM1                       COMM2
+
+
+
+
+                                          COMM_DRIVE
+
+
+
+
+                                                  Figure 8-10. Resistive Load Modulation
+
+In addition to resistive load modulation, the BQ51013B is also capable of capacitive load modulation as shown in
+Figure 8-11. In this case, a capacitor is connected from COMM1 to AC1 and from COMM2 to AC2. When the
+COMMx switches are closed there is effectively a 22 nF capacitor connected between AC1 and AC2.
+Connecting a capacitor in between AC1 and AC2 modulates the impedance seen by the coil, which will be
+reflected in the primary as a change in current.
+                                                                                  AC1               AC2
+
+
+
+
+                                                                          47 nF                           47 nF
+
+
+
+
+                                                                          COMM1                       COMM2
+
+
+
+
+                                          COMM_DRIVE
+
+
+
+
+                                                  Figure 8-11. Capacitive Load Modulation
+
+8.3.11 Adaptive Communication Limit
+The Qi communication channel is established through backscatter modulation as described in the previous
+sections. This type of modulation takes advantage of the loosely coupled inductor relationship between the RX
+and TX coils. Essentially, the switching in-and-out of the communication capacitor or resistor adds a transient
+load to the RX coil in order to modulate the TX coil voltage and current waveform (amplitude modulation). The
+consequence of this technique is that a load transient (load current noise) from the mobile device has the same
+signature. To provide noise immunity to the communication channel, the output load transients must be isolated
+from the RX coil. The proprietary feature Adaptive Communication Limit achieves this by dynamically adjusting
+the current limit of the regulator. When the regulator is put in current limit, any load transients will be offloaded to
+the battery in the system.
+Note that this requires the battery charger device to have input voltage regulation (weak adapter mode). The
+output of the RX appears as a weak supply if a transient occurs above the current limit of the regulator.
+The Adaptive Communication Limit feature has two current limit modes and is detailed in Table 8-5.
+                                              Table 8-5. Adaptive Communication Limit
+                                                    IOUT               COMMUNICATION CURRENT LIMIT
+                                                  < 300 mA                          Fixed 400 mA
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                   Submit Document Feedback   23
+                                                             Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                          www.ti.com
+
+                                            Table 8-5. Adaptive Communication Limit
+                                                           (continued)
+                                              IOUT                   COMMUNICATION CURRENT LIMIT
+                                            > 300 mA                           IOUT + 50 mA
+
+
+The first mode is illustrated in Figure 7-18. In this plot, an output load pulse of 300 mA is periodically introduced
+on a DC current level of 200 mA. Therefore, the 400 mA current limit is enabled. The pulses on VRECT indicate
+that a communication packet event is occurring. When the output load pulse occurs, the regulator limits the pulse
+to a constant 400 mA and, therefore, preserves communication. Note that VOUT drops to 4.5 V instead of GND.
+A charger device with an input voltage regulation set to 4.5 V allows this to occur by offloading the load transient
+support to the mobile device’s battery.
+The second mode is illustrated in Figure 7-19. In this plot, an output pulse of 200 mA is periodically introduced
+on a DC current level of 400 mA. Therefore, the tracking current mode (IOUT + 50 mA) is enabled. In this mode,
+the BQ51013B measures the active output current and sets the regulator's current limit 50 mA above this
+measurement. When the load pulse occurs during a communication packet event, the output current is regulated
+to 450 mA. As the communication packet event has finished the output load is allowed to increase. Note that
+during the time the regulator is in current limit VOUT is reduced to 4.5 V and 5 V when not in current limit.
+8.3.12 Synchronous Rectification
+The BQ51013B provides an integrated, self-driven synchronous rectifier that enables high-efficiency AC to DC
+power conversion. The rectifier consists of an all NMOS H-Bridge driver where the backgates of the diodes are
+configured to be the rectifier when the synchronous rectifier is disabled. During the initial start-up of the WPC
+system the synchronous rectifier is not enabled. At this operating point, the DC rectifier voltage is provided by
+the diode rectifier. Once VRECT is greater than VUVLO, half synchronous mode will be enabled until the load
+current surpasses IBAT-SR. Above IBAT-SR the full synchronous rectifier stays enabled until the load current drops
+back below the hysteresis level (IBAT-SRH) where half-synchronous mode is enabled re-enabled.
+8.3.13 Temperature Sense Resistor Network (TS)
+BQ51013B includes a ratiometric external temperature sense function. The temperature sense function has two
+ratiometric thresholds which represent a hot and cold condition. An external temperature sensor is
+recommended in order to provide safe operating conditions for the receiver product. This pin is best used for
+monitoring the surface that can be exposed to the end user (place the NTC resistor closest to where the user
+would physically contact the end product).
+Figure 8-12 allows for any NTC resistor to be used with the given VHOT and VCOLD thresholds.
+                 VTSB                                                                      VTSB
+
+
+        20 lQ           R2                                                     20 lQ              R2
+                             TS/CTRL                                                                   TS/CTRL
+
+
+                                       R1                                                                         R1
+
+                                                     R3
+                                                                C3                                                                       C3
+                                       NTC                                                                        NTC
+
+
+
+
+        Figure 8-12. NTC Circuit Options For Safe Operation of the Wireless Receiver Power Supply
+
+
+
+24    Submit Document Feedback                                                                           Copyright © 2020 Texas Instruments Incorporated
+
+                                                          Product Folder Links: BQ51013B
+                                                                                                                           BQ51013B
+www.ti.com                                                                               SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+The resistors R1 and R3 can be solved by resolving the system of equations at the desired temperature
+thresholds. The two equations are:
+
+                  æ R R
+                  ç    3       (
+                           NTC TCOLD
+                                      + R1 ö÷      )
+      %VCOLD =
+                  ç
+                  ç R 3 + R NTC
+                  è             (
+                                TCOLD
+                                       + R1 ÷
+                                             ÷
+                                             ø ´100 )
+               æ R R
+               ç    3     (
+                         NTC TCOLD
+                                   + R   )
+                                       1 ÷
+                                          ö
+                                          ÷ + R2
+               ç
+               è           (
+               ç R 3 + R NTC
+                              TCOLD
+                                    + R1 ÷)
+                                          ø
+                  æ R R
+                  ç    3 ( NTC THOT
+                                      + R1 ) ö÷
+                  ç R 3 + (R NTC       + R1 )÷
+                  ç                           ÷
+
+       %VHOT =    è              THOT         ø ´100
+
+                    3 ( NTC THOT       1) ÷
+               æ R R               + R    ö
+               ç
+                                          ÷ + R2
+               ç R 3 + (R NTC       + R1 )÷
+               ç
+               è              THOT        ø                                                                                    (3)
+
+Where:
+
+                             bçæç 1  -1 ÷ö÷
+      R NTC            = R oe è TCOLD To ø
+              TCOLD
+                             bæçç 1     -1To ö÷÷
+                                è T HOT
+        R NTC          = R oe                  ø
+                THOT                                                                                                           (4)
+
+where
+•    TCOLD and THOT are the desired temperature thresholds in degrees Kelvin.
+•    RO is the nominal resistance.
+•    β is the temperature coefficient of the NTC resistor.
+R2 is fixed at 20 kΩ. An example solution is provided:
+• R1 = 4.23 kΩ
+• R3 = 66.8 kΩ
+where the chosen parameters are:
+•    %VHOT = 19.6%
+•    %VCOLD = 58.7%
+•    TCOLD = –10°C
+•    THOT = 100°C
+•    β = 3380
+•    RO = 10 kΩ
+The plot of the percent VTSB vs. temperature is shown in Figure 8-13:
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                          Submit Document Feedback     25
+                                                        Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                     www.ti.com
+
+
+
+
+               Figure 8-13. Example Solution for an NTC Resistor with RO = 10 kΩ and β = 3380
+
+Figure 8-14 illustrates the periodic biasing scheme used for measuring the TS state. An internal TS_READ
+signal enables the TS bias voltage (VTS-Bias) for 24 ms. During this period, the TS comparators are read (with tTS
+deglitch) and appropriate action is taken based on the temperature measurement. After this 24-ms period has
+elapsed, the TS_READ signal goes low, which causes the TS/CTRL pin to become high impedance. During the
+next 35 ms (priority packet period) or 235 ms (standard packet period), the TS voltage is monitored and
+compared to VCTRL-HI. If the TS voltage is greater than VCTRL-HI then a secondary device is driving the TS/CTRL
+pin and a CTRL = ‘1’ is detected.
+                                 24 ms
+
+           TS_READ                                            240 ms
+
+
+
+                                                                                     Tracks comm packet
+                                                                                     rate, typically 240 ms
+                                                                                      when standard error
+                                                                                       packets are sent.
+                                                                                       TS pin is Hi-Z - LW¶V
+                        10 ms deglitch on all TS                                        monitored to see
+                                comps                                                 whether some other
+                                                                                    device is driving the TS
+                                                                                               pin.
+
+
+
+                                 Figure 8-14. Timing Diagram For TS Detection Circuit
+
+8.3.14 3-State Driver Recommendations for the TS/CTRL Pin
+The TS/CTRL pin offers three functions with one 3-state driver interface:
+• NTC temperature monitoring
+• Over-Temperature Fault
+• End Power Transfer 0x00 (EPT Unknown)
+A 3-state driver can be implemented with the circuit in Figure 8-15 and the use of two GPIO connections. M3 and
+M4 and both resistors are external components.
+
+
+
+26    Submit Document Feedback                                                      Copyright © 2020 Texas Instruments Incorporated
+
+                                                   Product Folder Links: BQ51013B
+                                                                                                                            BQ51013B
+www.ti.com                                                                                SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+                                                                 BAT
+
+
+
+
+                                        BQ51013B                             TERM
+                                                                                           GPIO
+
+
+
+                                           TS/CTRL                                             System
+                                                                                              Controller
+
+
+                                                                             FAULT
+                                                                                           GPIO
+
+
+
+
+                                                  Figure 8-15. 3-State Driver For TS/CTRL
+
+Note that the signals TERM and FAULT are given by two GPIOs. The truth table for this circuit is found in Table
+8-6:
+                                                           Table 8-6. Truth Table
+                              TERM                       FAULT                              F (Result)
+                                 1                          0                    High Impedance (Normal Mode)
+                                 0                          0                        End Power Transfer 0x00
+                                 1                          1                        End Power Transfer 0x03
+
+
+The default setting is TERM / FAULT = 1 / 0. In this condition, the TS-CTRL net is high impedance (high-z) and
+the NTC function is allowed to operate, normal operation. When TERM / FAULT = 1 /1 the TS-CTRL pin is pulled
+to GND and the RX is shutdown with End Power Transfer Over Temperature sent to TX. When TERM / FAULT =
+0 / 0, the TS-CTRL pin is pulled to the battery and the RX is shutdown with End Power Transfer Unknown sent to
+the TX.
+8.3.15 Thermal Protection
+The BQ51013B includes a thermal shutdown protection. If the die temperature reaches TJ-SD, the LDO is shut off
+to prevent any further power dissipation. In this case BQ51013B will send an EPT message of internal fault
+(0x02). Once the temperature falls TJ-Hys below TJ-SD, operation can continue.
+8.3.16 WPC v1.2 Compliance – Foreign Object Detection
+The BQ51013B is a WPC v1.2 compatible device. In order to enable a Power Transmitter to monitor the power
+loss across the interface as one of the possible methods to limit the temperature rise of Foreign Objects, the
+BQ51013B reports its Received Power to the Power Transmitter. The Received Power equals the power that is
+available from the output of the Power Receiver plus any power that is lost in producing that output power (the
+power loss in the Secondary Coil and series resonant capacitor, the power loss in the Shielding of the Power
+Receiver, the power loss in the rectifier). In the WPC1.2 specification, foreign object detection (FOD) is enforced.
+This means the BQ51013B will send received power information with known accuracy to the transmitter.
+WPC v1.2 defines Received Power as “the average amount of power that the Power Receiver receives through
+its Interface Surface, in the time window indicated in the Configuration Packet”.
+To receive certification as a WPC v1.2 receiver, the Device Under Test (DUT) is tested on a Reference
+Transmitter whose transmitted power is calibrated, the receiver must send a received power such that:
+
+           0 > (TX PWR)REF – (RX PWR out)DUT > –375 mW                                                                          (5)
+
+This 375-mW bias ensures that system will remain interoperable.
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                            Submit Document Feedback    27
+                                                         Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                    www.ti.com
+
+WPC v1.2 Transmitter is tested to see if it can detect reference Foreign Objects with a Reference receiver.
+WPC v1.2 Specification will allow much more accurate sensing of Foreign Objects.
+8.3.17 Receiver Coil Load-Line Analysis
+When choosing a receiver coil, TI recommends analyzing the transformer characteristics between the primary
+coil and receiver coil through load-line analysis. This will capture two important conditions in the WPC system:
+•    Operating point characteristics in the closed loop of the WPC system.
+•    Instantaneous transient response prior to the convergence of the new operating point.
+An example test configuration for conducting this analysis is shown in Figure 8-16:
+                      CP                   CS                                                                 A
+
+
+    VIN                    LP         LS         CD                                      CB       V                      RL
+
+
+
+
+                                     Figure 8-16. Load-Line Analysis Test Bench
+
+Where:
+• VIN is a square-wave power source that should have a peak-to-peak operation of 19 V.
+• CP is the primary series resonant capacitor (for example, 100 nF for Type A1 coil).
+• LP is the primary coil of interest (such as, Type A1).
+• LS is the secondary coil of interest.
+• CS is the series resonant capacitor chosen for the receiver coil under test.
+• CD is the parallel resonant capacitor chosen for the receiver coil under test.
+• CB is the bulk capacitor of the diode bridge (voltage rating should be at least 25 V and capacitance value of at
+  least 10 µF)
+• V is a Kelvin connected voltage meter
+• A is a series ammeter
+• RL is the load of interest
+TI recommends that the diode bridge be constructed of Schottky diodes.
+The test procedure is as follows
+• Supply a 19-V AC signal to LP starting at a frequency of 210 kHz
+• Measure the resulting rectified voltage from no load to the expected full load
+• Repeat the above steps for lower frequencies (stopping at 110 kHz)
+An example load-line analysis is shown in Figure 8-17:
+
+
+
+
+28        Submit Document Feedback                                                 Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                             BQ51013B
+www.ti.com                                                                                            SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+                               20
+
+                               18
+                                                                                                                                   115 kHz
+
+                               16                                                                                                  125 kHz
+                                                                                                                                   130 kHz
+                               14                                                                                                  135 kHz
+
+                                                                                                                                   140 kHz
+                   VRECT (V)
+
+
+                               12
+                                                                                                                                   150 kHz
+                               10                                                                                                  160 kHz
+                                                                                                                                   175 kHz
+                               8
+
+                               6
+
+                               4
+
+                               2
+                                        Ping voltage                      1 A load step droop         1 A load operating point
+                               0
+                                    0   0.1      0.2       0.3      0.4        0.5       0.6    0.7      0.8       0.9       1
+                                                                           LOAD (A)
+
+                                                       Figure 8-17. Example Load-Line Results
+
+What Figure 8-17 conveys about the operating point is that a specific load and rectifier target condition
+consequently results in a specific operating frequency (for the type A1 TX). For example, at 1 A the dynamic
+rectifier target is 5.15 V. Therefore, the operating frequency will be from 150 kHz to 160 kHz in the above
+example. This is an acceptable operating point. If the operating point ever falls outside the WPC frequency
+range (110 kHz – 205 kHz), the system will never converge and will become unstable.
+In regards to transient analysis, there are two major points of interest:
+• Rectifier voltage at the ping frequency (175 kHz).
+• Rectifier voltage droop from no load to full load at the constant operating point.
+In this example, the ping voltage will be approximately 5 V. This is above the UVLO of the BQ51013B and,
+therefore, start-up in the WPC system can be ensured. If the voltage is near or below the UVLO at this
+frequency, then start-up in the WPC system may not occur.
+If the maximum load step is 1 A, the droop in this example will be approximately 1 V (using the 140 kHz load-
+line). To analyze the droop, locate the load-line that starts at 7 V at no-load. Follow this load-line to the maximum
+load expected and take the difference between the 7-V no-load voltage and the full-load voltage at that constant
+frequency. Ensure that the full-load voltage at this constant frequency is above 5 V. If it descends below 5 V, the
+output of the power supply will also droop to this level. This type of transient response analysis is necessary due
+to the slow feedback response of the WPC system. This simulates the step response prior to the WPC system
+adjusting the operating point.
+
+                                                                                Note
+       Coupling between the primary and secondary coils will worsen with misalignment of the secondary
+       coil. Therefore, it is recommended to re-analyze the load-lines at multiple misalignments to determine
+       where, in planar space, the receiver will discontinue operation.
+
+See Table 9-1 for recommended RX coils.
+8.4 Device Functional Modes
+The operational modes of the BQ51013B are described in the Section 8.3. The BQ51013B has several
+functional modes. Start-up refers to the initial power transfer and communication between the receiver
+(BQ51013B circuit) and the transmitter. Power transfer refers to any time that the TX and RX are communicating
+and power is being delivered from the TX to the RX. Power transfer termination occurs when the RX is removed
+from the TX, power is removed from the TX, or the RX requests power transfer termination.
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                             Submit Document Feedback   29
+                                                                 Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                   www.ti.com
+
+
+9 Application and Implementation
+                                                             Note
+       Information in the following applications sections is not part of the TI component specification, and TI
+       does not warrant its accuracy or completeness. TI’s customers are responsible for determining
+       suitability of components for their purposes. Customers should validate and test their design
+       implementation to confirm system functionality.
+
+9.1 Application Information
+The BQ51013B is a fully integrated wireless power receiver in a single device. The device complies with the
+WPC v1.2 specifications for a wireless power receiver. When paired with a WPC v1.2 compliant transmitter, it
+can provide up to 5 W of power. There are several tools available for the design of the system. These tools may
+be obtained by checking the product page at www.ti.com/product/BQ51013B.
+9.2 Typical Applications
+9.2.1 BQ51013B Wireless Power Receiver Used as a Power Supply
+The following application discussion covers the requirements for setting up the BQ51013B in a Qi-compliant
+system for use as a power supply.
+
+                       AD-EN                                                                                  System
+                                                                                                               Load
+                       AD
+                                                  OUT
+             CCOMM1
+                       COMM1                                          C4
+             CBOOT1                                                                         D1
+                       BOOT1                                          ROS
+      C1                                         RECT
+                       AC1                                                          R4
+                                                                 C3
+                                                                                                                HOST
+                                  BQ51013B
+     COIL      C2
+                                           TS/CTRL
+                       AC2
+                                                                 NTC
+                       BOOT2
+             CBOOT2
+                       COMM2                      CHG
+             CCOMM2                                                                                              Tri-State
+
+                       CLAMP2                     EN1                                                            Bi-State
+             CCLAMP2
+                                                  EN2                                                            Bi-State
+                       CLAMP1
+             CCLAMP1
+                           ILIM     FOD          PGND
+
+
+                      R1
+                                  RFOD
+
+
+
+       Figure 9-1. BQ51013B Used as a Wireless Power Receiver and Power Supply for System Loads
+
+9.2.1.1 Design Requirements
+This application is for a system that has varying loads from less than 100 mA up to 1 A. It must work with any Qi-
+certified transmitter. There is no requirement for any external thermal measurements. An LED indication is
+
+30     Submit Document Feedback                                                   Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                           BQ51013B
+www.ti.com                                                                               SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+required to indicate an active power supply. Each of the components from the application drawing will be
+examined.
+9.2.1.2 Detailed Design Procedure
+9.2.1.2.1 Using The BQ51013b as a Wireless Power Supply: (See Figure 9-1 )
+Figure 9-6 is the schematic of a system which uses the BQ51013B as a power supply while power multiplexing
+the wired (adapter) port.
+When the system shown in Figure 9-1 is placed on the charging pad, the receiver coil is inductively coupled to
+the magnetic flux generated by the coil in the charging pad which consequently induces a voltage in the receiver
+coil. The internal synchronous rectifier feeds this voltage to the RECT pin which has the filter capacitor C3.
+The BQ51013B identifies and authenticates itself to the primary using the COMM pins by switching on and off
+the COMM FETs and hence switching in and out CCOMM. If the authentication is successful, the transmitter will
+remain powered on. The BQ51013B measures the voltage at the RECT pin, calculates the difference between
+the actual voltage and the desired voltage VRECT-REG, (threshold 1 at no load) and sends back error packets to
+the primary. (Dynamic VRECT Thresholds are shown in the Section 7.5 table.) This process goes on until the
+input voltage settles at VRECT-REG. During a load transient, the dynamic rectifier algorithm will set the targets
+specified by VRECT-REG thresholds 1, 2, 3, and 4. This algorithm is termed Dynamic Rectifier Control and is used
+to enhance the transient response of the power supply.
+During power up, the LDO is held off until the VRECT-REG threshold 1 converges. The voltage control loop
+ensures that the output voltage is maintained at VOUT-REG to power the system. The BQ51013B meanwhile
+continues to monitor the input voltage, and maintains sending error packets to the primary every 250 ms. If a
+large overshoot occurs, the feedback to the primary speeds up to every 32 ms in order to converge on an
+operating point in less time.
+9.2.1.2.2 Series and Parallel Resonant Capacitor Selection
+Shown in Figure 9-1, the capacitors C1 (series) and C2 (parallel) make up the dual resonant circuit with the
+receiver coil. These two capacitors must be sized correctly per the WPC v1.2 specification. Figure 9-2 illustrates
+the equivalent circuit of the dual resonant circuit:
+                                                                 C1 (Cs)
+
+
+
+
+                                                  >•[                                C2 (Cd)
+
+
+
+
+                                    Figure 9-2. Dual Resonant Circuit With the Receiver Coil
+
+The Power Receiver Design Requirements in Volume 1 of the WPC v1.2 specification highlights in detail the
+sizing requirements. To summarize, the receiver designer will be required to take inductance measurements with
+a standard test fixture as shown in Figure 9-3:
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                          Submit Document Feedback     31
+                                                        Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                           www.ti.com
+
+                                         Magnetic
+                   Interface             Attractor
+                    Surface             (example)             Secondary Coil          Shielding (optional)
+     Mobile
+     Device
+
+
+
+
+                                                           Spacer                                                              dz
+
+
+
+
+                                                                  Primary Shielding
+
+     Figure 9-3. WPC V1.2 Receiver Coil Test Fixture For the Inductance Measurement Ls’ (Copied From
+    System Description Wireless Power Transfer, Volume 1: Low Power, Part 1 Interface Definition, Version
+                                                    1.1)
+
+The primary shield is to be 50 mm × 50 mm × 1 mm of Ferrite material PC44 from TDK Corp. The gap dZ is to be
+3.4 mm. The receiver coil, as it will be placed in the final system (for example, the back cover and battery must
+be included if the system calls for this), is to be placed on top of this surface and the inductance is to be
+measured at 1-V RMS and a frequency of 100 kHz. This measurement is termed Ls’. The same measurement is
+to be repeated without the test fixture shown in Figure 9-3. This measurement is termed Ls or the free-space
+inductance. Each capacitor can then be calculated using Equation 6:
+
+                                  -1
+           é        2      ù
+              (           )
+      C1 = ê fS ´ 2p ´ L'S ú
+           ë               û
+                                         -1
+           é        2        1ù
+               (
+      C2 = ê fD ´ 2p ´ LS -)    ú
+                            C1 ûú
+           ëê                                                                                                                (6)
+
+where
+•    fS is 100 kHz +5/-10%.
+•    fD is 1 MHz ±10%.
+C1 must be chosen first prior to calculating C2.
+The quality factor must be greater than 77 and can be determined by Equation 7:
+
+              2p× f × LS
+      Q=           D
+                  R                                                                                                          (7)
+
+where
+•    R is the DC resistance of the receiver coil.
+All other constants are defined above.
+For this application, the selected coil inductance, Ls, is 11 µH and the Ls' is 16 µH with a DC resistance of 191
+mΩ. Using Equation 6, the C1 resolves to 158.3 nF (with a range of 144 nF to 175 nF). For an optimum solution
+of 3 capacitors in parallel, the chosen capacitors are 68 nF, 47 nF, and 39 nF for a total of 154 nF, well within the
+32     Submit Document Feedback                                                           Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                       BQ51013B
+www.ti.com                                                                                      SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+desired range. Using the same equation (and the chosen value for C1), C2 resolves to 2.3 nF. This is easily met
+with capacitors of 2.2 nF and 100 pF. The C1 and C2 capacitors must have a minimum voltage rating of 25 V.
+Solving for the quality factor (Q in Equation 7), gives a value of over 500.
+Table 9-1 lists the recommended RX coils.
+9.2.1.2.3 Recommended RX Coils
+                                                    Table 9-1. Recommended RX Coils
+                                                                                                OUTPUT CURRENT
+ MANUFACTURER          PART NUMBER                DIMENSIONS       Ls             Ls’                               APPLICATION
+                                                                                                RANGE
+       Dexerials        NSTC4832T7346-16B          32 mm × 48 mm        10.9 µH    15.6 µH(1)    50 mA - 1000 mA       General 5-V Power Supply
+       Mingstar              312-00015             28 mm × 14 mm        36.3 µH    43.7 µH(1)    50 mA - 1000 mA       General 5-V Power Supply
+                              NC-01-
+      NuCurrent                                    25 mm (round)        10.9 µH    14.1 µH(1)    50 mA - 1000 mA       General 5-V Power Supply
+                         R37L02O-25250R53
+         TDK             WR483265-15F5-G           48 mm × 32 mm        13.2 µH    18.8 µH(1)    50 mA - 1000 mA       General 5-V Power Supply
+        Vishay            IWAS-4832FF-50           48mm × 32 mm         10.9 µH    15.8 µH(2)    50 mA - 1000 mA       General 5-V Power Supply
+
+(1)    Ls’ measurements conducted with a standard battery behind the RX coil assembly. This measurement is subject to change based on
+       different battery sizes, placements, and casing material.
+(2)    Battery not present behind the RX coil assembly. Subject to drop in inductance depending on the placement of the battery.
+
+TI recommends that all inductance measurements are repeated in the designers specific system as there are
+many influence on the final measurements.
+9.2.1.2.4 COMM, CLAMP, and BOOT Capacitors
+For most applications, the COMM, CLAMP, and BOOT capacitance values will be chosen to match the
+BQ51013BEVM-764.
+The BOOT capacitors are used to allow the internal rectifier FETs to turn on and off properly. These capacitors
+are from AC1 to BOOT1 and from AC2 to BOOT2 and must have a minimum 25-V rating. A 10-nF capacitor with
+a 25-V rating is chosen.
+The CLAMP capacitors are used to aid in the clamping process to protect against overvoltage. These capacitors
+are from AC1 to CLAMP1 and from AC2 to CLAMP2 and must have a minimum 25-V rating. A 0.47-µF capacitor
+with a 25-V rating is chosen.
+The COMM capacitors are used to facilitate the communication from the RX to the TX. This selection can vary a
+bit more than the BOOT and CLAMP capacitors. In general, a 22-nF capacitor is recommended. Based on the
+results of testing of the communication robustness in the final solution, a change to a 47-nF capacitor may be in
+order. The larger the capacitor the larger the deviation will be on the coil which sends a stronger signal to the TX.
+This also decreases the efficiency somewhat. In this case, a 22-nF capacitor with a 25-V rating is chosen.
+9.2.1.2.5 Control Pins and CHG
+This section discusses the pins that control the functions of the BQ51013B (AD, AD_EN, EN1, EN2, and TS/
+CTRL).
+This solution uses wireless power exclusively. The AD pin is tied low to disable wired power interaction. The
+output pin AD_EN is left floating.
+EN1 and EN2 are tied to the system controller GPIO pins. This allows the system to control the wireless power
+transfer. Normal operation leaves EN1 and EN2 low or floating (GPIO low or high impedance). EN1 and EN2
+have internal pulldown resistors. With both EN1 and EN2 low, wireless power is enabled and power can be
+transferred whenever the RX is on a suitable TX. The RX system controller can terminate power transfer and
+send an EPT 0x01 (Charge Complete) by setting EN1=EN2=1. The TX will terminate power when the EPT 0x01
+is received. The TX will continue to test for power transfer, but will not engage until the RX requests power. For
+example, if the TX is the BQ500212A, the TX will send digital pings approximately once per 5 seconds. During
+each ping, the BQ51013B will resend the EPT 0x01. Between the pings, the BQ500212A goes into low power
+"Sleep" mode reducing power consumption. When the RX system controller determines it is time to resume
+power transfer (for example, the battery voltage is below its recharge threshold) the controller simply returns
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                    Submit Document Feedback       33
+                                                           Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                        www.ti.com
+
+EN1 and EN2 to low (or float) states. The next ping of the BQ500212A will power the BQ51013B which will now
+communicate that it is time to transfer power. The TX and RX communication resumes and power transfer is
+reinitiated.
+The TS/CTRL pin will be used as a temperature sensor (with the NTC) and maintain the ability to terminate
+power transfer through the system controller. In this case, the GPIO will be in high impedance for normal NTC
+(Temperature Sense) control.
+The CHG pin is used to indicate power transfer. A 2.1-V forward bias LED is used for D1 with a current limiting
+1.5-kΩ series resistor. The LED and resistor are tied from OUT to PGND and D1 will light during power transfer.
+9.2.1.2.6 Current Limit and FOD
+The current limit and foreign object detection functions are related. The current limit is set by R1 + RFOD. RFOD
+and Ros are determined by FOD calibration. Default values of 20 kΩ for Ros and 196 Ω for RFOD are used. The
+final values need to be determined based on the FOD calibration. The tool for FOD calibration can be found on
+the BQ51013B web folder under "Tools & software". Good practice is to set the layout with 2 resistors for Ros
+and 2 for RFOD to allow for precise values once the calibration is complete.
+After setting RFOD, R1 can be calculated based on the desired current limit. The maximum current for this
+solution under normal operating conditions (IMAX) is 1 A. Using Equation 2 to calculate the maximum current
+yields a value of 262 Ω for RILIM. With RFOD set to 196 Ω the remaining resistance for R1 is 66 Ω. This also sets
+the hardware current limit to 1.2 A to allow for temporary current surges without system performance concerns.
+9.2.1.2.7 RECT and OUT Capacitance
+RECT capacitance is used to smooth the AC to DC conversion and to prevent minor current transients from
+passing to OUT. For this 1-A IMAX, select two 10-µF capacitors and one 0.1-µF capacitor. These should be rated
+to 16 V.
+OUT capacitance is used to reduce any ripple from minor load transients. For this solution, a single 10-µF
+capacitor and a single 0.1-µF capacitor are used.
+9.2.1.3 Application Curves
+Figure 9-4 shows wireless power start-up when the RX is placed on the TX. In this case, the BQ500212A is used
+as the transmitter. When the rectifier voltage stabilizes, the output is enabled and current is passed. In this case,
+the load is resistive generating 900 mA. The pulses on the RECT pin indicate communication packets being
+transferred from the RX to the TX.
+Figure 9-5 shows a current transition. The plot shows a 1-A load removed then added again. Note the stability of
+VOUT.
+
+                                                                       IOUT
+
+                                         VOUT                         VOUT
+
+                                          IOUT
+                                                                      VRECT
+
+                                          VRECT
+
+
+
+
+        Figure 9-4. Start-Up With 900-mA Load                       Figure 9-5. Load Transitions (1 A to 0 A to 1 A)
+
+
+
+
+34    Submit Document Feedback                                                         Copyright © 2020 Texas Instruments Incorporated
+
+                                                  Product Folder Links: BQ51013B
+                                                                                                                                BQ51013B
+www.ti.com                                                                                    SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+9.2.2 Dual Power Path: Wireless Power and DC Input
+
+                                                                                                                                 System
+                                           Q1                                                                                     Load
+ USB or
+AC Adapter
+  Input
+
+
+
+
+                                                      AD-EN
+
+                                                      AD
+                                                                              OUT
+                                            CCOMM1
+                                                      COMM1                                    C4
+              C5                            CBOOT1                                                                    D1
+                                                      BOOT1                                    ROS
+                                    C1                                       RECT
+                                                      AC1                                                        R4
+                                                                                          C3
+
+                                 COIL         C2                 BQ51013B
+                                                                          TS/CTRL
+                                                      AC2
+                                                                                          NTC
+                                                      BOOT2
+                                            CBOOT2                                                                                HOST
+                                                      COMM2                   CHG
+                                            CCOMM2                                                                                Tri-State
+                                                      CLAMP2                  EN1                                                  Bi-State
+                                            CCLAMP2
+                                                      CLAMP1                  EN2                                                  Bi-State
+                                           CCLAMP1
+                                                          ILIM     FOD      PGND
+
+
+                                                     R1
+                                                                 RFOD
+
+
+
+
+    Figure 9-6. BQ51013B Used as a Wireless Power Receiver and Power Supply for System Loads With
+                                   Adapter Power-Path Multiplexing
+
+9.2.2.1 Design Requirements
+This solution adds the ability to disable wireless charging with the AD and AD_EN pins. A DC supply (USB or AC
+Adapter with DC output) can also be used to power the subsystem. This can occur during wireless power
+transfer or without wireless power transfer. The system must allow power transfer without any back-flow or
+damage to the circuitry.
+9.2.2.2 Detailed Design Procedure
+The components chosen for the Section 9.2.1 system are identical. Adding a blocking FET while using the
+BQ51013B for control is the only addition to the circuitry.The AD pin will be tied to the DC input as a threshold
+detector. The AD_EN pin will be used to enable or disable the blocking FET. The blocking FET must be chosen
+to handle the appropriate current level and the DC voltage level supplied from the input. In this example, the
+expectation is that the DC input will be 5 V with a maximum current of 1 A (same configuration as the wireless
+power supply). The CSD75207W15 is a good fit because it is a P-Channel, –20-V, 3.9-A FET pair in a 1.5-mm2
+WCSP.
+The following scope plots show behavior under different conditions.
+Figure 9-7 shows the transition from wireless power to wired power when power is added to the AD pin. VRECT
+drops and there is a short time (IOUT drops to zero) when neither source is providing power. When Q1 is enabled
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                               Submit Document Feedback        35
+                                                             Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                          www.ti.com
+
+(through AD_EN) the output current turns back on. Note the RECT voltage after about 500 ms. This is the TX
+sending a ping to check to see if power is required. RECT returns to low after the BQ51013B informs the TX it
+does not need power (without enabling the OUT pin). This timing is based on the TX (BQ500212A used here).
+Figure 9-8 shows the transition to wireless power when the AD voltage is removed. Note that after wired power
+is removed, the next ping from the (BQ500212A) will energize the BQ51013B. Once the rectifier voltage is stable
+the output will turn on.
+Figure 9-9 shows a system placed onto the transmitter with AD already powered. The TX sends a ping which the
+RX responds to and informs the TX that no power is needed. The ping will continue with the timing based on the
+TX used.
+Figure 9-10 shows the AD added when the RX is not on a TX. This indicates normal start-up without requirement
+of the TX.
+9.2.2.3 Application Curves
+
+
+
+      VOUT                                                            VAD
+
+      IOUT                                                           VOUT
+                                                                      IOUT
+      VRECT
+
+
+
+                                                                     VRECT
+      VAD
+
+
+
+
+ Figure 9-7. Transition Between Wireless Power and                Figure 9-8. Transition Between Wired Power and
+          Wired Power (EN1 = EN2 = LOW)                                 Wireless Power (EN1 = EN2 = LOW)
+
+
+      VAD                                                                         VAD
+      VOUT                                                                    VOUT
+      IOUT                                                                        IOUT
+
+
+
+
+      VRECT                                                                   VRECT
+
+
+
+
+ Figure 9-9. Wireless Power Start-Up With VAD = 5 V                     Figure 9-10. AD Power Start-Up With No
+                 (EN1 = EN2 = LOW)                                          Transmitter (EN1 = EN2 = LOW)
+
+
+
+
+36    Submit Document Feedback                                                           Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                                                                                  BQ51013B
+www.ti.com                                                                                                                  SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+9.2.3 Wireless and Direct Charging of a Li-Ion Battery at 800 mA
+
+  USB or
+                            Q1                                                                                                                         1.5 KŸ
+
+AC Adapter
+   Input
+                                                                               bq51013B Output
+
+
+
+
+                                                                                                                                  1                             10                                    SYSTEM
+                                     AD-EN                                                                                            IN                OUT
+                                                                                                                                                                                                       Load
+                                                                                                                                                                                                1ÛF
+                                                                                                                                                                     1.5 KŸ
+                                                                                                                   1ÛF
+                                     AD
+                        CCOMM1                          OUT                                                                       2                      TS     9
+                                                                                                                                      ISET
+                                     COMM1                          C4
+       C5                                                                                                                                                                               PACK+
+                                                                               D1                                                                                             TEMP
+                                     BOOT1                          ROS                                                           3   VSS    BQ24040   /CHG     8
+              C1            CBOOT1                     RECT
+                                     AC1                                  R4
+                                                               C3
+                                                                                                                   675 Ÿ          4   PRETERM          ISET2    7
+               COIL           C2            BQ51013B
+                                                                                                                                                                                     PACK-
+                                                     TS/CTRL
+                                     AC2                                                         HOST                             5   /PG                NC     6
+                                                               NTC
+                   CBOOT2            BOOT2                                                                                 2 KŸ
+
+                   CCOMM2            COMM2              CHG
+                                                                                            Tri-State
+               CCLAMP2               CLAMP2             EN1                                 Bi-State
+
+                                     CLAMP1             EN2                                 Bi-State
+                       CCLAMP1                 FOD    PGND
+                                     ILIM                                                         ISET/100/500mA
+
+
+                                     R1
+                                             RFOD
+
+
+
+
+ Figure 9-11. BQ51013B Used as a Wireless Power Supply With Adapter Multiplexing for a Linear Charger
+
+9.2.3.1 Design Requirements
+The goal of this design is to charge a 3.7-V Li-Ion battery at 800 mA either wirelessly or with a direct USB wired
+input. This design will use the BQ51013B wireless power supply and the BQ24040 single-cell Li-Ion battery
+charger. A low resistance path has to be created between the output of BQ51013B and the input of BQ24040.
+9.2.3.2 Detailed Design Procedure
+The basic BQ51013B design is identical to the Section 9.2.2. The BQ51013B OUT pin is tied to the output of Q1
+and directly to the IN pin of the BQ24040. No other changes to the BQ51013B circuitry are required.
+The BQ24040 has a few parameters that need to be programmed for this charger to work properly. Ceramic
+decoupling capacitors are needed on the IN and OUT pins using the values shown in Figure 9-11. After
+evaluation during actual system operational conditions, the final values may be adjusted up or down. In high
+amplitude pulsed load applications, the IN and OUT capacitors will generally require larger values. The next step
+is setting up the fast charge current and pre-charge and termination current.
+Program the Fast Charge Current, ISET: RISET = [KISET/IOUT] = [540 AΩ / 0.8 A] = 675 Ω.
+Program the Termination Current, ITERM: RPRE-TERM = [KTERM/%OUT-FC] = 200 Ω/% x 10% = 2 kΩ.
+TS Function: To enable the temperature sense function, a 10-kΩ NTC thermistor (103AT) from TS to VSS should
+be placed in the battery pack. To disable the temperature sense function, use a fixed 10-kΩ resistor between TS
+and VSS.
+Figure 9-12 shows start-up of the wireless system with the BQ24040 charger when TX power is applied after the
+full RX system has been placed on the charging pad. Channel 1 (yellow) shows the initial power to the TX
+system. The RECT pin of the BQ51013B is shown on Channel 3 (purple). The output of the BQ24040 is shown
+on Channel 2 (blue). Battery current can be seen on Channel 4 (green).
+Figure 9-13 shows a similar condition but in this case, the battery is not connected initially, so the battery
+detection routine can be observed. After the battery is connected to the charger, the charge current jumps to 800
+mA and the output voltage becomes stable. Both the current out of the BQ51013B (Channel 1, yellow) and the
+current out of the BQ24040 (Channel 4, green) can be seen.
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                                                                 Submit Document Feedback                       37
+                                                                               Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                      www.ti.com
+
+9.2.3.3 Application Curves
+The following plots show the performance of the BQ51013B + charger solution.
+
+
+
+
+     Figure 9-12. System Start-Up (200 ms / division)            Figure 9-13. System Start-Up With Battery Inserted
+                                                                   After Wireless Power is Enabled (1 s / division)
+
+
+10 Power Supply Recommendations
+The BQ51013B requires a Qi-compatible transmitter as its power source.
+11 Layout
+11.1 Layout Guidelines
+•    Keep the trace resistance as low as possible on AC1, AC2, and BAT.
+•    Detection and resonant capacitors must be as close to the device as possible.
+•    COMM, CLAMP, and BOOT capacitors must be placed as close to the device as possible.
+•    Via interconnect on PGND net is critical for appropriate signal integrity and proper thermal performance.
+•    High frequency bypass capacitors must be placed close to RECT and OUT pins.
+•    ILIM and FOD resistors are important signal paths and the loops in those paths to PGND must be minimized.
+     Signal and sensing traces are the most sensitive to noise; the sensing signal amplitudes are usually
+     measured in mV, which is comparable to the noise amplitude. Make sure that these traces are not being
+     interfered by the noisy and power traces. AC1, AC2, BOOT1, BOOT2, COMM1, and COMM2 are the main
+     source of noise in the board. These traces should be shielded from other components in the board. It is
+     usually preferred to have a ground copper area placed underneath these traces to provide additional
+     shielding. Also, make sure they do not interfere with the signal and sensing traces. The PCB should have a
+     ground plane (return) connected directly to the return of all components through vias (two vias per capacitor
+     for power-stage capacitors, one via per capacitor for small-signal components).
+     For a 1-A fast charge current application, the current rating for each net is as follows:
+     –    AC1 = AC2 = 1.2 A
+     –    OUT = 1 A
+     –    RECT = 100 mA (RMS)
+     –    COMMx = 300 mA
+     –    CLAMPx = 500 mA
+     –    All others can be rated for 10 mA or less
+
+
+
+
+38       Submit Document Feedback                                                    Copyright © 2020 Texas Instruments Incorporated
+
+                                                 Product Folder Links: BQ51013B
+                                                                                                                                                                  BQ51013B
+www.ti.com                                                                                                 SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020
+
+
+11.2 Layout Example
+
+
+
+                                                                                    CLAMP2
+                                                                                    capacitor
+                                                               BOOT2
+                                            OUT                         BOOT2
+                               CO
+                                  M
+
+                                                                AC2    capacitor
+                                       M
+                          TS
+
+
+                                        2
+                            /C
+                               TR
+                                 L
+
+
+
+
+                  ILIM
+                  EN2
+
+                                                                                   PGND                            AC1-AC2 capacitors
+                  TERM
+                  AD
+                         /CHG
+                                                                AC1
+
+
+
+
+                                                                                                                                                 AC1 Series capacitors
+                          COMM1                                         BOOT1
+                                            OUT                        capacitor
+                                                         BOOT1
+                           capacitor
+                           COMM1
+
+
+
+
+      CLAMP2
+      capacitor                               BAT capacitors
+
+
+
+
+     For the RHL package, the thermal pad should be connected to ground to help dissipate heat.
+
+                                                               Figure 11-1. BQ51013B Layout Schematic
+
+
+
+
+Copyright © 2020 Texas Instruments Incorporated                                                                                  Submit Document Feedback                39
+                                                                          Product Folder Links: BQ51013B
+BQ51013B
+SLUSB62D – MARCH 2013 – REVISED SEPTEMBER 2020                                                                                www.ti.com
+
+
+12 Device and Documentation Support
+12.1 Device Support
+12.1.1 Third-Party Products Disclaimer
+TI'S PUBLICATION OF INFORMATION REGARDING THIRD-PARTY PRODUCTS OR SERVICES DOES NOT
+CONSTITUTE AN ENDORSEMENT REGARDING THE SUITABILITY OF SUCH PRODUCTS OR SERVICES
+OR A WARRANTY, REPRESENTATION OR ENDORSEMENT OF SUCH PRODUCTS OR SERVICES, EITHER
+ALONE OR IN COMBINATION WITH ANY TI PRODUCT OR SERVICE.
+12.1.2 Development Support
+The tool for Foreign Object Detection (FOD) Calibration can be found on the BQ51013B web folder under Tools
+and software.
+12.2 Receiving Notification of Documentation Updates
+To receive notification of documentation updates, navigate to the device product folder on ti.com. Click on
+Subscribe to updates to register and receive a weekly digest of any product information that has changed. For
+change details, review the revision history included in any revised document.
+12.3 Support Resources
+TI E2E™ support forums are an engineer's go-to source for fast, verified answers and design help — straight
+from the experts. Search existing answers or ask your own question to get the quick design help you need.
+Linked content is provided "AS IS" by the respective contributors. They do not constitute TI specifications and do
+not necessarily reflect TI's views; see TI's Terms of Use.
+12.4 Trademarks
+TI E2E™ is a trademark of Texas Instruments.
+All other trademarks are the property of their respective owners.
+12.5 Electrostatic Discharge Caution
+                This integrated circuit can be damaged by ESD. Texas Instruments recommends that all integrated circuits be handled
+                with appropriate precautions. Failure to observe proper handling and installation procedures can cause damage.
+                ESD damage can range from subtle performance degradation to complete device failure. Precision integrated circuits may
+                be more susceptible to damage because very small parametric changes could cause the device not to meet its published
+                specifications.
+
+
+12.6 Glossary
+ TI Glossary         This glossary lists and explains terms, acronyms, and definitions.
+
+13 Mechanical, Packaging, and Orderable Information
+The following pages include mechanical, packaging, and orderable information. This information is the most
+current data available for the designated devices. This data is subject to change without notice and revision of
+this document. For browser-based versions of this data sheet, refer to the left-hand navigation.
+
+
+
+
+40    Submit Document Feedback                                                                 Copyright © 2020 Texas Instruments Incorporated
+
+                                                  Product Folder Links: BQ51013B
+                                                                                                                                                                     PACKAGE OPTION ADDENDUM
+
+       www.ti.com                                                                                                                                                                                                    9-Nov-2025
+
+
+
+
+PACKAGING INFORMATION
+
+       Orderable part number          Status     Material type      Package | Pins      Package qty | Carrier       RoHS             Lead finish/               MSL rating/          Op temp (°C)               Part marking
+                                        (1)            (2)                                                            (3)            Ball material              Peak reflow                                           (6)
+                                                                                                                                          (4)                       (5)
+
+          BQ51013BRHLR                Active      Production       VQFN (RHL) | 20       3000 | LARGE T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+         BQ51013BRHLR.A               Active      Production       VQFN (RHL) | 20       3000 | LARGE T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+         BQ51013BRHLR.B               Active      Production       VQFN (RHL) | 20       3000 | LARGE T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+         BQ51013BRHLRG4               Active      Production       VQFN (RHL) | 20       3000 | LARGE T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+        BQ51013BRHLRG4.A              Active      Production       VQFN (RHL) | 20       3000 | LARGE T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+        BQ51013BRHLRG4.B              Active      Production       VQFN (RHL) | 20       3000 | LARGE T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+          BQ51013BRHLT                Active      Production       VQFN (RHL) | 20        250 | SMALL T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+         BQ51013BRHLT.A               Active      Production       VQFN (RHL) | 20        250 | SMALL T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+         BQ51013BRHLT.B               Active      Production       VQFN (RHL) | 20        250 | SMALL T&R            Yes               NIPDAU           Level-2-260C-1 YEAR             0 to 125                 BQ51013B
+          BQ51013BYFPR                Active      Production       DSBGA (YFP) | 28      3000 | LARGE T&R            Yes               SNAGCU            Level-1-260C-UNLIM             0 to 125                 BQ51013B
+         BQ51013BYFPR.A               Active      Production       DSBGA (YFP) | 28      3000 | LARGE T&R            Yes               SNAGCU            Level-1-260C-UNLIM             0 to 125                 BQ51013B
+         BQ51013BYFPR.B               Active      Production       DSBGA (YFP) | 28      3000 | LARGE T&R            Yes               SNAGCU            Level-1-260C-UNLIM             0 to 125                 BQ51013B
+           BQ51013BYFPT               Active      Production       DSBGA (YFP) | 28       250 | SMALL T&R            Yes               SNAGCU            Level-1-260C-UNLIM             0 to 125                 BQ51013B
+         BQ51013BYFPT.A               Active      Production       DSBGA (YFP) | 28       250 | SMALL T&R            Yes               SNAGCU            Level-1-260C-UNLIM             0 to 125                 BQ51013B
+         BQ51013BYFPT.B               Active      Production       DSBGA (YFP) | 28       250 | SMALL T&R            Yes               SNAGCU            Level-1-260C-UNLIM             0 to 125                 BQ51013B
+
+(1)
+      Status: For more details on status, see our product life cycle.
+
+(2)
+   Material type: When designated, preproduction parts are prototypes/experimental devices, and are not yet approved or released for full production. Testing and final process, including without limitation quality assurance,
+reliability performance testing, and/or process qualification, may not yet be complete, and this item is subject to further changes or possible discontinuation. If available for ordering, purchases will be subject to an additional
+waiver at checkout, and are intended for early internal evaluation purposes only. These items are sold without warranties of any kind.
+
+(3)
+      RoHS values: Yes, No, RoHS Exempt. See the TI RoHS Statement for additional information and value definition.
+
+(4)
+   Lead finish/Ball material: Parts may have multiple material finish options. Finish options are separated by a vertical ruled line. Lead finish/Ball material values may wrap to two lines if the finish value exceeds the maximum
+column width.
+
+(5)
+  MSL rating/Peak reflow: The moisture sensitivity level ratings and peak solder (reflow) temperatures. In the event that a part has multiple moisture sensitivity ratings, only the lowest level per JEDEC standards is shown.
+Refer to the shipping label for the actual reflow temperature that will be used to mount the part to the printed circuit board.
+
+(6)
+      Part marking: There may be an additional marking, which relates to the logo, the lot trace code information, or the environmental category of the part.
+
+
+                                                                                                          Addendum-Page 1
+                                                                                                                                                                      PACKAGE OPTION ADDENDUM
+
+    www.ti.com                                                                                                                                                                                                    9-Nov-2025
+
+
+
+
+Multiple part markings will be inside parentheses. Only one part marking contained in parentheses and separated by a "~" will appear on a part. If a line is indented then it is a continuation of the previous line and the two
+combined represent the entire part marking for that device.
+
+Important Information and Disclaimer:The information provided on this page represents TI's knowledge and belief as of the date that it is provided. TI bases its knowledge and belief on information provided by third parties, and
+makes no representation or warranty as to the accuracy of such information. Efforts are underway to better integrate information from third parties. TI has taken and continues to take reasonable steps to provide representative
+and accurate information but may not have conducted destructive testing or chemical analysis on incoming materials and chemicals. TI and TI suppliers consider certain information to be proprietary, and thus CAS numbers
+and other limited information may not be available for release.
+
+In no event shall TI's liability arising out of such information exceed the total purchase price of the TI part(s) at issue in this document sold by TI to Customer on an annual basis.
+
+OTHER QUALIFIED VERSIONS OF BQ51013B :
+
+• Automotive : BQ51013B-Q1
+
+NOTE: Qualified Version Definitions:
+
+        • Automotive - Q100 devices qualified for high-reliability automotive applications targeting zero defects
+
+
+
+
+                                                                                                          Addendum-Page 2
+                                                                               PACKAGE MATERIALS INFORMATION
+
+www.ti.com                                                                                                                                          18-Jun-2025
+
+
+
+TAPE AND REEL INFORMATION
+
+       REEL DIMENSIONS                                                                      TAPE DIMENSIONS
+                                                                                       K0         P1
+
+
+
+                                                                                                                         B0 W
+                                        Reel
+                                      Diameter
+                                                                                    Cavity             A0
+                                                                A0   Dimension designed to accommodate the component width
+                                                                B0   Dimension designed to accommodate the component length
+                                                                K0   Dimension designed to accommodate the component thickness
+                                                                W    Overall width of the carrier tape
+                                                                P1   Pitch between successive cavity centers
+
+
+                                       Reel Width (W1)
+                              QUADRANT ASSIGNMENTS FOR PIN 1 ORIENTATION IN TAPE
+
+                                                                                                        Sprocket Holes
+
+
+                                                 Q1        Q2          Q1    Q2
+
+                                                 Q3        Q4          Q3    Q4                    User Direction of Feed
+
+
+
+                                                            Pocket Quadrants
+
+
+*All dimensions are nominal
+             Device           Package Package Pins              SPQ        Reel   Reel   A0                    B0         K0     P1     W     Pin1
+                               Type Drawing                              Diameter Width (mm)                  (mm)       (mm)   (mm)   (mm) Quadrant
+                                                                           (mm) W1 (mm)
+     BQ51013BRHLR              VQFN     RHL           20        3000        330.0        12.4          3.71   4.71       1.1    8.0    12.0    Q1
+   BQ51013BRHLRG4              VQFN     RHL           20        3000        330.0        12.4          3.71   4.71       1.1    8.0    12.0    Q1
+     BQ51013BRHLT              VQFN     RHL           20         250        180.0        12.4          3.71   4.71       1.1    8.0    12.0    Q1
+     BQ51013BYFPR             DSBGA      YFP          28        3000        180.0           8.4        2.0    3.13       0.6    4.0    8.0     Q1
+     BQ51013BYFPT             DSBGA      YFP          28         250        180.0           8.4        2.0    3.13       0.6    4.0    8.0     Q1
+
+
+
+
+                                                                       Pack Materials-Page 1
+                                                                PACKAGE MATERIALS INFORMATION
+
+www.ti.com                                                                                                              18-Jun-2025
+
+
+
+ TAPE AND REEL BOX DIMENSIONS
+
+
+
+
+                                                               Width (mm)
+                                                                              H
+                      W
+
+
+
+
+                                                          L
+
+
+
+
+*All dimensions are nominal
+             Device           Package Type   Package Drawing   Pins         SPQ    Length (mm)   Width (mm)   Height (mm)
+     BQ51013BRHLR                VQFN             RHL           20          3000      346.0        346.0         33.0
+    BQ51013BRHLRG4               VQFN             RHL           20          3000      346.0        346.0         33.0
+     BQ51013BRHLT                VQFN             RHL           20          250       210.0        185.0         35.0
+     BQ51013BYFPR               DSBGA             YFP           28          3000      182.0        182.0         20.0
+     BQ51013BYFPT               DSBGA             YFP           28          250       182.0        182.0         20.0
+
+
+
+
+                                                        Pack Materials-Page 2
+                                                                                                      PACKAGE OUTLINE
+RHL0020A                                                                                             VQFN - 1 mm max height
+                                                                                               PLASTIC QUAD FLATPACK- NO LEAD
+                                                         3.6                         A
+                                     B                   3.4
+
+
+
+
+                PIN 1 INDEX AREA
+
+                                                                                     4.6
+                                                                                     4.4
+
+
+
+
+                                                                                           C
+                             1 MAX
+                                                                                                  SEATING PLANE
+                                                                                            0.08 C
+                                                       2.05±0.1
+
+                                                       2X 1.5
+                                                       SYMM                         20X 0.5
+                                                                                        0.3
+                                                                                                                  (0.2) TYP
+                                                 10                 11
+                          14X 0.5
+                                         9
+                                                                               12
+
+
+
+
+                            2X      SYMM                   21
+                            3.5                                                     3.05±0.1
+
+
+
+
+                                                                               19
+                                          2
+                                                                                      20X 0.29
+                                                                                          0.19
+                                                   1              20
+                               PIN 1 ID
+                            (OPTIONAL)                              4X (0.2)               0.1     C A B
+                                                                                           0.05     C
+                                                                  2X (0.55)
+
+
+                                                                                                                  4219071 / A 05/2017
+NOTES:
+
+ 1.   All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+      per ASME Y14.5M.
+ 2.   This drawing is subject to change without notice.
+ 3.   The package thermal pad must be soldered to the printed circuit board for thermal and mechanical performance.
+
+
+
+
+                                                                www.ti.com
+                                                                                     EXAMPLE BOARD LAYOUT
+RHL0020A                                                                                        VQFN - 1 mm max height
+                                                                                          PLASTIC QUAD FLATPACK- NO LEAD
+                                                                   (3.3)
+                                                                  (2.05)
+                                                                 2X (1.5)
+                                                                  SYMM
+                                                       1                        20
+                             20X (0.6)                                                                   2X (0.4)
+
+
+
+                                        2                                                       19
+
+                        20X (0.24)
+
+
+
+
+                        14X (0.5)
+                          SYMM                                          21
+                                                                                                                    (3.05)   (4.3)
+                                                                                                  6X (0.525)
+
+
+
+                SOLDER MASK                                                                          2X (0.75)
+                    OPENING
+               METAL UNDER
+               SOLDER MASK
+                                        9                                                       12
+
+                   (R0.05) TYP
+
+                                    (Ø0.2) VIA
+                                                       10                       11
+                                      TYP)
+                                                  4X (0.2)                             4X
+                                                                                     (0.775)
+                                                    2X (0.55)
+
+                                                     LAND PATTERN EXAMPLE
+                                                           EXPOSED METAL SHOWN
+                                                                SCALE: 18X
+
+                              0.07 MAX
+                                                                  0.07 MIN                       SOLDER MASK
+                            ALL AROUND
+                                                                ALL AROUND                       OPENING
+
+                       EXPOSED METAL                                                           EXPOSED METAL
+                                                                METAL
+
+                                                                                                METAL UNDER
+                   SOLDER MASK                                                                  SOLDER MASK
+                       OPENING              NON SOLDER MASK                  SOLDER MASK
+                                                DEFINED                        DEFINED
+                                              (PREFERRED)
+
+                                                   SOLDER MASK DETAILS                                                4219071 / A 05/2017
+
+NOTES: (continued)
+
+ 4.   This package is designed to be soldered to a thermal pad on the board. For more information, see Texas Instruments
+      literature number SLUA271 (www.ti.com/lit/slua271) .
+ 5.   Solder mask tolerances between and around signal pads can vary based on board fabrication site.
+ 6.   Vias are optional depending on application, refer to device data sheet. If any vias are implemented, refer to theri
+      locations shown on this view. It is recommended that vias under paste be filled, plugged or tented.
+
+
+
+
+                                                                www.ti.com
+                                                                                EXAMPLE STENCIL DESIGN
+RHL0020A                                                                                      VQFN - 1 mm max height
+                                                                                        PLASTIC QUAD FLATPACK- NO LEAD
+
+
+                                                                 (3.3)
+
+                                                               2X (1.5)
+                                                               (0.55)
+                                                                TYP                 (0.56)
+                                                                                     TYP
+                                                       1                       20                        SOLDER MASK EDGE
+                           20X (0.6)                                                                     TYP
+
+
+
+                                       2                                                            19
+
+                     20X (0.24)
+
+
+
+
+                     14X (0.5)                                                                              (1.05)
+                                                                                                             TYP
+                      SYMM
+
+
+                                                                                                                     (4.3)
+                                                                         21
+
+
+                                                                                                           6X
+                 (R0.05) TYP                                                                             (0.85)
+
+                       METAL
+                         TYP
+                                       9                                                            12
+                                               2X
+                                             (0.775)
+                                                                                        2X (0.25)
+                                                       10                     11
+                                                 4X (0.2)
+                                                                                      6X (0.92)
+                                                                SYMM
+
+
+
+                                                    SOLDER PASTE EXAMPLE
+                                                   BASED ON 0.1mm THICK STENCIL
+
+                                                           EXPOSED PAD
+                                                  75% PRINTED COVERAGE BY AREA
+                                                            SCALE: 20X
+
+
+
+                                                                                                                        4219071 / A 05/2017
+
+NOTES: (continued)
+
+7.    Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+design recommendations..
+
+
+
+
+                                                              www.ti.com
+D: Max = 3.036 mm, Min =2.976 mm
+
+E: Max = 1.913 mm, Min =1.852 mm
+                                         IMPORTANT NOTICE AND DISCLAIMER
+TI PROVIDES TECHNICAL AND RELIABILITY DATA (INCLUDING DATASHEETS), DESIGN RESOURCES (INCLUDING REFERENCE
+DESIGNS), APPLICATION OR OTHER DESIGN ADVICE, WEB TOOLS, SAFETY INFORMATION, AND OTHER RESOURCES “AS IS”
+AND WITH ALL FAULTS, AND DISCLAIMS ALL WARRANTIES, EXPRESS AND IMPLIED, INCLUDING WITHOUT LIMITATION ANY
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT OF THIRD
+PARTY INTELLECTUAL PROPERTY RIGHTS.
+These resources are intended for skilled developers designing with TI products. You are solely responsible for (1) selecting the appropriate
+TI products for your application, (2) designing, validating and testing your application, and (3) ensuring your application meets applicable
+standards, and any other safety, security, regulatory or other requirements.
+These resources are subject to change without notice. TI grants you permission to use these resources only for development of an
+application that uses the TI products described in the resource. Other reproduction and display of these resources is prohibited. No license
+is granted to any other TI intellectual property right or to any third party intellectual property right. TI disclaims responsibility for, and you fully
+indemnify TI and its representatives against any claims, damages, costs, losses, and liabilities arising out of your use of these resources.
+TI’s products are provided subject to TI’s Terms of Sale, TI’s General Quality Guidelines, or other applicable terms available either on
+ti.com or provided in conjunction with such TI products. TI’s provision of these resources does not expand or otherwise alter TI’s applicable
+warranties or warranty disclaimers for TI products. Unless TI explicitly designates a product as custom or customer-specified, TI products
+are standard, catalog, general purpose devices.
+TI objects to and rejects any additional or different terms you may propose.
+IMPORTANT NOTICE
+
+                                                Copyright © 2025, Texas Instruments Incorporated
+                                                                Last updated 10/2025
+

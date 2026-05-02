@@ -1,0 +1,685 @@
+WIRELESS POWER
+   CONSORTIUM
+
+
+
+
+Qi Specification
+
+ Introduction
+
+
+
+
+  Version 1.3
+ January 2021
+   WIRELESS POWER                           Qi Specification                                        Version 1.3
+      CONSORTIUM
+                                             Introduction
+
+
+
+
+COPYRIGHT
+
+      © 2021 by the Wireless Power Consortium, Inc. All rights reserved.
+      Photos of the TYLT Vu wireless charger are copyrighted by Technocel and are reprinted by
+      permission.
+      The Qi Specification, Introduction, is published by the Wireless Power Consortium and has been
+      prepared by the members of the Wireless Power Consortium. Reproduction in whole or in part is
+      prohibited without express and prior written permission of the Wireless Power Consortium.
+
+
+DISCLAIMER
+
+      The information contained herein is believed to be accurate as of the date of publication,
+      but is provided “as is” and may contain errors. The Wireless Power Consortium makes no
+      warranty, express or implied, with respect to this document and its contents, including any
+      warranty of title, ownership, merchantability, or fitness for a particular use or purpose.
+      Neither the Wireless Power Consortium, nor any member of the Wireless Power
+      Consortium will be liable for errors in this document or for any damages, including indirect
+      or consequential, from use of or reliance on the accuracy of this document. For any further
+      explanation of the contents of this document, or in case of any perceived inconsistency or ambiguity
+      of interpretation, contact: info@wirelesspowerconsortium.com.
+
+
+RELEASE HISTORY
+
+    Specification Version         Release Date      Description
+
+             1.3                  January 2021      Initial release of this document.
+
+
+
+
+                                                                                  Wireless Power Consortium, Inc.
+                                                   2
+  WIRELESS POWER                                                      Qi Specification                                                                               Version 1.3
+    CONSORTIUM
+                                                                       Introduction
+
+
+
+
+Table of contents
+
+    1 About the Wireless Power Consortium. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+
+    2 What is the Qi wireless power transfer system? . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+
+    3 How Qi wireless power transfer works. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+    3.1    Basic concepts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+    3.2    Examples of Qi wireless products. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+
+    4 Qi wireless power transfer features . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+    4.1    Power levels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+    4.2    Operating frequency . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+    4.3    Charging area . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+    4.4    Coupling requirements . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+    4.5    Communication protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+    4.6    Foreign object handling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+
+    5 Structure of the Qi Specification . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+
+    6 Product certification and registration. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+
+
+
+
+                                                                                                                                        Wireless Power Consortium, Inc.
+                                                                                  3
+  WIRELESS POWER                               Qi Specification                                        Version 1.3
+    CONSORTIUM
+                                                Introduction                  About the Wireless Power Consortium
+
+
+
+
+1 About the Wireless Power Consortium
+    The Wireless Power Consortium (WPC) is a worldwide organization that develops and promotes
+    the global interface standard for wireless power transfer called Qi1. Interface standards ensure the
+    interoperability of devices that conform to that standard. Supported by more than 600 companies
+    and with thousands of certified products, Qi has become the international wireless-charging
+    standard for hand-held consumer electronics.
+    This document introduces the Qi Specification, which applies to flat surface devices such as mobile
+    phones and tablets that use up to 15 W of power.2
+    The WPC actively investigates new applications for wireless power transfer, such as a cordless
+    kitchen solution that uses Power Transmitters installed underneath countertops and tables that
+    enable a variety of kitchen appliances and smart cookware to operate without power cords.
+    The Qi logo is a registered trademark of the Wireless Power Consortium, and is made available to
+    members of the consortium to display on their products after successfully completing the test and
+    certification procedure outlined in Chapter 6, Product certification and registration. A database of
+    certified Qi products is maintained on the WPC’s public Web site where consumers can look up
+    products to see whether they have been tested for compliance with the Qi standard and for
+    interoperability with other Qi wireless products.
+
+
+
+
+        1
+            Qi ( 氣 ; qì) is pronounced “chee,” and is the Chinese word for energy flow or life force.
+        2
+            Version 1.2 of the Qi Specification introduced fast charging, which covers transmitter and
+            receiver products that use up to 15 W of power. However, the architectural limit of the extended
+            power profile is about 30 W, which will accommodate a growing family of Qi product designs.
+
+
+
+                                                                                       Wireless Power Consortium, Inc.
+                                                      4
+  WIRELESS POWER                          Qi Specification                                      Version 1.3
+    CONSORTIUM
+                                           Introduction              What is the Qi wireless power transfer
+                                                                                                   system?
+
+
+
+
+2 What is the Qi wireless power transfer system?
+    The powering of hand-held devices is continuing to evolve. Originally, electrical devices had to be
+    plugged directly into outlets, and the range of operation was limited by the length of the power
+    cord. Next came disposable batteries that severed the power cord’s range restriction.
+          Figure 1. Corded appliance (c. 1950) to battery-powered consumer electronics (c. 1955)
+
+
+
+
+    In recent years, rechargeable batteries have all but replaced disposable batteries, eliminating the
+    need to purchase, store, and throw large quantities of these batteries into landfills. But for
+    frequently-used devices—smartphones in particular—recharging became a daily ritual of plugging
+    and unplugging charging cables.
+    A new era of convenience emerged in 2011 when the first Qi wireless smartphone case was
+    introduced, followed shortly thereafter by smartphones with built-in Qi wireless support. Qi
+    wireless devices need only to be set down on a Qi wireless charger for recharging to occur. The
+    device remains unplugged and ready to be picked up and used at any moment. With the
+    deployment of Qi chargers in cars, enterprises, and public locations, it becomes possible to no
+    longer worry about running out of charge or carrying charger cables.
+    Figure 1 and Figure 2 show the evolution of corded power to wirelessly-charged portable devices.
+
+
+
+
+                                                                              Wireless Power Consortium, Inc.
+                                                 5
+WIRELESS POWER                              Qi Specification                                        Version 1.3
+  CONSORTIUM
+                                             Introduction                What is the Qi wireless power transfer
+                                                                                                       system?
+
+
+
+   Figure 2. Plug-in rechargeable mobile phones (c. 1999) to wirelessly-charged3 smartphones (since
+                                                2012)
+
+
+
+
+  The adoption of the Qi standard has grown significantly since the first products were introduced. In
+  a 2014 consumer survey conducted by IHS Inc., 36% of consumers in China, the UK, and the U.S.
+  said they had heard of wireless charging. One year later that number doubled, reaching 76%
+  consumer awareness. In 2015 more than 150 million Qi systems have been shipped, over 83% of
+  smartphone users wanted wireless charging, and over 80 phone models around the world were Qi-
+  enabled. From 2016 to 2018, the number of consumers who use wireless charging has grown from
+  10% to 40%, and awareness of the wireless power technology has increased to 89%.
+  Qi wireless chargers are becoming more prevalent and are appearing in varied forms. There are
+  three basic categories of chargers: desktop chargers, power banks, and embedded chargers.
+  Desktop chargers may be in the form of a charging pad or stand, and power banks similar but are
+  designed for travel and contain batteries to provide power when it cannot be plugged in to an
+  outlet. Embedded chargers may be built into furniture, automobiles, other appliances like clock-
+  radios or computer monitors, or provided in public locations like restaurants and hotel rooms. The
+  largest demand for chargers is for home use, autos, and offices, but the deployment of public
+  chargers has contributed significantly to public awareness.
+  The continued growth of Qi wireless devices and chargers is also reducing the need for product-
+  specific cables (see Figure 3). This simplifies charging for consumers and reduces the frequent
+  failure of the device’s charging connector. As wireless charging becomes ubiquitous throughout the
+  consumer’s journey, it will be possible to decrease the size of the battery, and with it, the size,
+  weight, and cost of the device itself.
+  The Qi wireless power transfer system offers both a solution to the daily inconvenience of handling
+  cables and adapters, as well as an opportunity for manufacturers to further distinguish their
+  products in the marketplace.
+
+
+
+
+      3
+          Photo of the TYLT Vu wireless charger (right) is reprinted by permission from
+          Technocel.
+
+
+
+                                                                                  Wireless Power Consortium, Inc.
+                                                   6
+WIRELESS POWER                        Qi Specification                                      Version 1.3
+  CONSORTIUM
+                                       Introduction              What is the Qi wireless power transfer
+                                                                                               system?
+
+
+
+                 Figure 3. Cable clutter can be replaced with Qi wireless charging
+
+
+
+
+                                                                          Wireless Power Consortium, Inc.
+                                             7
+  WIRELESS POWER                           Qi Specification                                     Version 1.3
+    CONSORTIUM                              Introduction               How Qi wireless power transfer works
+
+
+
+
+3 How Qi wireless power transfer works
+
+3.1 Basic concepts
+    The Qi wireless power transfer system uses magnetic induction to transfer power from a Power
+    Transmitter Product (charger) to a Power Receiver Product (smartphone).
+                           Figure 4. A Qi wireless smartphone on a charging pad
+
+
+
+
+    Within these products are Power Transmitter (PTx) and Power Receiver (PRx) subsystems, which
+    contain coils, as shown in the conceptual diagram in Figure 5, as well as circuitry that handles the
+    communication and power transfer between them.
+                                 Figure 5. Coils in charger and smartphone
+
+
+
+                        Power cable
+
+                                                                                                 PRx coil
+                                         PTx coil
+
+
+
+
+    The basic physical principle that governs the functionality defined in the Qi wireless power transfer
+    specification is magnetic induction: the phenomenon that a time-varying magnetic field generates
+
+
+
+                                                                               Wireless Power Consortium, Inc.
+                                                    8
+WIRELESS POWER                             Qi Specification                                    Version 1.3
+  CONSORTIUM
+                                            Introduction              How Qi wireless power transfer works
+
+
+
+
+  an electromotive force in a suitably positioned inductor. In a Qi wireless power transfer system, this
+  electromotive force produces a voltage across the terminals of a coil-shaped inductor, and is used to
+  drive the electronics of an appropriate load to which it is connected. Conventional transformers use
+  the same effect to achieve inductive power transfer between a primary and a secondary coil that
+  are strongly coupled by means of a magnetic core.
+  Although a Qi-based system is similar to a conventional transformer in the sense that power is
+  transferred from a first coil to a second coil, it is also very different because of the much lower
+  magnetic coupling between those coils. A conventional transformer has a magnetic coupling
+  coefficient close to one, whereas a Qi-based system typically has a magnetic coupling coefficient in
+  the range of 0.5 or below.
+  In the Qi-based system illustrated in Figure 4, power is transferred from the Power Transmitter
+  contained in the Qi charging pad to a Power Receiver contained in the Qi smartphone. Before
+  charging begins, the Power Receiver and Power Transmitter communicate with each other to
+  establish that the Power Receiver Product is indeed capable of being charged, whether it needs to
+  be charged, how much power is required, etc. In short, the communication ensures an appropriate
+  power transfer from the Power Transmitter Product to the Power Receiver Product. The
+  communication channel can also be used to trigger location based services by providing an SSID, a
+  Bluetooth® link, or a unique ID.
+  When charging begins, the Power Transmitter runs an alternating electrical current through its
+  coil(s), which generates an alternating magnetic field in accordance with Faraday's law. This
+  magnetic field is in turn picked up by the coil inside the Power Receiver and transformed by a
+  power converter back into a direct electrical current that can be used to charge the battery.
+  A critical feature of the magnetic field is that it can transfer through any non-metallic, non-ferrous
+  materials, such as plastics, glass, water, wood, and air. In other words, wires and connectors are not
+  needed between the Power Transmitter Product and Power Receiver Product.
+                     Figure 6. Qi wireless power transfer using magnetic induction
+
+                                                Smartphone
+
+
+
+
+                                                                  PRx coil in
+                                                                  smartphone
+
+                                    Magnetic field
+
+
+                                                                  PTx coil in
+                                                                  charging pad
+
+
+
+
+                                                                         Power cable
+
+                                                Charging pad
+
+
+
+
+                                                                                 Wireless Power Consortium, Inc.
+                                                     9
+   WIRELESS POWER                            Qi Specification                                    Version 1.3
+      CONSORTIUM
+                                              Introduction              How Qi wireless power transfer works
+
+
+
+
+3.2 Examples of Qi wireless products
+
+3.2.1 Power Receiver Products
+      Qi wireless charging is a feature available in dozens of smartphones, and many of the major
+      smartphone makers are participating members of the WPC.
+      Wireless charging is also appearing in a growing number of other consumer product
+      categories—smart watches, power banks, Bluetooth headsets, cameras, electric shavers, etc.
+      Virtually anything that uses a rechargeable battery can be designed to use Qi wireless technology.
+      However, Qi wireless power transfer is not limited to charging batteries: it can also be used to
+      power devices that require electric current and will remain stationary while in use, such as desktop
+      lamps or speakers.
+
+
+3.2.2 Chargers
+      Qi wireless Power Transmitter Products are generally either standalone wireless chargers or they
+      are integrated into other products, such as furniture, lamps, alarm clocks, audio speakers, etc.
+      Examples of standalone Power Transmitter Products include:
+         charging pads, which lie flat on a table or desktop
+         charging stands, which are designed to hold a smartphone upright in a viewing position while
+          charging
+         power banks, which are similar to charging pads, but contain internal batteries as a portable
+          power source
+      Standalone charging pads, charging stands, and power banks typically require a 5 V/2-Amp AC
+      adapter in order to draw sufficient power from an electrical outlet, as well as a USB cable from the
+      adapter to the charger.
+      Power Transmitters that are embedded in lamps, clocks, or other plug-in appliances do not require
+      a separate AC adapter, because the product plugs directly into an electrical outlet and internal
+      circuitry routes the necessary power to the Power Transmitter component. Similarly, autos that
+      feature an integrated Power Transmitter Product in the dash or console use the internal wiring to
+      draw power from the car’s electrical system.
+
+
+
+
+                                                                                Wireless Power Consortium, Inc.
+                                                   10
+  WIRELESS POWER                           Qi Specification                                      Version 1.3
+    CONSORTIUM
+                                            Introduction                 Qi wireless power transfer features
+
+
+
+
+4 Qi wireless power transfer features
+
+4.1 Power levels
+    The Qi Specification applies to wireless power transfers of at least 5 W and up to the architectural
+    limit of about 30 W of load power. The actual amount of power that can be transferred between the
+    Power Transmitter and Power Receiver is subject to negotiation between them during the
+    communication phases that occur before power transfer. The Power Receiver requests a certain
+    amount of power appropriate for the device to be charged, and the Power Transmitter will deliver
+    the requested amount. This communication assures interoperability between Qi wireless products
+    in the Baseline Power Profile (≤ 5 W) and in the Extended Power Profile (up to 15 W).
+    For example, if the Power Receiver is designed to be charged by a 15 W Power Transmitter but is
+    placed on a 5 W Power Transmitter, the Power Receiver may allow charging at a slower rate.
+    Conversely, if a 5 W Power Receiver is placed on a 15 W Power Transmitter, the Power Receiver
+    will instruct the Power Transmitter to send no more than 5 W of power.
+    Power profiles also describe the communication capabilities between the Power Receiver and
+    Power Transmitter. The earliest versions of Qi Specification (versions 1.0 and 1.1) introduced a
+    simple unidirectional communication protocol from the Power Receiver to the Power Transmitter
+    for power transfers ≤ 5 W. This is now known as the Baseline Protocol.
+    Version 1.2 of Qi Specification introduced an extended protocol for bidirectional communication
+    between the Power Receiver and the Power Transmitter. This extended communications protocol
+    enables enhanced foreign object detection features (see section 4.6), and applies to power
+    transfers up to 15 W.
+
+
+4.2 Operating frequency
+    The operating frequency typically is in the range of 87 to 205 kHz. A Power Transmitter can—but
+    does not have to—use the operating frequency to control the amount of power that is transferred
+    to a Power Receiver. For this purpose, the frequency response of the Power Transmitter/Power
+    Receiver system typically has a resonance near the lower end of the operating frequency range. A
+    lower operating frequency results in a higher amount of power transferred and a higher frequency
+    in a lower amount of power.
+
+
+
+
+                                                                               Wireless Power Consortium, Inc.
+                                                 11
+  WIRELESS POWER                           Qi Specification                                      Version 1.3
+    CONSORTIUM
+                                            Introduction                 Qi wireless power transfer features
+
+
+
+
+4.3 Charging area
+    The power transfer system in the Qi Specification is based on a single coil in the Power Transmitter
+    that has an outer diameter of 50 mm (2 in), and a coil in the Power Receiver that has an outer
+    diameter of 40 mm (1.6 in). Actual Power Transmitter and Power Receiver implementations may
+    deviate from these dimensions, as long as they are able to pass all relevant Qi compliance tests.
+    In a typical use case, a Power Receiver Product is positioned on the top surface of a Power
+    Transmitter Product with the Power Transmitter coil and the Power Receiver coil aligned. Ideally,
+    the coils should be perfectly aligned for maximum power transfer, but misaligning the coils by
+    several millimeters mm (about ¼ inch) should not be a problem.
+    To accommodate products that require a larger charging area or more tolerance for misalignment,
+    the specification allows for multiple coils in the Power Transmitter to be connected in an array, as
+    seen in triple-coil charging stands that work with Power Receiver Products of different sizes and
+    with different coil locations. Manufacturers can also submit new coil types to be included in the
+    specification to accommodate their design innovations.
+
+
+4.4 Coupling requirements
+    Coupling occurs when current changes in one coil creates a voltage in the other coil via magnetic
+    induction. Coupling is highest—with the most efficient power transfer—when:
+       the Power Transmitter and Power Receiver use exactly the same coil
+       the Power Transmitter and Power Receiver are perfectly aligned
+       the distance between the coils is small (less than the diameter of the coils)
+       the coils are externally shielded by ferrite
+    Conditions that decrease coupling (and power transfer efficiency) include different Power
+    Transmitter/Power Receiver coil sizes and shapes, coil misalignment, excessive distance between
+    coils, and the presence of foreign objects on the Power Transmitter Product.
+
+
+4.5 Communication protocol
+    To set up power transfer and assist in its control, a Power Transmitter and Power Receiver execute
+    a communication protocol with each other. The Power Receiver uses amplitude shift keying to
+    communicate requests and other information to the Power Transmitter by modulating its reflected
+    impedance. The Power Transmitter uses frequency shift keying (FSK) to provide synchronization
+    and other information to the Power Receiver by modulating its operating frequency.
+
+
+
+
+                                                                               Wireless Power Consortium, Inc.
+                                                 12
+  WIRELESS POWER                            Qi Specification                                        Version 1.3
+    CONSORTIUM
+                                             Introduction                   Qi wireless power transfer features
+
+
+
+
+4.6 Foreign object handling
+    The alternating magnetic field between a Power Transmitter and a Power Receiver can induce eddy
+    currents in electrically-conductive materials that are exposed to the field. The eddy currents cause
+    those materials to heat up. Friendly metals—metallic parts that are used in the construction of
+    Power Transmitter and Power Receiver Products—are usually shielded from the magnetic field,
+    which prevents them from heating up substantially. Foreign objects with electrically-conductive
+    materials that are placed in the field, such as coins, keys, paper clips, etc., are not part of the
+    wireless charging system and are not protected by the shielding in either the Power Transmitter or
+    the Power Receiver Products.
+    NOTE: Some special-purpose smartphone cases may contain metallic objects, such as external decorations or
+          internal metallic layers. These objects may affect the efficiency of the wireless power transfer or
+          prevent it altogether.
+    Neither the Power Transmitter nor the Power Receiver can prevent foreign objects from being
+    placed in the field, because they cannot control a user’s actions. However, the Power Transmitter
+    and/or Power Receiver have to detect the presence of such foreign objects and take appropriate
+    action to prevent the objects from heating up to unacceptably high temperatures.
+    Typically, only the Power Transmitter has sufficient knowledge of the extent and strength of its
+    magnetic field to determine whether foreign objects are present. However, a complication is that
+    the Power Transmitter cannot by itself distinguish between foreign objects and friendly metals that
+    are insufficiently shielded. In order to reliably detect foreign objects, the Power Transmitter
+    therefore needs to receive appropriate information from each Power Receiver it is serving. The Qi
+    Specification defines the kind of information that a Power Receiver has to provide for this purpose.
+    However, the specification does not define a single method for foreign object detection (FOD) that a
+    Power Transmitter has to apply. Instead, compliance testing verifies that a Power Transmitter does
+    not heat up a set of reference foreign objects in a set of reference scenarios.
+
+
+
+
+                                                                                  Wireless Power Consortium, Inc.
+                                                   13
+    WIRELESS POWER                               Qi Specification                                      Version 1.3
+        CONSORTIUM
+                                                  Introduction                    Structure of the Qi Specification
+
+
+
+
+5 Structure of the Qi Specification
+        The Qi Specification is developed and maintained by members of the Wireless Power Consortium.
+        The specification comprises this introduction plus the following documents.
+
+Table 1: Qi Specification documents and topics
+
+ Document name                               Topics
+
+ Glossary                                         Definitions
+                                                  Acronyms
+                                                  Symbols
+
+ Mechanical, Thermal, and User Interface          Power Receiver design requirements
+                                                  Mechanical design guidelines (Informative)
+                                                  Interface Surface temperature rise
+                                                  User interface requirements
+
+ Power Delivery                                   Power Receiver construction
+                                                  Power Receiver design guidelines (informative)
+                                                  Power Transmitter construction
+                                                  Power consumption
+                                                  Meaningful functionality
+                                                  Unintentional magnetic field susceptibility (informative)
+                                                  Load steps
+                                                  Over-voltage protection
+                                                  External power input (informative)
+                                                  Power levels (Extended Power Profile only)
+                                                  System efficiency (informative)
+                                                  Stand-by power (informative)
+                                                  Object detection (informative)
+                                                  Power Receiver localization (informative)
+
+ Communications Physical Layer                    Load modulation
+                                                  Frequency-Shift Keying
+
+ Communications Protocol                          Power Receiver and Power Transmitter identification
+                                                  Ping phase
+                                                  Configuration phase
+                                                  Negotiation phase
+                                                  Power transfer phase
+                                                  Power Receiver data packets
+                                                  Power Transmitter data packets
+
+ Foreign Object Detection                         Avoidance of Foreign Object Heating
+                                                  Pre-power transfer FOD methods
+                                                  In-power transfer FOD methods
+                                                  Determining the reference FOD values (informative)
+
+
+
+
+                                                                                     Wireless Power Consortium, Inc.
+                                                       14
+    WIRELESS POWER                              Qi Specification                                       Version 1.3
+        CONSORTIUM
+                                                 Introduction                     Structure of the Qi Specification
+
+
+
+
+Table 1: Qi Specification documents and topics (Continued)
+
+ Document name                              Topics
+
+ NFC/RFID Card Protection                        NFC/RFID card detection by a Power Transmitter
+                                                 NFC/RFID card detection by a Power Receiver
+                                                 Object detection using the NFC unit
+                                                 Testing the impact of a Power Transmitter on an NFC/RFID
+                                                  device
+
+ Authentication Protocol                         Certificates and Private Keys
+                                                 Authentication protocol
+                                                 Authentication messages
+                                                 Timing requirements
+                                                 Protocol flow examples
+                                                 Cryptographic examples
+
+ Power Transmitter Reference Designs             Power Transmitter reference designs A1 to Ax and B1 to Bx
+                                                 Power Transmitter reference designs MP-A1 to MP-Ax and
+                                                  MP-B1 to MP-Bx
+
+ Power Receiver Design Examples                  Power Receiver design examples 1 - 5
+
+ Power Transmitter Test Tools                    Test Power Receivers
+ (restricted-access document)                    Default configurations
+                                                 Representative Foreign Objects (normative)
+
+ Power Receiver Test Tools                       Test Power Transmitters
+ (restricted-access document)                    Default configurations
+
+ Power Transmitter Compliance Tests              Self-Declaration Form consistency check
+ (restricted-access document)                    Conformance to mechanical and thermal requirements
+                                                 Conformance to power delivery requirements
+                                                 Conformance to communications physical layer
+                                                  requirements
+                                                 Conformance to communications protocol requirements
+                                                 Conformance to authentication requirements
+                                                 Conformance to Foreign Object Detection requirements
+
+ Power Receiver Compliance Tests                 Self-Declaration Form consistency check
+ (restricted-access document)                    Conformance to mechanical and thermal requirements
+                                                 Conformance to power delivery requirements
+                                                 Conformance to communications physical layer
+                                                  requirements
+                                                 Conformance to communications protocol requirements
+                                                 Conformance to authentication requirements
+                                                 Conformance to Foreign Object Detection requirements
+
+
+
+
+                                                                                     Wireless Power Consortium, Inc.
+                                                      15
+WIRELESS POWER                             Qi Specification                                       Version 1.3
+  CONSORTIUM
+                                            Introduction                     Structure of the Qi Specification
+
+
+
+
+  NOTE: All of the specification documents are available for public download on the WPC Web site except for
+        the following, which are restricted to members of the WPC.
+          Power Transmitter Test Tools
+          Power Receiver Test Tools
+          Power Transmitter Compliance Tests
+          Power Receiver Compliance Tests
+
+
+
+
+                                                                                Wireless Power Consortium, Inc.
+                                                 16
+  WIRELESS POWER                               Qi Specification                                          Version 1.3
+    CONSORTIUM
+                                                Introduction                   Product certification and registration
+
+
+
+
+6 Product certification and registration
+    In order to carry the Qi logo on a product, the product designer must sign the Logo License
+    Agreement with the WPC and submit product samples for compliance and interoperability testing
+    to demonstrate that the product is both fully compliant with Qi Specification and will work with
+    other registered Qi products.
+    Product certification occurs in two stages:
+    1.   The product must pass all relevant compliance tests in a WPC-authorized test lab (ATL), as
+         defined in the Qi Specification, Power Transmitter Compliance Tests or in the Qi Specification,
+         Power Receiver Compliance Tests.
+    2.   The product must pass all compatibility tests with currently-registered Qi products in an Inter-
+         Operability Center (IOC).
+    When all tests are successfully completed, the product will be registered with the WPC, that is, it
+    will be added to the database of certified Qi products on the WPC public Web site and will be
+    granted permission to carry the Qi logo. Details are found in the publication, Qi Product Testing
+    Procedure, which is available for download to WPC members. Here are some of the main points to
+    consider.
+        Product development. It is recommended to use the latest version of the Qi Specification, since
+         earlier versions are eventually phased out. Also, to avoid any unnecessary rejections by an
+         authorized test lab, product manufactures are strongly encouraged to perform self-tests of the
+         new product before arranging for formal compliance testing.
+        Compliance testing. Product designers are free to select an ATL for compliance testing of their
+         product. Some ATLs may offer pre-compliance testing & consultancy. Bear in mind that at least
+         four identical product samples must be submitted for test; two for undergoing tests at the ATL
+         and IOC labs, and the other two to serve as backup samples at these test centers.
+        Test completion. Upon successful completion of compliance testing, the ATL will send a
+         Declaration of Conformance. Similarly, the IOC will issue a declaration of interoperability.
+         Product registration with the WPC will be done by the Logo License Administrator after
+         carefully checking that all required conditions are met.
+    NOTE: Product registration can either be for original products or for substantially-similar products.
+          Substantially-similar products are those that are identical to the original product except for properties
+          that do not influence the wireless power functionality, such as color or brand name. Certifying these
+          products as substantially similar to the previously-certified original product is a simpler procedure
+          since testing is not required.
+    For further information about product certification and registration, please visit the Wireless
+    Power Consortium members’ Web site at https://members.wirelesspowerconsortium.com/
+    members/members-info/product_registration_services/ or send an email with your inquiry to
+    info@wirelesspowerconsortium.com.
+
+
+
+
+                                                                                       Wireless Power Consortium, Inc.
+                                                     17
+

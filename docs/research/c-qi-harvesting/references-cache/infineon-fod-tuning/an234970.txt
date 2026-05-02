@@ -1,0 +1,1777 @@
+AN234970
+
+
+
+  Foreign object detection (FOD) tuning guide for
+  wireless power transmitters
+  Applicable to WLC ICs
+
+  About this document
+  Scope and purpose
+  The wireless charger (WLC) power transmitter solution reference board is a highly integrated wireless solution
+  with Type-C Power Delivery (PD).
+  This application note is a guide to configure the foreign object detection (FOD) parameters required for custom
+  designs based on the WLC power transmitter reference design.
+
+  Intended audience
+  Experts who customize designs based on REF_WLC_TX15W_C1 or REF_WLC_TX50W_N1-based wireless power
+  transmitters.
+
+
+
+
+  Application note   Please read the sections “Important notice” and “Warnings” at the end of this document   002-34970 Rev. *A
+  www.infineon.com                                                                                                  2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Table of contents
+
+
+Table of contents
+About this document ....................................................................................................................... 1
+Table of contents ............................................................................................................................ 2
+1        Introduction .......................................................................................................................... 3
+1.1            Document structure ................................................................................................................................ 3
+2     Getting started ...................................................................................................................... 4
+2.1         FOD mechanism ...................................................................................................................................... 4
+2.1.1          FOD before power transfer ................................................................................................................ 4
+2.1.2          FOD during power transfer ................................................................................................................ 8
+2.1.3          FOD using pre- and in-power transfer methods ............................................................................. 10
+3     FOD parameter tuning ...........................................................................................................14
+3.1        Tuning objectives .................................................................................................................................. 14
+3.2        Required tools ....................................................................................................................................... 15
+3.3        Hardware setup ..................................................................................................................................... 17
+3.4        Q factor scaling factor tuning process .................................................................................................. 18
+3.4.1         Q factor scaling and threshold tuning process ............................................................................... 18
+3.4.2         Q factor-based FOD tuning .............................................................................................................. 19
+3.5        Resonance frequency scaling factor and threshold tuning process ................................................... 20
+3.5.1         Resonance frequency scaling and threshold tuning process......................................................... 21
+3.5.2         Resonance frequency-based FOD tuning ........................................................................................ 23
+3.6        System power loss curve coefficient tuning for REF_WLC_TX15W_C1 ............................................... 24
+3.6.1         Data collection and system loss curve coefficient calculation ...................................................... 24
+3.6.2         Power loss-based FOD tuning.......................................................................................................... 26
+3.7        System power loss curve coefficient tuning for REF_WLC_TX50W_N1 ............................................... 28
+3.7.1         Data collection and system loss curve coefficient calculation ...................................................... 28
+3.7.2         Power loss-based FOD tuning.......................................................................................................... 33
+4        FOD functionality verification.................................................................................................37
+5        Checklist for tuning operation ................................................................................................39
+6        Abbreviations and definitions .................................................................................................40
+7        Appendix A: Finding signal strength ........................................................................................41
+8        Appendix B: Received power offset .........................................................................................42
+9        Appendix C: Enabling UART logs using Wireless Charging Configuration Utility ............................43
+References ....................................................................................................................................44
+Revision history.............................................................................................................................45
+Disclaimer.....................................................................................................................................46
+
+
+
+
+Application note                                                                2                                                             002-34970 Rev. *A
+                                                                                                                                                    2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Introduction
+
+
+1                  Introduction
+This application note serves as a guide to tune the FOD parameters for optimal power transmitter performance.
+The Wireless Charging Configuration Utility enables the user to configure FOD parameters. See [8] and [9] for
+more details on the product reference design, referred to as “reference design” in this document. Contact the
+Infineon sales team for any additional support.
+
+1.1                Document structure
+ Section 2 [Getting started] describes the FOD mechanism recommended by the Qi Standard and the WLC
+    power transmitter approach for the FOD mechanism. Advanced users may skip this section.
+ Section 3 [FOD parameter tuning] describes the data collection, configuration parameter calculation, and
+    updating of the WLC power transmitter using the Wireless Charging Configuration Utility. This section
+    provides the following details:
+    − Q factor scaling factor and threshold tuning: This section defines the process for configuring the
+       scaling factor and thresholds for a Q factor-based FOD approach.
+    − Resonance frequency scaling factor and threshold tuning: This section defines the process for
+       configuring the scaling factor and thresholds for an RF-based FOD approach.
+    − System power loss curve coefficient tuning: This section defines the tuning process to estimate and
+      configure the power loss parameters. These parameters shall be programmed to the WLC power
+      transmitter for aiding FOD using power loss measurements.
+ Section 4 [FOD functionality verification] provides the post-tuning process to validate the configurations
+    and confirm the performance of the new settings the user makes.
+ Section 5 [Checklist for tuning operation] is a checklist of items to be ensured during the tuning operation.
+   The appendices contain normative information for users.
+
+
+
+
+Application note                                       3                                          002-34970 Rev. *A
+                                                                                                        2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+
+2                  Getting started
+The WLC power transmitter provides Qi-compliant FOD features. See the FOD chapter in the Qi Standard for
+further details (see [1] and [4]). The following sections discuss the WLC power transmitter implementation of
+the FOD functionality.
+
+2.1                FOD mechanism
+The Qi Standard defines two mechanisms for FOD:
+1. FOD before power transfer or pre-power transfer method
+2. FOD during power transfer or in-power transfer method
+
+2.1.1              FOD before power transfer
+The pre-power transfer FOD method has the following mechanisms to detect a FO before power transfer
+between Rx and Tx starts:
+1. Q factor FOD (FOD/qf)
+2. Resonance frequency FOD (FOD/rf)
+
+The receiver sends FOD/rf and/or FOD/qf packets during the negotiation phase. The Tx responds to these
+packets with an ACK packet if no FO is found and with a NAK packet if a FO is found. According to Qi, the Rx
+reports the Q factor and resonance frequency values measured to a standard MP-A1 coil. The transmitter
+measures the Q factor and resonance frequency values differently from the receiver-reported values, as it may
+have a different coil. A scaling factor is used to convert the receiver-reported Q factor and resonance frequency
+values to those equivalent to the transmitter coil.
+The scaling factor is a function of the shielding material and friendly materials present in the Rx. This is derived
+from the relationship between the Q factor and resonance frequency devised by the MP-A1 coil and the
+experimentally measured Q factor and resonance frequency values. The scaling factors for the Q factor and
+resonance frequency measurements can be unique. The FOD/qf packets are sent by all extended power profile
+(EPP) receivers compliant with Qi 1.2 or above. The FOD/rf packets are sent by all EPP receivers compliant with
+Qi 1.3 or above.
+
+
+
+
+Application note                                         4                                           002-34970 Rev. *A
+                                                                                                           2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+
+
+
+                                Test Receiver without FO
+
+
+                                                                                   Q FO detection threshold
+
+
+                                                               Test Receiver
+                                                                 with FO
+
+
+
+
+Figure 1           FOD mechanism based on Q factor
+
+
+Q factor: This involves the measurement of the Q factor when an EPP TPR is placed on the interface surface of
+the transmitter. All the EPP TPRs report the reference Q factor measured with an MP-A1 transmitter coil. The
+transmitter controller needs to apply a scaling factor to derive the reference Q factor value with its transmitter
+coil (i.e., the coil considered for transmitter design). Compare the measured Q factor by the WLC power
+transmitter with the Q FO detection threshold, which is calculated from the scaled reference Q factor.
+Comparison of the measured Q factor with the Q FOD threshold determines the FO presence on the interface
+surface before the power transfer starts. The FO is detected if the difference between the measured and
+receiver-reported reference Q factor (FOD/qf packet) is less than the threshold. The measured Q factor includes
+a scaling factor [7].
+If Qrep is the receiver-reported Q factor and Qscl is the scaled Q factor, then,
+                                                           Qscl = Sfactor * Qrep                              Equation 1
+
+Where Sfactor is the scaling factor for the custom transmitter. FO detection occurs when:
+                                                           Qmeas < Qthreshold                                 Equation 2
+
+Where Qthreshold is the threshold Q factor and Qmeas is the measured Q factor. The measurement of Qthreshold and its
+relation with Qscl is explained in [11].
+
+
+
+
+Application note                                                               5                                002-34970 Rev. *A
+                                                                                                                      2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+Resonance frequency: This involves measurement of the resonance frequency (RF) when an EPP TPR is placed
+on the interface surface of the Tx. The reported RF is scaled to the Tx coil type by using a scaling factor. The
+measured RF is compared with the scaled RF and if the shift (difference) in RF is greater than the threshold, FO
+presence is confirmed.
+The resonance frequency (in Hz) is derived from the supporting data as follows:
+                                      Fres = (2 * FOD/rf supporting data) + 72                                            Equation 3
+
+                                                  Fscaled = ScalingFactor * Fres                                          Equation 4
+
+                                            Fthreshold = Fscaled * Threshold_percent                                      Equation 5
+
+
+Where Fres is the reported RF, Fscaled is the scaled RF, and Fthreshold is the threshold RF. Threshold_percent and
+ScalingFactor are configurable from the Wireless Charging Configuration Utility.
+
+                                                                                                                               Higher
+                                                                                                                           threshold of RF
+
+               FO present
+
+
+                   NO FO
+                                                                                                                          Scaled RF
+                                                     Test Receiver1 without FO
+
+
+
+                                                                                 Test Receiver with FO2
+
+
+
+
+                                                                                                                              Lower
+                                                                                                          Test Receiver
+                                 Test Receiver2
+
+
+
+
+                                                                                                                          threshold of RF
+                                  without FO
+
+
+
+
+                                                                                                            with FO1
+
+
+
+
+               FO present
+
+
+
+
+Figure 2            Resonance frequency-based FOD
+
+
+
+
+Application note                                                                 6                                              002-34970 Rev. *A
+                                                                                                                                      2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+
+
+                                                                                                      Higher
+                                                                                                  threshold of RF
+
+            FO present
+
+
+
+                                                                                                  Scaled RF
+                                         Test Receiver1 without FO
+
+
+
+                                                                         Test Receiver with FO2
+                   NO FO
+
+
+
+
+Figure 3           Resonance frequency-based FOD for REF_WLC_TX50W_N1
+
+
+The FO is detected if the difference between the measured and scaled reference resonance frequency is greater
+than the threshold. “ScalingFactor” and “Threshold_percent” are configurable from the Wireless Charging
+Configuration Utility.
+In case of a FOD, the Tx responds to the FOD/rf or FOD/qf packets with a NAK packet leading to immediate
+power disconnect. The communication is re-established only after the object is removed. See the user manual
+for LED user interface for FO detection.
+
+
+
+
+Application note                                                     7                              002-34970 Rev. *A
+                                                                                                          2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+
+2.1.2                 FOD during power transfer
+The power loss FOD mechanism involves measuring the transmitter power periodically during power transfer
+and comparing the measured power with the loss curve estimates given by the receiver. To improve the
+reliability and accuracy of FOD, additional methods are introduced by the WLC power transmitter.
+
+
+                                            Measured system power loss
+           300
+           250                                                       System Power Loss Curve
+           200
+                                                                     CorrectedLosses
+ Losses (mW)
+
+
+
+
+           150
+           100
+               50
+                0 0    2000     4000      6000         8000       10000        12000      14000   16000    18000    20000
+               -50
+         -100
+         -150
+                                                               PRx (mW)
+
+Figure 4              Typical power loss measurement with power delivery range
+
+
+System power loss: The FO is detected if the measured system power loss exceeds the system power loss
+threshold value. See [2] for more details on the FOD techniques recommended by the Qi Standard.
+Accurate FOD requires reference to the power loss calibrated parameter data for a given hardware design and
+interface surface height (Z-axis). This reference calibration data is required to compensate for the power loss
+balance deviations induced by the system. The WLC power transmitter system power loss varies with
+transmitter power delivery range, receiver device coupling factor, temperature, etc. Section 3.5 shows a typical
+power loss measurement over the power delivery range and the respective loss correction curve. This is a
+typical behavior of loss correction along with the system power losses.
+Initiates power loss calculations on receipt of an RPP. The calibrated transmitter power is derived from the RP
+value as follows:
+                                       PTx_calib = a * PRx2 + b * PRx + c                            Equation 6
+
+Where a, b, and c are the system power loss curve coefficients. These coefficients are unique for each power
+transfer mode as follows:
+ EPP 15 watt (EPP15W): Representative test power receiver (TPR) is TPR#MP3. The load power typically
+      ranges from 300 mW to 15 W.
+ EPP 5 watt (EPP5W): Representative TPR is TPR#7. The load power typically ranges from 300 mW to 5 W.
+ Baseline power profile (BPP): Representative TPR is TPR#5. The load power typically ranges from 300 mW to
+      5 W.
+
+
+
+Application note                                                 8                                           002-34970 Rev. *A
+                                                                                                                   2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+Infineon High Power Proprietary Protocol: Representative test power receiver (TPR) is Infineon High Power.
+The load power typically ranges from 300 mW to 50 W. A system power loss curve is used to account for the
+losses from the transmitter. The power loss equation relates the transmitter power and the reported power as
+follows:
+                                                       Ploss = PTx – PTx_calib                                       Equation
+                                                                                                                      7
+
+Where PTx_calib is derived from Equation 6. The criteria for FO presence are:
+                                                             Ploss >= PThreshold                                          Case 1
+                                                            Ploss >= PThreshold_max                                       Case 2
+
+Where PThreshold and PThreshold_max are configuration parameters:
+                                                              PThreshold_max > PThreshold
+
+Case 1 represents the region 1 and Case 2 represents the region 2 in Figure 5.
+
+
+
+
+                                FO present with high power dissipation in FO.
+
+                                                                                                 2
+                                                                                                     Threshold_max
+                                            FO detected.
+
+                                                                                                 1
+                                                                             Receiver with FO1
+                                                Receiver with FO2
+
+
+
+
+                                                                                                     FO Threshold
+                               without FO
+                                Receiver
+
+
+
+
+Figure 5           FOD mechanism based on system power loss
+
+
+The thresholds for FOD can be configured. See section 3.6 for tuning thresholds for power loss-based FOD.
+
+
+
+
+Application note                                                         9                                               002-34970 Rev. *A
+                                                                                                                               2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+
+2.1.3              FOD using pre- and in-power transfer methods
+Figure 6 illustrates the free-air Q factor FOD mechanism. The object detection mechanism identifies the
+placement of an object and initiates the Qi communication stack, which involves pre- and in-power transfer
+FOD mechanisms. Measure the pre-power transfer data by the Tx during the analog pings. Upon object
+detection, the free-air FOD method finds FOs. If the device is a valid receiver, it proceeds to the identification
+and configuration phases. The FOD/qf packet exchanges for an EPP device optimize the FOD for EPP devices.
+The WLC’s patented Q factor-based FOD mechanism identifies the FOs already present or while entering the
+interface field before power transfer starts.
+A power loss-based FOD mechanism identifies FOs, which may enter the interface surface after power transfer.
+The WLC power transmitter uses a combination of both Q factor and power loss-based mechanisms for optimal
+and efficient FOD in BPP and EPP devices. Refer to the user manual for UI indication for FOD.
+
+                                                   BPP and EPP devices
+
+                                 Measure the
+                                                             0
+                               open air Q-factor
+
+
+
+                                                      Receiver / FO
+                                                    arrival detection
+
+                                    Is the
+                               measured Q less
+                                                       Yes         FO detected by
+                                  than the
+                                                                      Q-factor
+                                open Air FO
+                                 threshold?
+
+
+
+                                         No
+
+                          1      Proceed to                      Wait till the object
+                                 digital ping                    is removed, LED UI
+                                                                      indication
+
+Figure 6           Procedure for free-air Q factor FOD in BPP, EPP, and High Power devices
+
+
+
+
+Application note                                        10                                           002-34970 Rev. *A
+                                                                                                           2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+Figure 7 illustrates the FOD using Q factor mechanism.
+
+                                                                    EPP device
+
+                                                                  Continued from 1
+
+
+
+                                                             Process the FOD/qf packet
+                                                                   from receiver
+
+
+
+
+                                                                      Is the
+                            NAK the FOD/qf                     measured Q less than
+                           packet indicating                           the
+                               an FO              Yes          reference threshold ?
+
+
+
+                                                                    No
+                          Wait till the object
+                          is removed, LED UI
+                              indication                     Valid TPR/Smart phone.
+                                                             ACK the FOD/qf packet
+
+
+
+
+                                                                 Proceed to next
+                                                                    phase
+
+Figure 7           Procedure for Q factor FOD in High Power and EPP devices
+
+
+
+
+Application note                                        11                               002-34970 Rev. *A
+                                                                                               2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+Figure 8 illustrates FOD using the resonance frequency mechanism.
+
+
+                                                                EPP device
+
+                                                              Continued from 1
+
+
+
+                                                          Process the FOD/rf packet
+                                                                from receiver
+
+
+
+
+                                                                     Is the
+                          NAK the FOD/rf                       difference in RF
+                         packet indicating                     measurements
+                              an FO                 Yes         greater than
+                                                                  threshold?
+
+
+
+                                                                  No
+                        Wait till the object
+                        is removed, LED UI
+                                                          Valid TPR/Smart phone.
+                             indication
+                                                           ACK the FOD/rf packet
+
+
+
+
+                                                              Proceed to next
+                                                                  phase
+
+Figure 8           Procedure for resonance frequency FOD on High Power and EPP devices
+
+
+
+
+Application note                                    12                                   002-34970 Rev. *A
+                                                                                               2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Getting started
+
+
+                                    BPP and EPP devices
+
+                                       In power transfer
+                                            phase
+
+
+
+
+                                          Is the load
+              Wait for load
+                                         stable (load
+              to stabilize.    No
+                                         transition)?
+
+
+                                         Yes
+
+                                        Calculate the
+                                      system power loss
+
+
+
+
+                                          Is the loss
+                                        exceeding the           Yes    FO detected with
+                                         threshold_                   maximum power loss.
+                                             max?
+
+
+
+                                                 No                                         Wait till the object
+                                                                                            is removed, LED UI
+                                                                                                 indication
+
+
+
+                                          Is the loss
+                                                            Yes       FO detected with
+                                        exceeding the
+                                                                        power loss.
+                                         threshold?
+
+
+
+
+                                                                        Are the user
+                                                                        configured          Yes
+                                                                           retries
+                                                 No                      complete?
+                                      Continue the power
+                                           transfer.
+
+
+
+                                                                               No
+
+Figure 9           Procedure for FOD using power loss mechanism on High Power, EPP, and BPP devices
+
+
+As shown in Figure 9, the system power loss measurements start only after a stable load condition. This is
+ensured by checking the control error packet (CEP) value.
+
+
+
+Application note                                           13                                              002-34970 Rev. *A
+                                                                                                                 2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+3                  FOD parameter tuning
+FOD parameter tuning is required when the reference design of the WLC power transmitter is changed. The
+following changes from the WLC power transmitter reference design will result in a need to retune the FOD:
+1. Transmitter coil used in the design
+2. Change in any shielding or packaging of the transmitter coil
+3. Spacing between coil and interface surface (Z-height)
+
+These lead to changes in the Q factor and/or resonance frequency and/or system power loss measurements.
+Tuning FOD by updating the configuration parameters optimizes the FOD functionality for custom designs.
+FOD parameter tuning includes the process of data collection, calculating the appropriate parameters, and
+updating these parameters in the Wireless Charging Configuration Utility.
+Data collection and calculation of parameter values use the FOD_TuningGuide_Calculator.xlsx as a supporting
+document. This tuning calculator provides the following worksheets that require user input:
+ SystemPowerLoss_data: Input data for power loss FOD parameter calculations are collected here. The
+    coefficients calculated here are used for configuring the WLC power transmitter.
+ QF Scaling Factor Calc: Q factor tuning data is collected in the “User Inputs” section on this page. The
+    calculations section gives the parameter values for Q factor tuning based on user inputs.
+ RF Scaling_Threshold Calc: The RF-based data is collected in the “User Inputs” section. The scaling factor
+    and threshold frequency are auto-generated based on the user data.
+
+Wireless Charging Configuration Utility saves the configurations to the WLC power transmitter. These
+calculations are taken from FOD_TuningGuide_Calculator.xlsx.
+The tuning process requires a WPC-approved compliance tester tool setup. The following sections discuss the
+tools required and the steps to prepare the setup. Use FOD_TuningGuide_Calculator.xlsx to enter the data from
+the setup to auto-generate the tuning parameters.
+
+3.1                Tuning objectives
+The following are the desired objectives for optimal FOD system performance:
+ Scaling factor and threshold tuning for FOD using Q factor
+ Scaling factor and threshold tuning for FOD using resonance frequency
+ System power loss curve coefficient tuning
+
+As discussed in section 2.1.2, the system power loss curve coefficients relate the reported receiver power to the
+calibrated transmitter power and therefore, improve the reliability of the FOD mechanism. The reported Q
+factor and the resonance frequency are measured using an MP-A1 transmitter coil. However, the transmitter
+may have any other coil in its design and so the reference values of the Q factor have to be scaled (or converted)
+to the corresponding coil type. The scaling factor is a conversion constant factor to calculate Q factor values for
+the transmitter designed without an MP-A1 coil. See [2] for more details on the Qi Standard FOD mechanisms.
+
+
+
+
+Application note                                       14                                          002-34970 Rev. *A
+                                                                                                         2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+3.2                Required tools
+The following tools are required for the tuning process:
+1. Custom design power transmitter board.
+
+
+
+
+Figure 10          WPC-approved reference compliance tester
+
+
+2. WPC-approved compliance tester. The user may approach the WPC’s authorized test labs (ATLs) [5] in case
+    of the unavailability of the compliance tester tools. The user must see the WPC member login page for
+    details of the list of WPC-approved compliance testers. The following accessories are available along with
+    the software tool.
+ Test power receivers (TPRs): For the tuning process the following TPRs are needed:
+   − TPR#MP1A
+   − TPR#MP1B
+   − TPR#MP1C
+   − TPR#MP4
+   − TPR#MP3
+   − TPR#1A
+   − TPR#7
+   − TPR#5
+ FO frame.
+ Glass weight: For making the TPR stable.
+3. USB-UART device for capturing UART logs from the WLC power transmitter board.
+
+
+
+Application note                                      15                                          002-34970 Rev. *A
+                                                                                                        2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+
+
+Figure 11          Infineon USB-to-UART device
+
+
+4. Tera Term or Putty or any serial communication-based PC tool for capturing UART logs from the WLC power
+    transmitter board (ensure that the PC tool used for data logging is capable of processing UART data at
+    1,000,000 baud with minimal losses).
+
+
+
+
+Application note                                      16                                         002-34970 Rev. *A
+                                                                                                       2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+3.3                Hardware setup
+1. Enable the UART debugs from the Wireless Charging Configuration Utility. See Appendix C for details.
+2. Connect the UART Tx line from the power transmitter board to the UART Rx line of the USB-UART device.
+3. Connect the ground of the transmitter board to the USB–UART device.
+
+
+
+
+Figure 12          UART connections with PC
+
+
+4. Open the serial communication terminal (such as Minicom/Tera Term/Putty) and set the baud rate to
+   1000000.
+5. Leave the rest of the UART settings as default.
+6. Power on the transmitter board to see UART logs (human-readable ASCII characters) on the serial
+   communication tool (UART interface).
+
+
+
+
+              Default Tera Term screen                               UART log on Tera Term
+Figure 13          Tera Term debug screen and log UI for reference
+
+
+Application note                                      17                                       002-34970 Rev. *A
+                                                                                                     2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+3.4                Q factor scaling factor tuning process
+Use the “QF Scaling Factor Calc” page in FOD_TuningGuide_Calculator.xlsx as the supporting document for this
+section. Update the “User Inputs” section with the measured and reported Q-Factor values. The measured and
+reported Q-Factor values can be taken from the UART logs of the WLC power transmitter. The “Calculations”
+section in the “QF Scaling Factor Calc” page, generates the scaled Q–factor values. Q Factor method is based on
+TPRs with the least friendly metals, for instance, standard Qi compliance TPRs like TPR#MP3, TPR#7, and TPR
+with highly friendly metals such as TPR#MP4.
+
+3.4.1              Q factor scaling and threshold tuning process
+The Q factor scaling derives the reference Q factor for the WLC power transmitter from the receiver-reported
+reference Q factor. The WLC power transmitter uses two scaling factors.
+ Q-high scale factor: Used for scaling the reference Q factor by the TPRs without friendly metals. The EPP
+   TPRs, without friendly metal, report a reference Q factor of greater than 100.
+ Q-low scale factor: Used for scaling the reference Q factor by the TPRs with friendly metals. The EPP TPRs,
+   with friendly metal, report a reference Q factor of less than 100.
+Follow these steps to tune the Q scaling factor:
+1. Capture the receiver-reported reference Q factor for all the EPP TPRs on the “QF Scaling Factor Calc” page
+    of the supporting document under the “Q factor Scaling with TPRs without Friendly Metals” table for the
+    following TPRs:
+    a) TPR#MP3
+    b) TPR#MP4
+    c) TPR#7
+
+    See Figure 14 for the UART logs for the receiver-reported reference Q factor.
+2. Capture the measured Q value by the WLC power transmitter with all the EPP TPRs listed below. Ensure no
+    foreign object is present on the interface surface during these measurements. See Figure 14 for UART logs
+    for the WLC-measured Q factor.
+
+
+
+
+Figure 14          UART logs for receiver-reported and WLC power transmitter measured Q factor
+
+Application note                                        18                                       002-34970 Rev. *A
+                                                                                                       2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+3. Record the high scaling factor from “QF Scaling Factor Calc” and update the Wireless Charging
+   Configuration Utility parameters in the respective field as shown in Figure 16. See section 3.4 for more
+   details.
+4. Repeat Steps 1 through 3 with Q factor scaling with TPRs without friendly metals.
+5. Enter the measured and reported Q factor values in the respective cells on the “QF Scaling Factor Calc”
+   page. The scaling factor is calculated on this page.
+
+
+
+
+Figure 15          User input section in “QF Scaling Factor Calc” page
+
+
+The following section explains the usage of the parameters generated in the supporting document.
+
+3.4.2              Q factor-based FOD tuning
+
+
+
+
+Figure 16          View of Q factor settings configuration tool
+
+
+
+
+Application note                                        19                                       002-34970 Rev. *A
+                                                                                                       2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+Table 1            Q factor configuration setting parameters
+  S. no.      Parameter                              Description
+  1           Q factor and resonance frequency       Enables Q factor measurement for FOD.
+              FOD enable                             Enabled by default.
+  2           Open air coil Q                        Open air Q factor value. Measured by LCR meter without
+                                                     anything on the Tx.
+                                                     Default value is 72.
+  3           Coil Q measurement tolerance (%)       Coil Q measurement tolerance percentage of coil open air Q
+                                                     value.
+                                                     Default value is 5.
+  4           Prepower Q FOD threshold (%)           Q factor threshold for FO detection when there is no
+                                                     communication.
+                                                     Default value is 25.
+  5           No response digital ping retry count   Object detected with no communication/response to digital
+                                                     ping retries for initiating communication. Retry count expiry
+                                                     enters into the idle state.
+                                                     Default value is 3.
+  6           Q MPA1 scale factor for Rx with no     Scaling factor for TPRs with higher Q measurements.
+              friendly metals (%)                    Default value is 40%.
+  7           Q MPA1 scale factor for Rx with        Scaling factor for TPRs with lower Q measurements.
+              friendly metals (%)                    Default value is 66%.
+
+3.5                Resonance frequency scaling factor and threshold tuning process
+The resonance frequency method is an improvement of the pre-power transfer of the FOD mechanism using
+the Q factor. The experiments show that the resonance frequency-based FO is more efficient on Rx with friendly
+metals, such as smartphones, tablets, and so on. A reference TPR for such devices is TPR#MP4. Therefore, the
+scaling factor and threshold tuning process are based on the TPR#MP4.
+See section 3.2 for the required tools and section 3.3 for setting up the hardware. Further steps for RF tuning
+are applicable for TPR#MP4.
+
+
+
+
+Application note                                        20                                         002-34970 Rev. *A
+                                                                                                         2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+3.5.1              Resonance frequency scaling and threshold tuning process
+The process involves capturing the measured resonance frequency values from the UART logs (as shown in
+Figure 17) or using the digital signal oscilloscope or LCR meter [7]. This section details using system
+measurements available from the UART logs as shown in the following figure.
+
+
+
+
+Figure 17          UART logs for receiver reported and WLC power transmitter measured resonance
+                   frequency
+
+
+Follow these steps to tune the resonance frequency scaling factor and threshold values:
+1. Place the TPR#MP4 on the interface surface along with the FOD frame to ensure maximum signal strength.
+    Note that no FO is placed in the FO frame:
+
+
+
+
+Application note                                     21                                      002-34970 Rev. *A
+                                                                                                   2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+
+
+Figure 18          Lab setup for recording measured and reported resonance frequency values
+
+
+2. Capture the receiver-reported reference resonance frequency for all the EPP TPRs in the “RF
+   Scaling_Threshold Calc” page in FOD_TuningGuide_Calculator.xlsx. Enter the data in the row named
+   “FOD/rf”.
+3. Update the “FOD/rf” section with the Rx-reported resonant values.
+4. Update the row marked “Without FO” with the firmware-measured resonant values.
+5. Insert FO1 into the FO frame such that FO is aligned with the center of the coils of Tx and Rx.
+6. Enter the measured resonance frequency from the UART logs in the row marked as “FO_1_At_0mm”.
+7. Move FO1 to 15 mm marked on the FO frame. Enter the measured resonance frequency in the row marked
+   under “FO_1_At_15mm”.
+8. Repeat Steps 4, 5, and 6 for FO2, FO3, and FO4. Record the data in the respective FO rows (see Figure 19).
+
+
+
+
+Application note                                     22                                          002-34970 Rev. *A
+                                                                                                       2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+
+
+Figure 19          Reference view for resonance frequency measurements data
+
+
+9. Use the analysis in Figure 19 for reference while tuning the scaling factor and threshold tuning parameters.
+    Tune the FOD threshold for resonance frequency to get the maximum coverage of FOD (the green color in
+    Figure 19 indicates the FO detection).
+10. Update the Wireless Charging Configuration Utility parameters in the respective field as shown in Figure 20.
+
+3.5.2              Resonance frequency-based FOD tuning
+
+
+
+
+Figure 20          View of Q factor settings configuration tool
+
+
+Table 2            Resonance frequency Q factor configuration setting parameters
+  S. no. Parameter                                   Description
+  1         Resonance frequency measurement          Resonance frequency measurement threshold in
+            threshold (x0.1%)                        percentage. x0.1% scale.
+                                                     Default value is 40.
+  2         Resonance frequency scale factor         Resonance frequency measurement threshold in
+            (x0.1% )                                 percentage. x0.1% scale.
+                                                     Default value is 1000.
+Application note                                        23                                        002-34970 Rev. *A
+                                                                                                        2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+
+3.6                System power loss curve coefficient tuning for REF_WLC_TX15W_C1
+A Qi-compliant power transmitter has three modes of operation:
+ EPP15: Illustrated with TPR#MP3
+ EPP5W: Illustrated with TPR#7
+ BPP: Illustrated with TPR#5
+
+This section covers tuning FOD functionality parameters for all three modes of operation.
+System power loss curve coefficient tuning requires a tuning setup based on the user. See the WPC member
+login page for details of the list of WPC-approved compliance testers. See section 3.2 for the required tools and
+section 3.3 for details on setting up the hardware. See the WPC member login page for details of the list of WPC-
+approved compliance tester-based experimental setups required for this tuning process.
+
+3.6.1              Data collection and system loss curve coefficient calculation
+1. Enter the Advanced mode on the compliance tester tool user interface.
+2. Connect TPR#MP3 to the compliance tester. See the WPC member login page for details of the list of
+   compliance tester tools and place it on the interface surface of the transmitter.
+3. Select Current load in the Power load tab. (Default is Resistive load).
+4. Ensure the best alignment between the transmitter and receiver coils. See Appendix A.
+
+
+
+
+Figure 21          UI for signal strength, CE packets, Advanced mode, Electronic load selection on reference
+                   compliance tester
+
+
+5. Set the load to the minimum load value. See the “SystemPowerLoss_data” page in
+   FOD_TuningGuide_Calculator.xlsx for load values.
+6. Wait for two consecutive CE packets with a 0 value (see Figure 17). Record the PTx (transmitter power) and
+   PRx (reported receiver power) values from the UART debug log to the supporting document.
+7. Increase the load to the next step. See the “SystemPowerLoss_data” page in
+   FOD_TuningGuide_Calculator.xlsx for the next load value.
+Application note                                       24                                         002-34970 Rev. *A
+                                                                                                        2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+8. Repeat Steps 6, 7, and 8 until PRx and PTx values are captured for the maximum load value. The system
+    power loss curve data for TPR#MP3 is ready.
+
+
+
+
+Figure 22          PTx and PRx values from UART logs
+
+
+9. Repeat Steps 2 through 9 with TPR#7 and TPR#5 to get system power loss curve data for TPR#7 and TPR#5.
+10. The “SystemPowerLoss_data” page in FOD_TuningGuide_Calculator.xlsx automatically calculates the
+    system power loss curve coefficients for EPP15W, EPP5W, and BPP devices upon entry of data in the
+    respective cells.
+
+
+
+
+Figure 23          User input section in “SystemPowerLoss_data” page
+
+
+11. This data is used in the following section for configuring the WLC power transmitter.
+
+
+
+
+Application note                                       25                                     002-34970 Rev. *A
+                                                                                                    2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+3.6.2              Power loss-based FOD tuning
+
+
+
+
+Figure 24          Power loss settings in the configuration tool
+
+
+Table 3 describes the parameters used for tuning the FOD using the power loss method.
+
+Table 3            Power loss configuration setting parameters
+  S. no.     Parameter                                         Description
+  1          Enable power loss FOD                             Enable the FOD functionality in firmware using the
+                                                               power loss method.
+                                                               Enabled by default.
+  2          BPP Loss characterisation co-efficient ‘a’        Coefficient “a” in Equation 6 for BPP mode of
+                                                               power transfer. This value is auto-generated under
+                                                               the cell with the same name on the
+                                                               SystemPowerLoss_data page.
+                                                               Default value is 0.000003.
+  3          BPP Loss characterisation co-efficient ‘b’        Coefficient b in Equation 6 for BPP mode of power
+                                                               transfer. This value is auto-generated under the cell
+                                                               with the same name on the SystemPowerLoss_data
+                                                               page.
+                                                               Default value is 0.9743.
+  4          BPP Loss characterisation co-efficient ‘c’        Coefficient c in Equation 6 for BPP mode of power
+                                                               transfer. This value is auto-generated under the cell
+                                                               with the same name on the SystemPowerLoss_data
+                                                               page.
+                                                               Default value is 141.48.
+  5          BPP power loss FOD threshold (mW)                 Power loss threshold (in mW) for BPP mode of
+                                                               operation. See Case 1.
+                                                               Default value is 325 mW.
+
+Application note                                          26                                         002-34970 Rev. *A
+                                                                                                           2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+  S. no.     Parameter                                        Description
+  6          BPP power loss FOD threshold no retries and      Maximum power loss threshold for BPP mode of
+             power latch (mW)                                 operation. See Case 2.
+                                                              Default value is 1000 mW.
+  7          BPP FOD retry count                              Count for power recycles after FOD for BPP device.
+                                                              Default value is 3 counts.
+  8          BPP Power delivery retry count before            Count for power cycle after FOD for BPP device.
+             stopping power delivery                          Default value is 3 counts.
+  9          EPP 5W loss characterisation coefficient ‘a’     Coefficient a in Equation 6 for 5W EPP mode of
+                                                              power transfer. This value is auto-generated under
+                                                              the cell with the same name on the
+                                                              SystemPowerLoss_data page.
+                                                              Default value is 0.000002.
+  10         EPP 5W loss characterisation coefficient ‘b’     Coefficient b in Equation 6 for 5W EPP mode of
+                                                              power transfer. This value is auto-generated under
+                                                              the cell with the same name on the
+                                                              SystemPowerLoss_data page.
+                                                              Default value is 0.9771.
+  11         EPP 5W loss characterisation coefficient ‘c’     Coefficient c in Equation 6 for 5W EPP mode of
+                                                              power transfer. This value is auto-generated under
+                                                              the cell with the same name on the
+                                                              SystemPowerLoss_data page.
+                                                              Default value is 325.95.
+  12         EPP 5W power loss FOD threshold (mW)             Power loss threshold for 5 W EPP mode of
+                                                              operation. See Case 1.
+                                                              Default value is 325 mW.
+  13         EPP 5W power loss FOD threshold no retries       Maximum power loss threshold for 5W EPP mode of
+             and power latch (mW)                             operation. See Case 2.
+                                                              Default value is 1000 mW.
+  14         EPP 5W FOD retry count                           Count for power recycles after FOD for EPP 5 W
+                                                              device.
+                                                              Default value is 3.
+  15         EPP5W Power delivery retry count before          Count for power cycle after FOD for EPP 5W device.
+             stopping power delivery                          Default value is 3.
+  16         EPP loss characterisation coefficient ‘a’        Coefficient a in Equation 6 for 15 W EPP mode of
+                                                              power transfer. This value is auto-generated under
+                                                              the cell with the same name on the
+                                                              SystemPowerLoss_data page.
+                                                              Default value is 0.000003.
+  17         EPP loss characterisation coefficient ‘b’        Coefficient b in Equation 6 for 15 W EPP mode of
+                                                              power transfer. This value is auto-generated under
+                                                              the cell with the same name on the
+                                                              SystemPowerLoss_data page.
+
+Application note                                         27                                        002-34970 Rev. *A
+                                                                                                         2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+  S. no.     Parameter                                        Description
+                                                              Default value is 0.9625.
+  18         EPP loss characterisation coefficient ‘c’        Coefficient c in Equation 6 for 15 W EPP mode of
+                                                              power transfer. This value is auto-generated under
+                                                              the cell with the same name on the
+                                                              SystemPowerLoss_data page.
+                                                              Default value is 410.14.
+  19         EPP power loss FOD threshold (mW)                Power loss threshold for 15 W EPP mode of
+                                                              operation. See Case 1.
+                                                              The default value is 750 mW.
+  20         EPP power loss FOD threshold no retries and      Maximum power loss threshold for 15 W EPP mode
+             power latch (mW)                                 of operation. See Case 2.
+                                                              Default value is 2000 mW.
+  21         EPP FOD retry count                              Count for power recycles after FOD for EPP 15 W
+                                                              device.
+                                                              Default value is 1 count.
+  22         EPP Power delivery retry count before            Count for power cycle after FOD for EPP 15 W
+             stopping power delivery                          device.
+                                                              Default value is 1.
+  23         PPDE power loss FOD threshold (mW)               Threshold for a likely FO presence for PPDE.
+                                                              Default value is 750 mW.
+  24         PPDE power loss FOD threshold no retries         Threshold for a certain FO presence for PPDE.
+             and power latch (mW)                             Default value is 2000 mW.
+
+3.7                System power loss curve coefficient tuning for REF_WLC_TX50W_N1
+Power transmitter has four modes of operation:
+ EPP15: Illustrated with TPR#MP3
+ EPP5W: Illustrated with TPR#7
+ BPP: Illustrated with TPR#5
+ Infineon High Power Proprietary Protocol: Illustrated Infineon High Power Receiver
+
+This section covers tuning FOD functionality parameters for all four modes of operation.
+System power loss curve coefficient tuning requires a tuning setup based on the user. See the WPC member
+login page for details of the list of WPC-approved compliance testers. See section 3.2 for the required tools and
+section 3.3 for details on setting up the hardware. See the WPC member login page for details of the list of WPC-
+approved compliance tester-based experimental setups required for this tuning process.
+
+3.7.1              Data collection and system loss curve coefficient calculation
+1. Enter the Advanced mode on the compliance tester tool user interface.
+2. Connect TPR#MP3 to the compliance tester for EPP15. See the WPC member login page for details of the list
+    of compliance tester tools and place it on the interface surface of the transmitter.
+3. Select Current load in the Power load tab (Default is Resistive load).
+
+Application note                                         28                                        002-34970 Rev. *A
+                                                                                                         2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+4. Ensure the best alignment between the transmitter and receiver coils. See Appendix A.
+
+
+
+
+Figure 25          UI for signal strength, CE packets, Advanced mode, Electronic load selection on reference
+                   compliance tester
+
+
+5. Open the Wireless Charging Configuration Utility and connect the device over the I2C interface as shown in
+    Figure 26.
+6. Select the device from the device selection tab.
+7. Open the Read from device tab and disable the “Q factor and resonance frequency FOD enable” and
+    “Enable power loss FOD” through static configuration as shown in Figure 27.
+8. Invoke the Configure Device operation to update the flash of the device.
+9. Open the System Loss Calibration tab using option available in the toolbar or tools menu.
+10. Select the TPR type based on the operating mode from the Test Power receiver type dropdown menu as
+    shown in Figure 28.
+11. Select load value in percentage from the Select load dropdown menu. Load percentage is defined in power
+    percentage. The current or resistance value can be derived from the receiver output voltage.
+12. Click the Start calibration button to read power values from the device as shown in Figure 29. The utility
+    polls the device until 2 CEP packets with values 0, 1, and -1 are read to ensure that the load is stabilized.
+13. Increase the load to the next step and repeat Steps 9 and 10.
+14. After the power values are read for all load values, the Calculate coefficient button gets enabled for the
+    selected TPR type.
+15. Click Calculate coefficient button to calculate and display loss curve coefficients. Figure 30 shows the
+    coefficients calculated for the EPP15 test power receiver.
+16. Copy the FOD co-efficients from the active TPR table and Close the System Loss Calibration tab.
+17. Open the Read from device tab and Enable the “Q factor and resonance frequency FOD enable” and
+    “Enable power loss FOD” through static configuration for FO detection.
+18. Update the copied co-efficients at the appropriate textboxes of the static configuration as shown in
+    Figure 31.
+19. Invoke the Configure Device operation and the configuration will be updated to the flash of the device.
+
+
+Application note                                       29                                         002-34970 Rev. *A
+                                                                                                        2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+20. Repeat the process from Steps 2 to 17 with TPR#7 and TPR#5 to get calibrated with calculated coefficients
+    for EPP5 and BPP respectively.
+21. For the Infineon High Power Proprietary Protocol use any electronic load with (30 V – 5 A compatible) in
+    Constant current mode and repeat the process 5 to 17 with Infineon High Power Receiver.
+
+Note:              If the running mode of the device matches with the selected TPR, then the coefficients are updated
+                   to the device, otherwise, displays an error in a popup window. The Clear data option clears all the
+                   data present in the System loss calibration widow. Static configuration features are disabled when
+                   the System loss calibration window is open.
+
+
+
+
+Figure 26          Wireless Transmitter to debugger I2C interface
+
+
+
+
+Application note                                          30                                          002-34970 Rev. *A
+                                                                                                            2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+
+
+Figure 27          Static configuration interface to update the parameter
+
+
+
+
+Figure 28          System loss calibration interface through Configuration Utility for TPR selection
+
+
+
+
+Application note                                       31                                       002-34970 Rev. *A
+                                                                                                      2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+
+
+Figure 29          System loss calibration interface through Configuration Utility for calibration
+
+
+
+
+Figure 30          System loss calibration interface through Configuration Utility for coefficient calculation
+
+
+
+
+Application note                                        32                                       002-34970 Rev. *A
+                                                                                                       2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+
+
+Figure 31          Parameter update in flash through static parameter tuning interface
+
+
+3.7.2              Power loss-based FOD tuning
+
+
+
+
+Figure 32          Power loss settings in the configuration tool
+
+
+The following table describes the parameters used for tuning the FOD using the power loss method.
+
+Application note                                        33                                    002-34970 Rev. *A
+                                                                                                    2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+Table 4            Power loss configuration setting parameters
+  S. no.     Parameter                                         Description
+  1          Enable power loss FOD                             Enable the FOD functionality in firmware using
+                                                               the power loss method.
+                                                               Enabled by default.
+  2          BPP Loss characterisation co-efficient ‘a’        Coefficient “a” in Equation 6 for BPP mode of
+                                                               power transfer. This value is auto-generated
+                                                               under the cell with the same name in the
+                                                               System Loss Calibration tab.
+                                                               Default value is 0.00000250874.
+  3          BPP Loss characterisation co-efficient ‘b’        Coefficient b in Equation 6 for BPP mode of
+                                                               power transfer. This value is auto-generated
+                                                               under the cell with the same name in the
+                                                               System Loss Calibration tab.
+                                                               Default value is 0.9762962.
+  4          BPP Loss characterisation co-efficient ‘c’        Coefficient c in Equation 6 for BPP mode of
+                                                               power transfer. This value is auto-generated
+                                                               under the cell with the same name in the
+                                                               System Loss Calibration tab
+                                                               Default value is 126.0797.
+  5          BPP power loss FOD threshold(mW)                  Power loss threshold (in mW) for BPP mode of
+                                                               operation. See Case 1.
+                                                               Default value is 325 mW.
+  6          BPP power loss FOD threshold no retries           Maximum power loss threshold for BPP mode of
+             and power latch (mW)                              operation. See Case 2.
+                                                               Default value is 1000 mW.
+  7          BPP FOD retry count                               Count for power recycles after FOD for BPP
+                                                               device.
+                                                               Default value is 3 counts.
+  8          BPP Power delivery retry count before             Count for power cycles after FOD for BPP device.
+             stopping power delivery                           Default value is 3 counts.
+  9          EPP 5W loss characterisation coefficient          Coefficient a for 5 W EPP mode of power
+             ‘a’                                               transfer. This value is auto-generated under the
+                                                               cell with the same name in the System Loss
+                                                               Calibration tab.
+                                                               Default value is 0.000000193421.
+  10         EPP 5W loss characterisation coefficient          Coefficient b for 5 W EPP mode of power
+             ‘b’                                               transfer. This value is auto-generated under the
+                                                               cell with the same name in the System Loss
+                                                               Calibration tab.
+                                                               Default value is 1.008133.
+  11         EPP 5W loss characterisation coefficient          Coefficient c for 5 W EPP mode of power
+             ‘c’                                               transfer. This value is auto-generated under the
+
+Application note                                          34                                            002-34970 Rev. *A
+                                                                                                              2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+  S. no.     Parameter                                        Description
+                                                              cell with the same name in the System Loss
+                                                              Calibration tab.
+                                                              Default value is -159.2609.
+  12         EPP 5W power loss FOD threshold (mW)             Power loss threshold for 5 W EPP mode of
+                                                              operation. See Case 1.
+                                                              Default value is 325 mW.
+  13         EPP 5W power loss FOD threshold no               Maximum power loss threshold for 5 W EPP
+             retries and power latch (mW)                     mode of operation. See Case 2.
+                                                              Default value is 1000 mW.
+  14         EPP 5W FOD retry count                           Count for power recycles after FOD for EPP 5 W
+                                                              device.
+                                                              Default value is 3.
+  15         EPP5W Power Delivery retry count before          Count for power cycles after FOD for EPP 5 W
+             stopping Power Delivery                          device.
+                                                              Default value is 1.
+  16         EPP loss characterisation coefficient ‘a’        Coefficient a for 15 W EPP mode of power
+                                                              transfer. This value is auto-generated under the
+                                                              cell with the same name in the System Loss
+                                                              Calibration tab.
+                                                              Default value is 0.00000318361.
+  17         EPP loss characterisation coefficient ‘b’        Coefficient b for 15 W EPP mode of power
+                                                              transfer. This value is auto-generated under the
+                                                              cell with the same name in the System Loss
+                                                              Calibration tab.
+                                                              Default value is 0.9422878.
+  18         EPP loss characterisation coefficient ‘c’        Coefficient c for 15 W EPP mode of power
+                                                              transfer. This value is auto-generated under the
+                                                              cell with the same name in the System Loss
+                                                              Calibration tab.
+                                                              Default value is 245.7924.
+  19         EPP power loss FOD threshold (mW)                Power loss threshold for 15 W EPP mode of
+                                                              operation. See Case 1.
+                                                              The default value is 750 mW.
+  20         EPP power loss FOD threshold no retries          Maximum power loss threshold for 15 W EPP
+             and power latch (mW)                             mode of operation. See Case 2.
+                                                              Default value is 1500 mW.
+  21         EPP FOD retry count                              Count for power recycles after FOD for EPP 15 W
+                                                              device.
+                                                              Default value is 3 count.
+  22         EPP Power delivery retry count before            Count for power cycles after FOD for EPP 15 W
+             stopping power delivery                          device.
+                                                              Default value is 1.
+
+Application note                                         35                                            002-34970 Rev. *A
+                                                                                                             2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD parameter tuning
+
+
+  S. no.     Parameter                                       Description
+  23         PPDE power loss FOD threshold (mW)              Threshold for a likely FO presence for PPDE
+                                                             Default value is 750 mW.
+  24         PPDE power loss FOD threshold no retries        Threshold for a certain FO presence for PPDE
+             and power latch (mW)                            Default value is 1500 mW.
+  25         Infineon High Power Proprietary Protocol        Coefficient a for 50 W Infineon High Power
+             loss characterisation coefficient ‘a’           Proprietary Protocol mode of power transfer.
+                                                             This value is auto-generated under the cell with
+                                                             the same name in the System Loss Calibration
+                                                             tab.
+                                                             Default value is 0.000000165817.
+  26         Infineon High Power Proprietary Protocol        Coefficient b for 50 W Infineon High Power
+             loss characterisation coefficient ‘b’           Proprietary Protocol mode of power transfer.
+                                                             This value is auto-generated under the cell with
+                                                             the same name in the System Loss Calibration
+                                                             tab.
+                                                             Default value is 0.9120731.
+  27         Infineon High Power Proprietary Protocol        Coefficient c for 50 W Infineon High Power
+             loss characterisation coefficient ‘c’           Proprietary Protocol mode of power transfer.
+                                                             This value is auto-generated under the cell with
+                                                             the same name in the System Loss Calibration
+                                                             tab.
+                                                             Default value is 1321.419.
+  28         Infineon High Power Proprietary Protocol        Power loss threshold for 50 W Infineon High
+             power loss FOD threshold (mW)                   Power Proprietary Protocol mode of operation.
+                                                             See Case 1.
+                                                             The default value is 750 mW.
+  29         Infineon High Power Proprietary Protocol        Maximum power loss threshold for 50 W
+             power loss FOD threshold no retries and         Infineon High Power Proprietary Protocol mode
+             power latch (mW)                                of operation. See Case 2.
+                                                             Default value is 2000 mW.
+  30         Infineon High Power Proprietary Protocol        Count for power recycles after FOD for 50 W
+             FOD retry count                                 Infineon High Power Proprietary Protocol
+                                                             device.
+                                                             Default value is 3 count.
+  31         Infineon High Power Proprietary Protocol        Count for power cycles after FOD for 50 W
+             Power Delivery retry count before               Infineon High Power Proprietary Protocol
+             stopping Power Delivery                         device.
+                                                             Default value is 3.
+
+
+
+
+Application note                                        36                                            002-34970 Rev. *A
+                                                                                                            2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD functionality verification
+
+
+4                  FOD functionality verification
+The following tests from the Qi compliance test suite can ensure an appropriate tuning of the FOD parameters
+for BPP devices:
+1. Test#25 (a)
+2. Test#25 (b)
+3. Test#25 (c)
+4. Test#25 (d)
+
+The following tests from the Qi compliance test suite can ensure an appropriate tuning of the FOD parameters
+for EPP devices:
+1. MP.TX.FOD.OPERATE.FOD.REACT.TC1
+2. MP.TX.FOD.OPERATE.FOD.REACT.TC1a
+3. MP.TX.FOD.OPERATE.FO.CRIT.TC1
+4. MP.TX.FOD.OPERATE.FO.CRIT.TC1a
+5. MP.TX.FOD.BEFOREPOWER.FO.CRITIC.TC1
+6. MP.TX.FOD.BEFOREPOWER.FO.CRITIC.TC1a
+
+Tests 1 and 2 validate the Threshold_max setting in EPP devices. The critical section tests (3 through 6) validate
+the Q factor and threshold settings. See [8] for details of the tools required for the Qi-recommended validation
+test setup, test procedure, and pass criteria.
+Free-air FO can be tested by placing a US nickel or an Indian 2 coin on the interface at the center of the coil.
+This should be indicated by the FO UI (user manual for FO indication).
+The following tests can ensure an appropriate tuning of the FOD parameters for Infineon High Power devices:
+1. Check no false FO detection when Infineon High Power Receiver is placed up to a 4 mm radius from the
+   center of the transmitter coil, in no load to full load.
+2. For Qi recommended FO’s (FO1, FO2, FO3, and FO4) detection follow this procedure:
+a)       Flash the FOD-tuned firmware in the PTx.
+b)       Place PTX and IFx RX in the center-aligned position.
+c)       For in-power FOD testing (Method 1):
+     − Turn on the power and check if the receiver output is voltage regulated to 20 V.
+     −     Load the IFx Rx to 50 Watts (CR = 8 ohms).
+     − During the power transfer, place the FO(s) at a distance of 30 mm away from the center of the PTx/PRx
+          alignment.
+     − Bring in the FO at a rate of 2 mm (step size) towards the center every 10 seconds.
+     − Ensure the FO temperature must not go beyond 60°C. Measure the temperature through NOK9 as shown
+          in Figure 33.
+     − Observe the FO detection through LED indication or UART.
+     − Observation: FO detection range must be about 10 to 15 mm from the center of PTx/PRx alignment.
+d)       For pre-power FOD testing (Method 2):
+     − Place the FO(s) at a distance of 5 mm away from the center of the PTx/PRx alignment.
+     − Provide power to the PTx.
+
+Application note                                          37                                       002-34970 Rev. *A
+                                                                                                         2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+FOD functionality verification
+
+   − Observe the FO detection through LED indication or UART.
+   − For UART analysis: EPT =7 provides a clear indication of pre-power FO detection.
+
+
+
+
+Figure 33          FOD verification for Infineon High Power Receiver
+
+
+
+
+Application note                                      38                                002-34970 Rev. *A
+                                                                                              2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Checklist for tuning operation
+
+
+5                  Checklist for tuning operation
+1. Use caution while moving the TPR toward the interface surface of the transmitter. Ensure that the
+    movement is subtle and does not lead to any mechanical or electrical damage to the transmitter or receiver.
+2. Ensure proper EMI discharge for the test equipment.
+3. Ensure the power levels of the TPR are within the range of the expected current loads during load ramp
+    tests.
+4. Ensure the best possible signal strength alignment between TPR and transmitter. See Appendix A for finding
+    the best signal strength.
+5. Consider proper offset values while tuning the power loss FOD parameters. See Appendix B for more details.
+6. Ensure that no FO is present on the interface surface or in the vicinity (field of influence) of the transmitter
+    coil.
+7. Enable the FOD functionality before verifying the design using section 4.
+8. Monitor the FO temperature and take appropriate actions to avoid damage to Rx and Tx.
+9. Ensure that the Debug prints are set to default after the tuning operation is complete.
+10. Section 4 validates FOD functionality. To ensure complete Qi compliance, it is recommended to execute the
+    compliance test in WPC-recommended ATLs.
+
+
+
+
+Application note                                       39                                          002-34970 Rev. *A
+                                                                                                         2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Abbreviations and definitions
+
+
+6                  Abbreviations and definitions
+Table 5            Abbreviations
+  Abbreviation                     Definition
+  USB PD                           Universal Serial Bus Power Delivery
+  DUT/EUT                          Device under test/Equipment under test
+  TX                               Transmitter
+  RX                               Receiver
+  BPP                              Baseline power profile
+  EPP                              Extended power profile
+  TPR                              Test power receiver
+  ASK                              Amplitude shift keying
+  FSK                              Frequency shift keying
+  WPT                              Wireless power transfer
+  CE                               Control error
+  CEP                              Control error packet
+  FO                               Foreign object
+  OVP                              Overvoltage protection
+  OCP                              Overcurrent protection
+  UVP                              Undervoltage protection
+  FOD                              Foreign object detection
+  PCB                              Printed circuit board
+  EMI                              Electromagnetic interference
+  NTC                              Negative temperature coefficient
+  UART                             Universal asynchronous receiver-transmitter
+  LED                              Light-emitting diode
+  RPP                              Reported power packet
+  RP                               Reported power
+  NAK                              Not acknowledge packet (FSK response)
+  ACK                              Acknowledge packet (FSK response)
+  RF                               Resonance frequency
+  IFx                              Infineon receiver
+
+
+
+
+Application note                                           40                    002-34970 Rev. *A
+                                                                                       2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Appendix A: Finding signal strength
+
+
+7                  Appendix A: Finding signal strength
+Note:              This process is unique for every compliance tester.
+
+1. Enable the Signal Strength Finder in the compliance tester tool. See Figure 34.
+2. Ensure the TPR is placed at maximum signal strength (best alignment with transmitter coil).
+3. Disable the Signal Strength Finder once the alignment procedure is complete.
+
+
+
+
+Application note                                           41                                    002-34970 Rev. *A
+                                                                                                       2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Appendix B: Received power offset
+
+
+8                  Appendix B: Received power offset
+Note:              This section is compliance tester-specific and may be subject to change. Contact sales support for
+                   more details.
+
+Received power offset is a modifiable parameter in the Power Transfer Phase setting in Advanced mode of the
+Qi compliance tester (see Figure 34).
+
+
+
+
+Figure 34          Received Power Offset in Advanced mode
+
+
+The value of the Received Power Offset in the Advanced mode operation determines the accuracy of the system
+power loss coefficients used to calculate the system power loss. The default values of received power offset are
+different for Qi 1.2 and Qi 1.3 and may vary for Qi compliance tests as well as guaranteed power (GP) tests. The
+following table provides the default values for Received Power Offset (mW) for various Qi versions and GP tests:
+
+Table 6            Receiver power offset observed in compliance tool
+  TPR               Qi 1.2                                     Qi 1.3                     GP test
+  TPR#MP3           705                                        175                        705
+  TPR#7             335                                        335                        335
+  TPR#5             35                                         35                         35
+
+Please use the GP values as an offset for calibration operation.
+
+
+Application note                                          42                                           002-34970 Rev. *A
+                                                                                                             2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Appendix C: Enabling UART logs using Wireless Charging Configuration Utility
+
+
+9                  Appendix C: Enabling UART logs using Wireless Charging
+                   Configuration Utility
+Note:              The UART logs are not enabled in the system. The user must disable the UART logs when not
+                   needed. The standard system behavior is tested with UART logs disabled.
+
+Enable the UART logs by enabling the following parameters in the transmitter “Profile” page in the Wireless
+Charging Configuration Utility (see Figure 35).
+1. UART enable
+2. Critical enable
+3. Message enable
+4. Set Debug enable to Level 1
+
+
+
+
+Figure 35          Profile page settings for enabling UART logs
+
+
+Revert these changes to default on completion of the process. UART logs consume processor resources, and it
+is recommended to disable UART logs for optimal performance of the WLC power transmitter.
+
+
+
+
+Application note                                         43                                         002-34970 Rev. *A
+                                                                                                          2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+References
+
+
+
+References
+[1]    Qi Standard Version 1.3.x
+[2]    Qi Standard (Version 1.3.1), Chapter “Foreign Object Detection”
+[3]    Qi Standard (Version 1.3.2), Chapter “Foreign Object Detection”
+[4]    Two-point calibration – Section 11.4.3.1 of Part 12, Qi Standard Version 1.2.4
+[5]    FOD based on calibrated power loss accounting – Section 11.4 of Part 12, Qi Standard Version 1.2.4
+[6]    (External link) WPC’s list of ATLs
+[7]    Section 5.4.3.3, Part 3, “Compliance Testing”, Qi Standard Version 1.2.4
+[8]    Section 11.3.3, Part 12, “Definition of the Reference Quality Factor”, Qi Standard Version 1.2.4
+[9]    Section 5.4.3, Part 3, “Foreign Object Detection”, Qi Standard Version 1.2.4
+[10] 002-34843: Wireless Charging Configuration Utility user guide
+[11] Reference board: REF_WLC_TX15W_C1 wireless power transmitter reference board
+[12] Product datasheet: WLC1115, 15 W wireless power transmitter with integrated USB Type-C PD sink
+     controller
+[13] Q factor – Analysis and insights
+[14] Annex A: Determining the reference FOD values, FOD Chapter of Qi-V1.3.2 Spec
+[15] Reference board: REF_WLC_TX50W_N1 wireless power transmitter reference board
+
+
+
+
+Application note                                        44                                          002-34970 Rev. *A
+                                                                                                          2023-02-06
+Foreign object detection (FOD) tuning guide for wireless power
+transmitters
+Applicable to WLC ICs
+Revision history
+
+
+Revision history
+Document           Date         Description of changes
+revision
+**                 2022-05-02   New application note
+*A                 2023-02-06   Added reference design REF_WLC_TX50W
+
+
+
+
+Application note                              45                       002-34970 Rev. *A
+                                                                             2023-02-06
+Disclaim er
+
+
+
+
+Trademarks
+All referenced product or service names and trademarks are the property of their respective owners.
+
+
+
+
+                                             Important notice                                         Warnings
+Edition 2023-02-06                           The information contained in this application note       Due to technical requirements products may contain
+                                             is given as a hint for the implementation of the         dangerous substances. For information on the types
+Published by                                 product only and shall in no event be regarded as a      in question please contact your nearest Infineon
+                                             description or warranty of a certain functionality,      Technologies office.
+                                             condition or quality of the product. Before
+Infineon Technologies AG                     implementation of the product, the recipient of this     Except as otherwise explicitly approved by Infineon
+                                             application note must verify any function and other      Technologies in a written document signed by
+81726 Munich, Germany                        technical information given herein in the real           authorized representatives of Infineon Technologies,
+                                             application. Infineon Technologies hereby                Infineon Technologies’ products may not be used in
+                                             disclaims any and all warranties and liabilities of      any applications where a failure of the product or any
+© 2023 Infineon Technologies AG.             any kind (including without limitation warranties of     consequences of the use thereof can reasonably be
+All Rights Reserved.                         non-infringement of intellectual property rights of      expected to result in personal injury.
+                                             any third party) with respect to any and all
+                                             information given in this application note.
+Do you have a question about this
+document?                                    The data contained in this document is exclusively
+                                             intended for technically trained staff. It is the
+Email: erratum@infineon.com                  responsibility of customer’s technical departments
+                                             to evaluate the suitability of the product for the
+                                             intended application and the completeness of the
+Document reference                           product information given in this document with
+                                             respect to such application.
+002-34970 Rev. *A
+

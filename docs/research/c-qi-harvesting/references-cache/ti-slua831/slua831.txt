@@ -1,0 +1,556 @@
+                                                                                                               Application Report
+                                                                                       SLUA831A – July 2017 – Revised November 2018
+
+
+  Minimizing Switching Ringing at TPS53355 and TPS53353
+                                          Family Devices
+
+Benyam Gebru
+
+                                                                   ABSTRACT
+       The system reliability of a high efficiency DC/DC converter with a fast slew rate is improved when switch
+       node ringing is reduced. This document describes switching ringing reduction methods and lab bench test
+       results with the 30-A TPS53355, and also applies to the pin compatible 20-A TPS53353. Both devices are
+       well-suite for rack server, single board computer, and hardware accelerator applications that benefit from
+       the fast transient response time of D-CAPTM control, or when multi-layer ceramic capacitors are
+       undesirable for the output filter.
+
+
+                                                                      Contents
+       1       Introduction ................................................................................................................... 2
+       2       Proper Measurement Method of Switch Ringing ........................................................................ 2
+       3       Minimize the Switch Ringing by Adding RC Snubber and Bootstrap Circuit ......................................... 5
+       4       Practical Design .............................................................................................................. 8
+       5       Adding Bootstrap Resistor ................................................................................................ 11
+       6       Effects of Snubber on the Efficiency Performance .................................................................... 12
+       7       Summary .................................................................................................................... 12
+       8       References .................................................................................................................. 13
+       1       Changes from original to Nov 13, 2018 ................................................................................ 14
+
+                                                                  List of Figures
+       1       Single-Ended Probing ...................................................................................................... 2
+       2       Probing Using 1-GHz Differential Probe ................................................................................. 3
+       3       Typical Switching Ringing Waveform of TPS53355 .................................................................... 4
+       4       RC Snubber Added Circuit With Parasitic Components ............................................................... 5
+       5       TPS53355EVM-743 RC Snubber Placements........................................................................... 5
+       6       Switching Ringing Waveform Rising and Falling Edges ............................................................... 6
+       7       Un-snubber Switching Node Ringing Waveform ........................................................................ 8
+       8       Switching Node Ringing Waveforms (Blue: With 2.2-nF Capacitor Added, Green: No Snubber) ................ 8
+       9       Switch Node Ringing Waveforms at 30-A Load (Blue: With Snubber 2.2nF + 1.47Ω, Green: No Snubber) .. 10
+       10      Rbst 2.05 Ω + 0.1 µF and 1.47 Ω + 2.2 nF Snubber .................................................................. 11
+       11      Rbst 0 Ω + 0.1 µF and 1.47 Ω + 2.2 nF Snubber ..................................................................... 11
+       12      Boot Resistor Effects on Efficiency ...................................................................................... 11
+       13      Efficiency Comparison When Snubber Capacitance Cs Changes .................................................. 12
+
+                                                                   List of Tables
+       1       TPS53355 and TPS53353: Comparing Ringing Voltage of Three Snubber and Bootstrap Resistors .......... 10
+
+
+
+
+SLUA831A – July 2017 – Revised November 2018              Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices                 1
+Submit Documentation Feedback
+                                             Copyright © 2017–2018, Texas Instruments Incorporated
+Introduction                                                                                                              www.ti.com
+
+Trademarks
+       SWIFT, D-CAP are trademarks of Texas Instruments Incorporated.
+       All other trademarks are the property of their respective owners.
+
+1      Introduction
+       Due to high-voltage change (dv/dt) and current changes (di/dt) at the high-speed switching MOSFETs, a
+       significant ringing and overshoot voltage can be observed at the switch node of the at synchronous buck
+       converter while the high-side MOSFET is turn ON. Even though fast-switching speeds help reduce the
+       switching loss, the buck converter efficiency would still suffer. This application note will focus on
+       minimizing switching ringing at TPS53k family products of SWIFT™ synchronous step-down converter.
+       First, this document will describe switch ringing measuring methods, how to minimize the switching ringing
+       by adding an RC snubber circuit and bootstrap resistor, and the effect of snubber on efficiency
+       performance of the synchronous buck converter.
+
+2      Proper Measurement Method of Switch Ringing
+       How and where to measure fast switch ringing at buck regulators is very important. It is highly
+       recommended to use 1-GHz differential probe, which should be probed as close as possible to the switch
+       node and thermal pad-GND. The voltage probe should have the bandwidth of 500 MHz or more. Figure 1
+       and Figure 2 shows two different probing methods used at TPS53k family devices. A single-ended,
+       P6139B, 500-MHz, passive probe is used in Figure 1, and a TDP1000, 1-GHz differential probe is used in
+       Figure 2.
+
+
+
+
+                                             Figure 1. Single-Ended Probing
+
+
+
+
+2      Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices               SLUA831A – July 2017 – Revised November 2018
+                                                                                                        Submit Documentation Feedback
+                                         Copyright © 2017–2018, Texas Instruments Incorporated
+www.ti.com                                                                           Proper Measurement Method of Switch Ringing
+
+
+
+
+                                  Figure 2. Probing Using 1-GHz Differential Probe
+
+       These probing techniques result in different ringing peak voltages. Because the single-ended probe has
+       6.5-in long ground wire loop, the probe can pick noises generated from neighboring device of the system
+       board, which can couple to the switch node voltage. On the other hand, by placing the differential probe
+       very close to the IC with two short leads reduces the measurement loop results with less noise coupling to
+       the switch node. The optimal switch ringing can be obtain using this measurement method.
+
+
+
+
+SLUA831A – July 2017 – Revised November 2018          Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices     3
+Submit Documentation Feedback
+                                         Copyright © 2017–2018, Texas Instruments Incorporated
+Proper Measurement Method of Switch Ringing                                                                              www.ti.com
+
+      Figure 3 shows typical switching ringing waveform of TPS53355 using a single-ended probe with 6.5-in
+      long ground wire loop that was taken at TPS53355EVM-743 evaluation module (EVM) at 12-V input
+      voltage, 1.5-V output voltage with 30-A load and 500-kHz switching frequency. The switching peak voltage
+      is 27.8 V; whereas, at the same test condition using differential probes, the peak switching voltage is 22.4
+      V. Therefore, improper measurement method can result in inaccurate ringing voltage.
+
+
+
+
+                          Figure 3. Typical Switching Ringing Waveform of TPS53355
+
+
+
+
+4     Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices               SLUA831A – July 2017 – Revised November 2018
+                                                                                                       Submit Documentation Feedback
+                                        Copyright © 2017–2018, Texas Instruments Incorporated
+www.ti.com                                             Minimize the Switch Ringing by Adding RC Snubber and Bootstrap Circuit
+
+3      Minimize the Switch Ringing by Adding RC Snubber and Bootstrap Circuit
+       The addition of RC snubber will reduce the switch ringing voltage with a small impact on overall efficiency.
+       This RC snubber is required to avoid excessive ringing that can cause damage to the devices and high-
+       frequency EMI radiation. The RC snubber should be placed as close to the switch to ground pins as
+       possible. Figure 4 and Figure 5 show the placement of RC snubber with the parasitic components.
+
+               VIN
+                                     L_trace
+
+
+
+
+                                                                                 VBST
+
+
+
+
+                                                                                         Rbst
+                                                                 Lp
+
+
+                                                            Q1
+                                                                                             Cbst
+                                                                                                    Switching node
+                                                                        Coss
+
+
+
+
+                                       PWM                                                            Lout
+
+                                                           Q2
+                                                                                         Cs
+               Cin_ESL                                                    Coss                                       +
+                                                                                        Rs
+                                                                                                             Cout        LOAD
+
+                                                                                                                     -
+
+                                                                 Lp
+
+
+
+
+                                     L_trace
+
+
+                         Figure 4. RC Snubber Added Circuit With Parasitic Components
+
+
+
+
+                               Figure 5. TPS53355EVM-743 RC Snubber Placements
+
+
+
+SLUA831A – July 2017 – Revised November 2018           Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices     5
+Submit Documentation Feedback
+                                          Copyright © 2017–2018, Texas Instruments Incorporated
+Minimize the Switch Ringing by Adding RC Snubber and Bootstrap Circuit                                                    www.ti.com
+
+       The switch ringing occurs when the high-side MOSFET is on and the low-side MOSFET is off with internal
+       MOSFETS parasitic capacitance and inductance, which creates a resonance circuit resulting in high-
+       frequency switch ringing. Now to examine the switch-ON ringing rising edge, which is mostly determined
+       by Coss of low-side FET plus total parasitic inductance of both FE’s switching loop (Lp on both MOSFETs,
+       L_traces, Cin_ESL).
+
+
+
+
+                        Figure 6. Switching Ringing Waveform Rising and Falling Edges
+
+       The parasitic inductance and capacitance Rs snubber values will depend on Lp and Cp components of the
+       network. Because of the parasitic value for integrated MOSFETs, the layout parasitic and packaging
+       parasitic, such as wire bond, is unknown. A quick and easy way to determine snubber component values
+       is to measure the ringing frequency (F_ring) at the lab bench then characterize the impedance of the
+       circuit. The following method is used to estimate the RC snubber components.
+
+3.1    Methods of Designing RC Snubber
+       1. Measure the switch node ringing frequency (F_ring) of original circuit without snubber. Reduce the
+          original ringing frequency in half by adding a small capacitor from switch to GND.
+
+          NOTE: Usually the added capacitance, which is snubber capacitor Cs, is chosen to be
+                approximately three times larger than total parasitic capacitance, Cp. Therefore, the total
+                resonance parasitic capacitor is approximately one third of the added capacitance.
+
+       2. Estimate the parasitic inductance Lp using the original ringing frequency—the ringing frequency after
+          adding the snubber capacitor and two capacitances (Cp and Cp+Cs).
+       3. Estimate parasitic switch node capacitance Cp.
+       4. Finally, determine snubber resistor Rs required for optimal damping.
+       To estimate Lp, the parasitic inductance of the circuit, first measure the switch node ringing frequency (T1)
+       of original circuit without snubber. Next, add external Cs snubber capacitor in the circuit (from switch node
+       to GND), and increase the value of the capacitor until the frequency of the ringing has been reduced by
+       half (Fring_2), which means the change of the period (T2) doubled when changing the original parasitic
+       capacitance Cp to Cp+Cs.
+
+
+
+
+6      Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices               SLUA831A – July 2017 – Revised November 2018
+                                                                                                        Submit Documentation Feedback
+                                         Copyright © 2017–2018, Texas Instruments Incorporated
+www.ti.com                                                    Minimize the Switch Ringing by Adding RC Snubber and Bootstrap Circuit
+
+       Estimate the Cp, parasitic the capacitance, and Lp, parasitic inductance, to calculate the snubber resistor
+       Rs required for optimal damping. The damping factor, ξ, for damping response of LC circuit usually range
+       ξ <1 (underdamped) and ξ=1 (critical damped). The value of the snubber resistor is equal to the
+       characteristic impedance of the parasitic resonant circuit that provides near ξ = 1 damping.
+       The characteristics of impedances of L-C circuit can be expresses as following formulas:
+       Equation 1 shows the natural resonate of L-C frequency.
+               1
+       Zn
+              LPCp                                                                                                                   (1)
+       Equation 2 shows the resonate ringing frequency or period without adding external capacitor.
+                      1
+       F _ ring _1           ; T1 2S LpCp o T12 4 S2LpCp
+                   2S LPCp                                                                                                           (2)
+       Equation 3 shows the reduced ringing frequency by half (the period doubled) after adding Cs-small
+       capacitor.
+                          1
+       F _ ring _ 2                ; T2 2S Lp (Cp Cs) o T22 4S2Lp Cp Cs
+                    2S LP (Cp Cs)                                                                                                    (3)
+       Subtract Equation 2 from Equation 3. Manipulate the two equations to find Lp then Cp.
+              T22       T12                             1
+       Lp           2
+                                  OR Lp                              2
+              4S Cs                        2
+                                          4S   Fring2       Fring1       Cs                                                          (4)
+                              1
+       Cp |
+              4S (Fring1)2 Lp
+                    2
+                                                                                                                                     (5)
+       After knowing Lp and Cp, determine snubber resistor Rs that is required for optimal damping.
+       Setting is ξ = 1. The value for the snubber resistor can be calculated as Equation 6.
+            1      Lp                           1    Lp
+       [                  Damping factor RS
+           2Rs        Cp                       2[       Cp                                                                           (6)
+
+
+
+
+SLUA831A – July 2017 – Revised November 2018                  Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices    7
+Submit Documentation Feedback
+                                               Copyright © 2017–2018, Texas Instruments Incorporated
+Practical Design                                                                                                           www.ti.com
+
+4       Practical Design
+        Figure 7 shows an example of the typical un-snubbed and Rbst = 0Ω switch ringing waveforms of
+        TPS53355 D-CAP™ mode, 30-A synchronous buck converter that provides a fixed, 1.5-V output at up to
+        30 A from a 12-V input bus. The board is operated at 500-kHz switching frequency, 12-Vin, and 1.5-V, 30-
+        A load. For this design example, the schematic from Using TPS53355EVM-743, High-Efficiency 30A,
+        Synchronous Buck Converter[1] was used.
+
+
+
+
+                              Figure 7. Un-snubber Switching Node Ringing Waveform
+
+
+
+
+    Figure 8. Switching Node Ringing Waveforms (Blue: With 2.2-nF Capacitor Added, Green: No Snubber)
+
+8       Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices               SLUA831A – July 2017 – Revised November 2018
+                                                                                                         Submit Documentation Feedback
+                                          Copyright © 2017–2018, Texas Instruments Incorporated
+www.ti.com                                                                                                       Practical Design
+
+       Figure 8 shows the un-snubber switch node with the peak voltage of 27.8 V, and the ringing frequency
+       (F_ring_1) of 151.5 MHz. To reduce this original ringing frequency, a small capacitor was added. The goal
+       is to reduce the original ringing frequency to almost half by increasing the value of the capacitor. The 2.2-
+       nF capacitor was chosen and placed from the switch node to GND, which reduced the original frequency
+       to 62.5 MHz (F_ring_2) and the peak voltage to 24.8 V. Now estimate the parasitic inductance (Lp) using
+       original ringing frequency (F_ring_1) and ringing frequency (F_ring_2) after adding the snubber capacitor
+       (Cs).
+       By using Equation 4 the parasitic inductance, Lp, is 1.45 nH, and the parasitic capacitance, Cp, is
+       approximately 761 pF.
+                             1
+       Lp                                2
+                                                  1.45 nH
+              2
+           4S 62.5 MHz 151.5 MHz 2.2nF                                                                                        (7)
+                           1
+       Cp |                                    761pF
+              4S (151.5 MHz)2 1.45 nH
+                2
+                                                                                                                              (8)
+
+
+           NOTE: TPS53355 synchronous, step-down converter, low-side FET Coss is 700 pF, which is very
+                 close to Cp = 761 pF. Therefore, one can say that this method of estimating the snubber
+                 capacitance is valid since the main component of parasitic capacitance, Cp, is C_oss of the
+                 low-side MOSFET.
+
+       Once Lp and Cp are determined, the snubber resistor (Rs) is required for optimal damping is 1.38 Ω, and
+       because 1.38 Ω is not available, Rs = 1.47Ω has been used for this example.
+            1 1.45 nH
+       RS                        1.38 :
+            2          761pF                                                                                 (9)
+       With the RC value calculated above, the RC snubber network (1.47Ω + 2.2nF) was placed at switch node
+       to ground, and the optimum switch node ringing was measured at different load conditions. For instance at
+       30-A load condition, the snubber circuit reduced the switch node ringing peak voltage to 23.85 V from 27.7
+       V.
+
+
+
+
+SLUA831A – July 2017 – Revised November 2018          Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices     9
+Submit Documentation Feedback
+                                         Copyright © 2017–2018, Texas Instruments Incorporated
+Practical Design                                                                                                            www.ti.com
+
+       Figure 9 shows ringing waveforms at 30-A load with snubber = 2.2 nF + 1.47 Ω and without snubber.
+       Table 1 details different RC snubber configurations test data.
+
+
+
+
+ Figure 9. Switch Node Ringing Waveforms at 30-A Load (Blue: With Snubber 2.2nF + 1.47Ω, Green: No
+                                             Snubber)
+
+
+         Table 1. TPS53355 and TPS53353: Comparing Ringing Voltage of Three Snubber and Bootstrap
+                                                Resistors
+          Vin = 12 V      Rbst = 0 Ω + 0.1 µF         Rbst= 0 Ω + 0.1 µF      Rbst = 2.05 Ω + 0.1 µF    Rbst = 2.05 Ω + 0.1 µF
+         Vout = 1.5 V        No snubber            Snubber = 1.47 Ω + 2.2 nF Snubber = 1.47 Ω + 2.2 nF Snubber = 1.47 Ω + 1 nF
+        Temperature =
+             25°C
+        Fsw = 500 kHz
+                        Vsw_pk    dV/dt (V/nsec)    Vsw_pk       dV/dt (V/nsec)     Vsw_pk       dV/dt (V/nsec)   Vsw_pk       dV/dt
+                                                                                                                             (V/nsec)
+         Load = 10 A      25.6         10.2           20.8              8             18.2             7           19.2        7.4
+         Load = 20 A      27.2         12.5           22.8              9              21             8.8          21.8         9
+         Load = 30 A      27.7         12.9          23.85             11             22.2            10           23.2        10.4
+
+
+
+
+10     Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices                 SLUA831A – July 2017 – Revised November 2018
+                                                                                                          Submit Documentation Feedback
+                                         Copyright © 2017–2018, Texas Instruments Incorporated
+www.ti.com                                                                                                              Adding Bootstrap Resistor
+
+5      Adding Bootstrap Resistor
+       Another way to reduce the ringing is to include a boot resistor, Rbst, in series with boot capacitor, Cbst, as
+       shown in Figure 4 to slow down the turn-on of the high-side MOSFET. To control the rising rate of switch
+       node and reduce the Vsw ring, add Rbst = 0Ω resistor, and increase the Rbst resistance until the desired
+       switch node ringing voltage is met. Table 1 shows Vsw ring comparison with boot resistor = 0 Ω and 2.05
+       Ω at different load conditions. For example, at 30-A load with Rbst = 0Ω, the peak voltage of switch node
+       voltage is 23.85 V and 11 V/nsec. On other hand, at 30-A load with Rbst = 2.05 Ω, the peak voltage of
+       switch node voltage reduced to 22.2 V and rising edge reduced to 10 V/nsec. So, increasing the boot
+       resistor affects the turn-on of the high-side MOSFET and the associated rising edge of the SW node
+       voltage; however, as shown in Figure 11 a higher boot resistor does not affect the ringing frequency.
+       Figure 10 and Figure 11 show the effect of boot resistor on ringing frequency.
+
+
+
+
+    Figure 10. Rbst 2.05 Ω + 0.1 µF and 1.47 Ω + 2.2 nF                          Figure 11. Rbst 0 Ω + 0.1 µF and 1.47 Ω + 2.2 nF Snubber
+                         Snubber
+
+       Adding the boost resistor of 2.05 Ω will have very small efficiency impact to the converter. As shown in
+       Figure 12, the 2.05-Ω boot resistor does not effect in the efficiency at light load current (<6 A). Even at the
+       load greater than 6 A, the boot resistor still has a little effect on the efficiency. With Rbst = 2.05 Ω, the
+       efficiency at 20-A load current is 91.52%; however, with Rbst = 0 Ω, the efficiency at 20-A load current is
+       91.67%. Thus, because increasing the boot resistor will slow the MOSFET switch-on timing and increase
+       switching power loss, the efficiency will suffer as a result.
+                                               95%
+
+
+
+
+                                               90%
+                                  Efficiency
+
+
+
+
+                                               85%
+
+
+
+                                                                        Rbst = 2.05 : Snubber = 2.2nF + 1.47 :
+                                                                        Rbst = 0 : Snubber = 2.2nF + 1.47 :
+                                               80%
+                                                     0        5        10        15       20        25       30
+                                                                               Iout (A)                          D001
+
+
+                                           Figure 12. Boot Resistor Effects on Efficiency
+
+
+
+
+SLUA831A – July 2017 – Revised November 2018                      Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices        11
+Submit Documentation Feedback
+                                                     Copyright © 2017–2018, Texas Instruments Incorporated
+Effects of Snubber on the Efficiency Performance                                                                                  www.ti.com
+
+6      Effects of Snubber on the Efficiency Performance
+       From Philip Todd’s classic paper[2], the power dissipated in the snubber resistor (Rs) can be estimated
+       from peak energy stored in snubber capacitor (Cs).
+             1
+       Pcs     Cs V 2 sw
+             2                                                                                                (10)
+       This amount is the energy dissipated in Rs when Cs is charged and discharged in each switching cycle.
+       By principle of conservation of charge an amount of energy equal to that stored will be dissipated. This
+       amount of power dissipation is independent of the snubber resistor; therefore, the average power
+       dissipation at a given switching frequency (Fsw), snubber capacitance (Cs), and charging voltage (Vsw)
+       can be estimated as:
+                 §1          ·
+       Pdiss | 2 ¨ Cs V 2sw ¸ Fsw FswCsV 2sw
+                 ©2          ¹                                                                                  (11)
+       So the main factor of power loss in snubber circuit is the snubber capacitor, Cs. It is essential to keep the
+       snubber capacitor as small as possible for small power loss. Increasing the snubber capacitance (Cs) will
+       increase the power loss. For example, at 15-A load current using Cs = 1 nF, the efficiency is 92.29%, and
+       at the same test condition load current = 15 A with Cs = 2.2 nF, the efficiency is 91.97%. It is more
+       noticeable that at light load current using small snubber capacitor—Cs = 1 nF—improves the efficiency
+       almost by 1%. The following data at Figure 13 shows the efficiency performance of TPS53355 converter
+       using two different snubber capacitance configurations:
+       1. Snubber = 1.47 Ω + 2.2 nF, Rbst = 2.05 Ω + 0.1 µF
+       2. Snubber = 1.47 Ω + 1 nF, Rbst = 2.05 Ω + 0.1 µF
+                                              100%
+
+
+                                              90%
+
+
+                                              80%
+                                 Efficiency
+
+
+
+
+                                              70%
+
+
+                                              60%
+
+
+                                              50%
+                                                                             SN_1nF + 1.47 and Rbst_2.05
+                                                                             SN 2.2 nF + 1.47 and Rbst 2.05
+                                              40%
+                                                     0     5        10       15        20        25       30
+                                                                           Iout (A)                           D002
+
+
+                  Figure 13. Efficiency Comparison When Snubber Capacitance Cs Changes
+
+
+7      Summary
+       In this note, the proper measurement of switch node ringing, which shows that improper measurement can
+       lead to switch node ringing voltage that is higher than desired, was discussed. The RC snubber design
+       methods were introduced and examined to reduce both the amplitude and the ringing frequency of switch
+       node voltage to acceptance levels. Moreover, this application note shown that the result of adding boot
+       resistor, which is to slow down the turn on of the HS MOSFET and reduce the associated rising edge of
+       the SW node voltage; however, the boot resistor does not affect the ringing frequency. Finally, this
+       document has shown the effect of different snubber components values on efficiency performance of the
+       synchronous buck converter.
+
+
+
+
+12     Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices                       SLUA831A – July 2017 – Revised November 2018
+                                                                                                                Submit Documentation Feedback
+                                                 Copyright © 2017–2018, Texas Instruments Incorporated
+www.ti.com                                                                                                                                       References
+
+8        References
+         1. Texas Instruments, Using TPS53355EVM-743, High-Efficiency 30A, Synchronous Buck Converter,
+            User's Guide (SLUU522)
+         2. Philip C. Todd, Snubber Circuits: Theory, Design and Practice, Unitrode Power Seminar 900 Topic 2,
+            May 1993.
+         3. Rudy Severns, Design of Circuits for Power Circuits, Application Note written for Cornell Dubilier
+            Electronics, Inc.
+
+                                                                  Revision History
+NOTE: Page numbers for previous revisions may differ from page numbers in the current version.
+
+Changes from Original (July 2017) to A Revision ........................................................................................................... Page
+
+
+
+
+SLUA831A – July 2017 – Revised November 2018                                                                                        Revision History         13
+Submit Documentation Feedback
+                                                   Copyright © 2017–2018, Texas Instruments Incorporated
+                                                                                                       Application Report
+                                                                                 SLUA831A – July 2017 – Revised November 2018
+
+
+                                                                                               !~Revision History
+
+
+
+1    !~Changes from original to Nov 13, 2018
+     !~Rewrite the abstract to include end equipment applications
+
+
+
+
+14   Minimizing Switching Ringing at TPS53355 and TPS53353 Family Devices               SLUA831A – July 2017 – Revised November 2018
+                                                                                                      Submit Documentation Feedback
+                                       Copyright © 2017–2018, Texas Instruments Incorporated
+                                                 IMPORTANT NOTICE AND DISCLAIMER
+
+TI PROVIDES TECHNICAL AND RELIABILITY DATA (INCLUDING DATASHEETS), DESIGN RESOURCES (INCLUDING REFERENCE
+DESIGNS), APPLICATION OR OTHER DESIGN ADVICE, WEB TOOLS, SAFETY INFORMATION, AND OTHER RESOURCES “AS IS”
+AND WITH ALL FAULTS, AND DISCLAIMS ALL WARRANTIES, EXPRESS AND IMPLIED, INCLUDING WITHOUT LIMITATION ANY
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT OF THIRD
+PARTY INTELLECTUAL PROPERTY RIGHTS.
+These resources are intended for skilled developers designing with TI products. You are solely responsible for (1) selecting the appropriate
+TI products for your application, (2) designing, validating and testing your application, and (3) ensuring your application meets applicable
+standards, and any other safety, security, or other requirements. These resources are subject to change without notice. TI grants you
+permission to use these resources only for development of an application that uses the TI products described in the resource. Other
+reproduction and display of these resources is prohibited. No license is granted to any other TI intellectual property right or to any third
+party intellectual property right. TI disclaims responsibility for, and you will fully indemnify TI and its representatives against, any claims,
+damages, costs, losses, and liabilities arising out of your use of these resources.
+TI’s products are provided subject to TI’s Terms of Sale (www.ti.com/legal/termsofsale.html) or other applicable terms available either on
+ti.com or provided in conjunction with such TI products. TI’s provision of these resources does not expand or otherwise alter TI’s applicable
+warranties or warranty disclaimers for TI products.
+
+
+                             Mailing Address: Texas Instruments, Post Office Box 655303, Dallas, Texas 75265
+                                            Copyright © 2018, Texas Instruments Incorporated
+
