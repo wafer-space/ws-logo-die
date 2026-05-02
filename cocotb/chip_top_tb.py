@@ -54,30 +54,23 @@ async def start_up(dut):
 
 
 @cocotb.test()
-async def test_counter(dut):
-    """Run the counter test"""
+async def test_smoke(dut):
+    """Bring the chip out of reset and run the clock for a while.
 
-    # Create a logger for this testbench
+    With the QCPU removed the only live circuitry inside chip_top is the
+    wrapped_vga macro, which is included as a black-box gate-level
+    netlist for GL simulation but is not modelled in the RTL build. This
+    test therefore just verifies that clock and reset can be driven
+    without the simulator falling over.
+    """
+
     logger = logging.getLogger("my_testbench")
 
     logger.info("Startup sequence...")
-
-    # Start up
     await start_up(dut)
 
     logger.info("Running the test...")
-
-    # Wait for some time...
-    await ClockCycles(dut.clk_PAD, 10)
-
-    # Start the counter by setting all inputs to 1
-    dut.input_PAD.value = -1
-
-    # Wait for a number of clock cycles
     await ClockCycles(dut.clk_PAD, 100)
-
-    # Check the end result of the counter
-    assert dut.bidir_PAD.value == 100 - 1
 
     logger.info("Done!")
 

@@ -60,8 +60,7 @@ The `gf180mcu_ws_ip__id`, `gf180mcu_ws_ip__logo`, and `big_logo` macros are **pr
 ## Architecture — top-level integration
 
 - `src/chip_top.sv` — instantiates the padring (`gf180mcu_ws_io__dvdd`/`__dvss`, `gf180mcu_fd_io__in_c`/`__in_s`/`__bi_24t`/`__asig_5p0`) using `generate` loops sized by the `SLOT_*` defines, and wires those pads to `chip_core`. Also instantiates `wrapped_vga`, `chip_id`, `wafer_space_logo`, and `big_logo` with `(* keep *)` attributes so synthesis cannot prune them. **Do not change power/ground pad counts or positions** — they must match the standard breakout PCB.
-- `src/chip_core.sv` — the user-replaceable design. Receives `clk`, `rst_n`, the input/bidir/analog pad signals, and outputs `vga_outputs` + `rst_n_vga` to the VGA macro.
-- `src/multiplier.v`, `src/qcpu.v`, `src/wrapped_qcpu.v`, `src/spi.v`, `src/uart.v` — supporting RTL used by the core.
+- `src/chip_core.sv` — VGA-only user logic. Drives `vga_outputs[7:0]` from the chip-top `wrapped_vga` instance onto the top 8 bidir pads (`bidir[39:32]`, OE=1) and ties off the remaining bidir/input pads to a safe inactive state (`OE=0`, `IE=0`, no pulls). Only ~17 of the 56 signal pads carry useful traffic; the rest are bonded out unchanged so the breakout PCB still matches.
 - `vga_screensaver/` — separate LibreLane project that hardens `wrapped_vga` from the `tt-waferspace-vga-screensaver` submodule. Has its own `config.yaml`, `Makefile`, and run directory.
 
 ## Key configuration knobs in `librelane/config.yaml`
