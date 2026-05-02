@@ -1,128 +1,113 @@
-# gf180mcu Project Template
+# ws-logo-die — wafer.space Logo Die
 
-Project template for wafer.space MPW runs using the gf180mcu PDK.
+> **WSLG · Slot 1×1 · GF180MCU · wafer.space Run 1**
+>
+> *"Die with a big wafer.space logo on it!"*
 
-## Prerequisites
+A 1×1 slot tapeout for [wafer.space](https://wafer.space/) Run 1 (shuttle G801,
+GlobalFoundries 180nm MCU). The core of the die is a giant wafer.space logo
+drawn directly into the back-end-of-line metal stack, surrounded by a fully
+populated I/O pad ring. A small `chip_core` and a hardened `wrapped_vga`
+screensaver macro provide enough live circuitry to drive the pads, but the
+star of the show is the logo itself.
 
-We use a custom fork of the [gf180mcuD PDK variant](https://github.com/wafer-space/gf180mcu) until all changes have been upstreamed.
+<div align="center">
+  <img src="wslg_wafer_photo.png" width="70%" alt="WSLG die visible on the fabricated GF180MCU wafer"/>
+  <br/><sub>The fabricated WSLG die — the rocket-and-rings logo is clearly visible<br/>on the silicon, on the wafer.space Run 1 GF180MCU wafer.</sub>
+</div>
 
-To clone the latest PDK version, simply run `make clone-pdk`.
+<br/>
 
-In the next step, install LibreLane by following the Nix-based installation instructions: https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html
+<div align="center">
+<table width="100%">
+<tr>
+<td width="50%" align="center">
+  <img src="wslg_die_render.png" width="95%" alt="WSLG GDS render — wafer.space two-tone style"/>
+  <br/><sub>GDS render in the wafer.space two-tone style<br/>(Metal5 in yellow, Pad layer in dark red)</sub>
+</td>
+<td width="50%" align="center">
+  <img src="https://raw.githubusercontent.com/mithro/wafer-space-die-pad-diagrams/main/diagrams/WSLG_chip_top_10_2.png" width="95%" alt="WSLG annotated pad diagram"/>
+  <br/><sub>Pad diagram from <a href="https://github.com/mithro/wafer-space-die-pad-diagrams">mithro/wafer-space-die-pad-diagrams</a><br/>(74 labelled pads, 3932 × 5122 µm)</sub>
+</td>
+</tr>
+</table>
+</div>
 
-## Implement the Design
+The chip is project **WSLG** on the [ws-run1 reticle](https://github.com/wafer-space/ws-run1).
 
-This repository contains a Nix flake that provides a shell with the [`leo/gf180mcu`](https://github.com/librelane/librelane/tree/leo/gf180mcu) branch of LibreLane.
+## What's on the die
 
-Simply run `nix-shell` in the root of this repository.
+| Macro | Role |
+|---|---|
+| `big_logo` | The wafer.space logo, drawn across **all metal layers** (`Metal1`–`Metal5` plus contacts/vias). Dominates the core area. Generated from `big_logo/wafer_space_logo.png` via `ip/gf180mcu_ws_ip__logo/script/make_gds.py`. |
+| `gf180mcu_ws_ip__id` | Chip ID / QR code stamp — required for tapeout, in the SW corner. |
+| `gf180mcu_ws_ip__logo` | Smaller wafer.space logo template cell — auto-anchored to the NE corner via `expr::$DIE_AREA[2] - 169.25`. |
+| `wrapped_vga` | Hardened VGA screensaver macro from [TinyTapeout/tt-waferspace-vga-screensaver](https://github.com/TinyTapeout/tt-waferspace-vga-screensaver), built separately under `vga_screensaver/`. |
+| `chip_core` | Glue logic that wires the pad ring to the VGA macro and exposes test signals. The 42-bit counter from the original template is kept as a placeholder. |
 
-> [!NOTE]
-> Since we are working on a branch of LibreLane, OpenROAD needs to be compiled locally. This will be done automatically by Nix, and the binary will be cached locally. 
+## I/O configuration (1×1 slot)
 
-With this shell enabled, run the implementation:
+| Class | Count |
+|---|---|
+| Bidirectional (`bi_24t`) | 40 |
+| Input (`in_c` / `in_s`) | 12 + clk + rst_n |
+| Analog (`asig_5p0`) | 2 |
+| DVDD / DVSS pads | 8 / 10 |
 
-```
-make librelane
-```
+Exact pad placement is in [`librelane/slots/slot_1x1.yaml`](librelane/slots/slot_1x1.yaml);
+counts come from `src/slot_defines.svh` keyed off the `SLOT_1X1` Verilog define.
 
-## View the Design
+## Build
 
-After completion, you can view the design using the OpenROAD GUI:
+This repo is a Nix-driven LibreLane flow pinned to a custom branch
+(`leo/gf180mcu`) and the wafer-space fork of the GF180MCU PDK.
 
-```
-make librelane-openroad
-```
-
-Or using KLayout:
-
-```
-make librelane-klayout
-```
-
-## Copying the Design to the Final Folder
-
-To copy your latest run to the `final/` folder in the root directory of the repository, run the following command:
-
-```
-make copy-final
-```
-
-This will only work if the last run was completed without errors.
-
-## Verification and Simulation
-
-We use [cocotb](https://www.cocotb.org/), a Python-based testbench environment, for the verification of the chip.
-The underlying simulator is Icarus Verilog (https://github.com/steveicarus/iverilog).
-
-The testbench is located in `cocotb/chip_top_tb.py`. To run the RTL simulation, run the following command:
-
-```
-make sim
-```
-
-To run the GL (gate-level) simulation, run the following command:
-
-```
-make sim-gl
-```
-
-> [!NOTE]
-> You need to have the latest implementation of your design in the `final/` folder. After implementing the design, execute 'make copy-final' to copy all necessary files.
-
-In both cases, a waveform file will be generated under `cocotb/sim_build/chip_top.fst`.
-You can view it using a waveform viewer, for example, [GTKWave](https://gtkwave.github.io/gtkwave/).
-
-```
-make sim-view
+```bash
+git submodule update --init --recursive
+make clone-pdk          # clones github.com/wafer-space/gf180mcu @ $PDK_TAG
+nix develop             # drops you into a shell with LibreLane / iverilog / klayout / magic
+cd vga_screensaver && make project && cd ..   # harden the VGA macro first
+make librelane          # full RTL → GDSII flow for chip_top
+make copy-final         # snapshot last run into final/
 ```
 
-You can now update the testbench according to your design.
+To rebuild the `big_logo.gds` from the source PNG:
 
-## Implementing Your Own Design
-
-The source files for this template can be found in the `src/` directory. `chip_top.sv` defines the top-level ports and instantiates `chip_core`, chip ID (QR code) and the wafer.space logo. To allow for the default bonding setup, do not change the number of pads in order to keep the original bondpad positions. To be compatible with the default breakout PCB, do not change any of the power or ground pads. However, you can change the type of the signal pads, e.g. to bidirectional, input-only or e.g. analog pads. The template provides the `NUM_INPUT` and `NUM_BIDIR` parameters for this purpose.
-
-The actual pad positions are defined in the LibreLane configuration file under `librelane/config.yaml`. The variables `PAD_SOUTH`/`PAD_EAST`/`PAD_NORTH`/`PAD_WEST` determine the respective pad placement. The LibreLane configuration also allows you to customize the flow (enable or disable steps), specify the source files, set various variables for the steps, and instantiate macros. For more information about the configuration, please refer to the LibreLane documentation: https://librelane.readthedocs.io/en/latest/
-
-To implement your own design, simply edit `chip_core.sv`. The `chip_core` module receives the clock and reset, as well as the signals from the pads defined in `chip_top`. As an example, a 42-bit wide counter is implemented.
-
-> [!NOTE]
-> For more comprehensive SystemVerilog support, enable the `USE_SLANG` variable in the LibreLane configuration.
-
-## Choosing a Different Slot Size
-
-The template supports the following slot sizes: `1x1`, `0p5x1`, `1x0p5`, `0p5x0p5`.
-By default, the design is implemented using the `1x1` slot definition.
-
-To select a different slot size, simply set the `SLOT` environment variable.
-This can be done when invoking a make target:
-
+```bash
+cd big_logo && make logo drc
 ```
+
+See [`CLAUDE.md`](CLAUDE.md) for a deeper tour of the build system, the slot
+selector, and the various non-obvious LibreLane configuration knobs (notably
+the Metal2 density workaround and the custom DFF cell library overrides).
+
+## Other slot sizes
+
+The repo also supports `0p5x1`, `1x0p5`, and `0p5x0p5`:
+
+```bash
 SLOT=0p5x0p5 make librelane
 ```
 
-Alternatively, you can export the slot size:
+The 1×1 slot is the variant that actually shipped on Run 1.
 
-```
-export SLOT=0p5x0p5
-```
+## Verification
 
-You can change the slot that is selected by default in the Makefile by editing the value of `DEFAULT_SLOT`.
+A cocotb / Icarus testbench at [`cocotb/chip_top_tb.py`](cocotb/chip_top_tb.py)
+covers both RTL (`make sim`) and gate-level (`make sim-gl`, requires
+`make copy-final` first) simulation. Waveforms drop into
+`cocotb/sim_build/chip_top.fst`; view with `make sim-view`.
 
-## Building a Standalone Padring for Analog Design
+Manufacturability sign-off: run [gf180mcu-precheck](https://github.com/wafer-space/gf180mcu-precheck) against `final/gds/chip_top.gds`.
 
-To build just the padring without any standard cell rows, digital routing or filler cells, run the following command:
+## Related repositories
 
-```
-make librelane-padring
-```
+- [wafer-space/ws-run1](https://github.com/wafer-space/ws-run1) — the full Run 1 reticle this die ships on
+- [wafer-space/gf180mcu](https://github.com/wafer-space/gf180mcu) — the custom GF180MCU PDK fork
+- [librelane/librelane @ leo/gf180mcu](https://github.com/librelane/librelane/tree/leo/gf180mcu) — the LibreLane branch this flow is pinned to
+- [mithro/wafer-space-die-pad-diagrams](https://github.com/mithro/wafer-space-die-pad-diagrams) — generates the annotated pad diagram shown above
+- [89Mods/ws-logo-die](https://github.com/89Mods/ws-logo-die) — origin of this design
 
-It is also possible to build the padring for other slot sizes:
+## License
 
-```
-SLOT=0p5x0p5 make librelane-padring
-```
-
-## Precheck
-
-To check whether your design is suitable for manufacturing, run the [gf180mcu-precheck](https://github.com/wafer-space/gf180mcu-precheck) with your layout.
+Apache License 2.0 — see [`LICENSE`](LICENSE) and [`AUTHORS.md`](AUTHORS.md).
