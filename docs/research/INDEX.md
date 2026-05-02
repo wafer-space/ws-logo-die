@@ -27,17 +27,51 @@ Legend: `—` not started, `▶` in flight, `✓` signed-off draft exists,
 
 | # | Item | Stage 1 ind. | Stage 1 acad. | Stage 1 1st-princ. | Stage 2 synth. | Stage 3 short | Stage 4 deep dive | Stage 5 impl. |
 |---|---|---|---|---|---|---|---|---|
-| (a) | [Internal oscillator](a-internal-oscillator/README.md) | — | — | ▶ | — | — | — | — |
-| (b) | [NFC energy harvest](b-nfc-harvesting/README.md) | — | — | ▶ | — | — | — | — |
-| (c) | [Qi power harvest](c-qi-harvesting/README.md) | — | — | ▶ | — | — | — | — |
-| (d) | [2.4 GHz ambient harvest](d-rf-2g4-harvesting/README.md) | — | — | ▶ | — | — | — | — |
-| (e) | [On-die MIM cap storage](e-mim-cap-storage/README.md) | — | — | ▶ | — | — | — | — |
-| (f) | [LED twinkle drivers](f-led-twinkle-drivers/README.md) | — | — | ▶ | — | — | — | — |
-| (g) | [VGA wrapper cleanup](g-vga-wrapper-cleanup/README.md) | — | — | ▶ | — | — | — | — |
-| (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | — | — | ▶ | — | — | — | — |
-| (i) | [Power-domain isolation](i-power-domain-isolation/README.md) | — | — | ▶ | — | — | — | — |
-| (j) | [eFuses / OTP](j-efuses-otp/README.md) | — | — | ▶ | — | — | — | — |
-| (k) | [BLE (aspirational)](k-aspirational-ble/README.md) | — | — | ▶ | — | — | — | — |
+| (a) | [Internal oscillator](a-internal-oscillator/README.md) | ! | — | ✓ | — | — | — | — |
+| (b) | [NFC energy harvest](b-nfc-harvesting/README.md) | ! | — | ! | — | — | — | — |
+| (c) | [Qi power harvest](c-qi-harvesting/README.md) | ! | — | ! | — | — | — | — |
+| (d) | [2.4 GHz ambient harvest](d-rf-2g4-harvesting/README.md) | ✗ | — | ✓ | — | — | — | — |
+| (e) | [On-die MIM cap storage](e-mim-cap-storage/README.md) | ! | — | ! | — | — | — | — |
+| (f) | [LED twinkle drivers](f-led-twinkle-drivers/README.md) | ✗ | — | ✓ | — | — | — | — |
+| (g) | [VGA wrapper cleanup](g-vga-wrapper-cleanup/README.md) | ! | — | ✓ | — | — | — | — |
+| (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ✗ | — | ✓ | — | — | — | — |
+| (i) | [Power-domain isolation](i-power-domain-isolation/README.md) | ! | — | ✓ | — | — | — | — |
+| (j) | [eFuses / OTP](j-efuses-otp/README.md) | ! | — | ! | — | — | — | — |
+| (k) | [BLE (aspirational)](k-aspirational-ble/README.md) | ✗ | — | ! | — | — | — | — |
+
+Legend additions: `!` = work returned as agent text but not yet
+persisted to the structured 5-file layout; see
+[`STATUS.md`](STATUS.md). `✗` = agent hit org monthly usage limit
+before producing useful output.
+
+**Stage-1 progress as of 2026-05-03**: org monthly usage limit
+reached. 11 first-principles agents launched, 9 returned with
+substantive work; 11 industry-survey agents launched, several
+returned content but several hit the limit and produced nothing.
+Stage 1 academic-survey wave was not launched.
+
+Persistence status:
+- **(a) first-principles**: ✓ all 5 files on disk and committed.
+- **(g) first-principles**: ✓ all 5 files on disk and committed.
+- **(f) first-principles**: ✓ all 5 files on disk and committed.
+- **(d) first-principles**: ✓ all 5 files on disk and committed.
+- **(h) first-principles**: report.md only on disk and committed;
+  components / solutions / open-questions / references pending.
+- **(i) first-principles**: report.md only on disk and committed;
+  rest pending.
+- **(b)/(c)/(e)/(j)/(k) first-principles**: agent text in
+  conversation log only, not yet persisted.
+- **(a) industry-survey**: solutions.md and references.md persisted;
+  report / components / open-questions never produced (usage limit).
+- **(c) industry-survey, (g) industry-survey, (i) industry-survey,
+  (j) industry-survey, (e) industry-survey**: agent text in
+  conversation log only.
+- **(b)/(d)/(f)/(h)/(k) industry-survey**: agent hit usage limit
+  before producing useful output.
+- **references-cache/**: ~80 MB of cached upstream PDFs and
+  pdftotext extractions across (a)/(b)/(c)/(d)/(h)/(j) committed.
+  Stage-2 reviewers should hash-verify before relying on numerical
+  claims.
 
 ## Open review queue
 
