@@ -7,9 +7,10 @@
 A 1×1 slot tapeout for [wafer.space](https://wafer.space/) Run 1 (shuttle G801,
 GlobalFoundries 180nm MCU). The core of the die is a giant wafer.space logo
 drawn directly into the back-end-of-line metal stack, surrounded by a fully
-populated I/O pad ring. A small `chip_core` and a hardened `wrapped_vga`
-screensaver macro provide enough live circuitry to drive the pads, but the
-star of the show is the logo itself.
+populated I/O pad ring. The star of the show is the logo itself, but the
+chip is genuinely functional: `chip_core` instantiates an 8-bit
+microcontroller (QCPU) and a hardened wafer.space VGA screensaver macro,
+and `input[7]` picks which of the two drives the pad ring at boot.
 
 <div align="center">
   <img src="wslg_wafer_photo.png" width="70%" alt="WSLG die visible on the fabricated GF180MCU wafer"/>
@@ -43,19 +44,76 @@ The chip is project **WSLG** on the [ws-run1 reticle](https://github.com/wafer-s
 | `gf180mcu_ws_ip__id` | Chip ID / QR code stamp — required for tapeout, in the SW corner. |
 | `gf180mcu_ws_ip__logo` | Smaller wafer.space logo template cell — auto-anchored to the NE corner via `expr::$DIE_AREA[2] - 169.25`. |
 | `wrapped_vga` | Hardened VGA screensaver macro from [TinyTapeout/tt-waferspace-vga-screensaver](https://github.com/TinyTapeout/tt-waferspace-vga-screensaver), built separately under `vga_screensaver/`. |
-| `chip_core` | Glue logic that wires the pad ring to the VGA macro and exposes test signals. The 42-bit counter from the original template is kept as a placeholder. |
+| `chip_core` | Mode-mux around `wrapped_qcpu` (an 8-bit accumulator-style microcontroller with 128-byte SRAM, SPI-ROM boot, three GPIO ports, UART, SPI master, PWM and toggle outputs) and the VGA macro. `input[7]` selects which one drives the bidirectional pad ring; the unselected block is held in reset. |
 
-## I/O configuration (1×1 slot)
+## Pinout (1×1 slot)
 
-| Class | Count |
-|---|---|
-| Bidirectional (`bi_24t`) | 40 |
-| Input (`in_c` / `in_s`) | 12 + clk + rst_n |
-| Analog (`asig_5p0`) | 2 |
-| DVDD / DVSS pads | 8 / 10 |
+The pad ring is fully populated for the wafer.space breakout PCB, but only
+the pads listed below are actually consumed by the design. Anything not
+mentioned (extra signal pads, the analog pads) is bonded out but has no
+internal connection.
+
+`input[7]` selects the operating mode:
+
+| `input[7]` | Mode | Active block |
+|---|---|---|
+| `0` (default after reset) | **VGA screensaver** | `wrapped_vga` runs; QCPU is held in reset |
+| `1` | **QCPU** | `wrapped_qcpu` runs; the VGA macro is held in reset |
+
+### Always connected
+
+| Pad | Signal | Notes |
+|---|---|---|
+| `clk_PAD` | Chip clock | Schmitt-trigger input (`gf180mcu_fd_io__in_s`) |
+| `rst_n_PAD` | Active-low reset | Plain CMOS input (`gf180mcu_fd_io__in_c`) |
+| `input[7]` | Mode select | Also fans out to `qcpu.PIND[7]` and `wrapped_vga.inputs[3]` |
+
+### VGA mode (default) — useful pads
+
+| Pad(s) | Signal | Notes |
+|---|---|---|
+| `input[10:4]` | `wrapped_vga.inputs[6:0]` | 7-bit control input to the screensaver |
+| `bidir[39:32]` | `vga_outputs[7:0]` | 8-bit VGA output; OE forced high in this mode |
+
+### QCPU mode — useful pads
+
+QCPU is an 8-bit accumulator-style microcontroller that boots from an
+external SPI flash. Each of the 40 bidirectional pads carries a specific
+function:
+
+| Pad(s) | Signal | Function |
+|---|---|---|
+| `bidir[3:0]` | `ROM_DI` / `ROM_DO[3:0]` | SPI-ROM data, quad-mode capable |
+| `bidir[4]` | `CS_ROM` | SPI-ROM chip select (active low) |
+| `bidir[5]` | `SCLK_ROM` | SPI-ROM clock |
+| `bidir[13:6]` | `PORTA[7:0]` | GPIO port A with per-bit DDR (`PORTA_DDR`) |
+| `bidir[21:14]` | `PORTB[7:0]` | GPIO port B with per-bit DDR (`PORTB_DDR`) |
+| `bidir[22]` | `txd` | UART transmit |
+| `bidir[23]` | `rxd` | UART receive |
+| `bidir[24]` | `spi_sclk` | SPI master clock |
+| `bidir[25]` | `spi_do` | SPI master MOSI |
+| `bidir[26]` | `spi_di` / `PINC[0]` | SPI master MISO (also visible as `PINC[0]`) |
+| `bidir[27]` | `M1` | Instruction-fetch indicator |
+| `bidir[28]` | `intb` | Active-low interrupt input |
+| `bidir[29]` | `pause` | Execution-pause input |
+| `bidir[30]` | `pwm` | PWM output |
+| `bidir[31]` | `toggle` | Toggle output |
+| `bidir[39:33]` | `PORTC[6:0]` | GPIO port C with per-bit DDR (`PORTC_DDR`) |
+| `input[7:0]` | `PIND[7:0]` | 8-bit input port to QCPU |
+
+### Bonded but unused
+
+These pads exist on the package and pad ring (so the bondout matches the
+standard breakout PCB) but are not driven or read by `chip_core`:
+
+- `input[11]` — wired into `chip_core` but never consumed.
+- `analog[1:0]` — both `asig_5p0` pads on the north edge are declared in
+  the `chip_core` port list but never assigned. Available as test points
+  to the seal-ring-adjacent metal but with no internal circuit.
 
 Exact pad placement is in [`librelane/slots/slot_1x1.yaml`](librelane/slots/slot_1x1.yaml);
-counts come from `src/slot_defines.svh` keyed off the `SLOT_1X1` Verilog define.
+the bidir/input/analog/power-pad counts in [`src/slot_defines.svh`](src/slot_defines.svh)
+are keyed off the `SLOT_1X1` Verilog define.
 
 ## Build
 
