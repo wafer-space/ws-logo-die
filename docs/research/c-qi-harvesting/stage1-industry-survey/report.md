@@ -4,7 +4,7 @@ item_name: qi-harvesting
 stage: 1
 angle: industry-survey
 researcher: claude-opus-4-7-1m (Stage-1 industry-survey, instance 1 of 3)
-status: in-review
+status: persisted-from-conversation-log; split-into-5-file-structure
 last-updated: 2026-05-03
 ---
 
@@ -68,67 +68,16 @@ Headline observations:
 
 ## 3. Solution-space map
 
-### Axis A — Rectifier topology
-
-- **A1. Passive full-wave diode bridge.** Vinod-Tanur ATtiny13A
-  free-rider uses Schottky bridge (1N5819-class). PCH design guide
-  shows passive bridge in block diagrams. **In our process
-  degenerates to A4** (no Schottky in `gf180mcuD`).
-- **A2. Voltage-doubler / Greinacher / Cockcroft-Walton.** Standard
-  for 2.4 GHz / UHF RFID. **Not used in any commercial Qi receiver
-  IC** the survey found — wrong tool when V_pk is already several
-  volts.
-- **A3. Full-wave synchronous rectifier.** Used by **every
-  commercial high-power Qi receiver IC**: bq51013B
-  ("low-resistance synchronous rectifier"), bq51003, bq51221
-  ("Fully Synchronous Rectifier With 96 % Efficiency"), P9221-R,
-  STWLC38. Industry standard above ~1 W.
-- **A4. Diode-connected MOSFET bridge.** Surface-of-die "passive
-  front-end" of various non-Qi RFID and biomedical-implant
-  rectifiers. **Not used** in commercial Qi.
-- **A5. Hybrid: cross-coupled NMOS + comparator-driven PMOS with
-  adaptive delay compensation.** P9221-R3 family.
-
-### Axis B — Regulator topology
-
-- **B1. LDO from Vrect to harvested rail.** Every TI bq510xx
-  receiver. **Native fit** for our requirements.
-- **B2. Switching converter.** All high-power (15 W+) commercial
-  Qi receivers integrate post-regulation switchers. **Forbidden
-  for us** (off-die inductors not allowed).
-- **B3. Adjustable Vrect via load modulation back to the TX.**
-  bq51013B's "Dynamic Rectifier Control". Requires *full* WPC v1.x
-  comm.
-
-### Axis C — System architecture / protocol participation
-
-- **C1. Full WPC-compliant receiver.** Every commercial Qi
-  receiver IC. ~3000 gates digital + modulator + demodulator +
-  state machine. Plausible but expensive in design effort.
-- **C2. Free-rider** — partial WPC compliance ("just enough to
-  keep TX awake"). The Vinod-Tanur ATtiny13A receiver. **~500
-  gates**, no demodulator. **Strong fit.**
-- **C3. Pure free-rider** — no WPC packets at all ("ping
-  snatcher"). Just rectifier + brown-out detector + storage cap.
-  **Lowest-effort option.** Acceptable if average power < FOD
-  pre-power-transfer threshold.
-
-### Architectural variants beyond the three axes
-
-- **V1. Shared NFC + Qi single-coil.** ROHM ML7630/7631; Würth
-  WE-WPCC combination coils. Petzel thesis documents NFC ICs
-  failing under Qi-class fields. **Inadvisable** — the companion
-  PCB *deliberately* puts NFC and Qi on different inner layers.
-- **V2. Independent NFC + Qi front-ends (two coils, two pad
-  pairs).** *De-facto* commercial architecture. **What our
-  companion PCB implements.**
-- **V3. Multi-mode receiver** (Qi BPP + Qi EPP + Qi 2 MPP + PMA).
-  TI bq51221 dual-mode WPC + PMA. Probably out-of-scope for our
-  v2.
+See [`solutions.md`](solutions.md). Industry-survey
+catalogues 8 topologies across three orthogonal axes (5
+rectifier × 3 regulator × 3 protocol-participation) plus 3
+system-architecture variants.
 
 ## 4. Sub-block breakdown
 
-(See sister `stage1-first-principles/components.md`.)
+See [`components.md`](components.md) for industry-survey-
+specific sub-block findings, augmenting the first-principles
+sister `../stage1-first-principles/components.md`.
 
 ## 5. First-principles sanity checks
 
@@ -143,27 +92,12 @@ Industry-survey-specific cross-checks:
 
 ## 6. References
 
-| ID | Citation | Verification | Cache |
-|---|---|---|---|
-| W2 (Qi PC0 v1.2.3) | WPC, full PDF | VERIFIED 2026-05-02 | references-cache/wpc-qi-pc0-v1.2.3a/ |
-| W1 (Qi v1.3 Introduction) | WPC, January 2021 | VERIFIED 2026-05-02 | references-cache/wpc-qi-v13-intro/ |
-| D1 (TI bq51013B SLUSC65A) | TI datasheet, Sep 2018 | VERIFIED 2026-05-02 | references-cache/ti-bq51013b-ds/ |
-| D2 (IDT P9221-R) | IDT/Renesas datasheet | VERIFIED 2026-05-02 | references-cache/idt-p9221-r-ds/ |
-| D4 (TI bq51050B) | TI datasheet | VERIFIED 2026-05-02 | references-cache/ti-bq51050b-ds/ |
-| D5 (ST STWLC38) | ST data brief | TIMEOUT — needs re-fetch | n/a |
-| D7 (TI bq500412 transmitter) | TI datasheet | snippet only — flagged | n/a |
-| W3 (Infineon AN234970 FOD) | Infineon, 2023-02-06 | VERIFIED 2026-05-02 | references-cache/infineon-fod-tuning/ |
-| W4 (NXP AN5075 / AN4937) | NXP wireless-charging app notes | snippets only — flagged | n/a |
-| W5 (ROHM ML7630/31) | rohm.com/lapis-tech | snippet only | n/a |
-| W6 (Würth WE-WPCC) | we-online.com | snippet only | n/a |
-| W7 (Hackaday Qi DIY) | hackaday.com 2019-04-11 | snippet only | n/a |
-| W8 (PCH design guide) | pchintl.com | VERIFIED 2026-05-02 | references-cache/pch-design-guide/ |
-| W12 (Wireless Power Wiki FOD) | wirelesspowerwiki.com | VERIFIED 2026-05-02 | n/a |
-| A1 (Lee & Mok 2012) | IEEE TBioCAS active rectifier | snippet | n/a |
-| A2 (Lu & Ki 2014) | JSSC adaptive delay-comp | snippet | n/a |
-| A3 (Cha et al. 2018/2021) | MDPI Energies | snippet | n/a |
-| A4 (Petzel 2020 TU Graz) | MSc thesis NFC/Qi coexistence | VERIFIED 2026-05-02 | references-cache/petzel-2018-thesis/ |
-| O1 (Vinod-Tanur ATtiny13A) | github.com/vinodstanur/qi_wireless_receiver_attiny13 | VERIFIED 2026-05-02 | n/a |
+See [`references.md`](references.md) for the full annotated
+bibliography. Headline: 8 verified-and-cached, 11 snippet-only,
+~35 MB cache including the full Qi PC0 v1.2.3 spec, the Petzel
+thesis (most useful single document of the survey), 3 TI Qi
+receiver datasheets, the IDT/Renesas P9221-R datasheet, and
+the Infineon FOD-tuning app note.
 
 ## 7. Negative results
 
@@ -198,22 +132,13 @@ would be hundreds of µH and area-prohibitive.
 
 ## 8. Open questions
 
-1. **Q-factor of our 8-turn 56 × 40 mm Qi coil on the L3 inner
-   copper, with adjacent NFC perimeter spiral on L2, *no* ferrite
-   shielding** — currently un-quantified.
-2. **What is the *minimum* WPC-v1 packet sequence that keeps a
-   *representative* set of commercial Qi pads in Power Transfer
-   phase?**
-3. **Does the bq51013B's "Adaptive Communication Limit" feature
-   imply that *our* on-die capacitive-load-modulator must support
-   ≥100 mA peak?**
-4. **Will Qi 2 MPP-only pads fall back to BPP when the Rx fails
-   authentication?**
-5. **Is the analog-ping current threshold low enough for a small
-   PCB coil to be detected without any compliance-protocol
-   participation at all?** Decides viability of C3 "ping snatcher".
-6. **What is the realistic on-die MIM cap area available** given
-   the logo-on-all-metal floorplan constraint?
+See [`open-questions.md`](open-questions.md). Eight specific
+questions covering coil-Q quantification (PCB problem, gates
+analog-ping detectability), minimum-viable WPC packet sequence,
+modulator-current sizing, Qi 2 MPP fallback behaviour,
+analog-ping threshold for C3 viability, on-die MIM cap area
+(cross-ref item (e)), AC-clamp area cost, and target Qi-pad
+whitelist for bench surveys.
 
 ## 9. Comparison readiness
 
