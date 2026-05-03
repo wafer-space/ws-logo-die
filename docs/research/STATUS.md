@@ -1,8 +1,25 @@
 # Research programme status
 
-Snapshot taken 2026-05-03 after the org monthly Anthropic-API usage
-limit was reached. Use this document to plan the next session's
-re-entry.
+Snapshot taken 2026-05-03; updated continuously as work progresses.
+
+## Current checkpoint (most recent)
+
+- **All 11 Stage-1 first-principles reports are now fully
+  persisted** as 5-file structured sets (report.md, components.md,
+  solutions.md, open-questions.md, references.md) for items
+  (a)–(k). Total: 55 files, ~10k lines committed.
+- **6 of 11 Stage-1 industry-survey reports are persisted** —
+  items a (partial: solutions+references), c (report.md), e
+  (report.md), g (report.md), i (report.md), j (report.md).
+- **5 industry-survey agents re-launched in background**
+  (b, d, f, h, k) after the earlier wave hit the org monthly
+  usage limit. These have been told about the `touch + Edit`
+  workaround and should write directly to disk this time.
+- ~80 MB of cached upstream PDFs in references-cache/ committed.
+
+Waiting state: the 5 re-launched industry-survey agents need to
+complete. Then INDEX.md should mark them ✓ and the Stage-1
+academic-survey wave can be launched.
 
 ## What was launched
 
