@@ -298,8 +298,15 @@ infeasible.
 
 **Bulk storage cap (rail filter):** holding µW load through 500 ms
 ping-off at < 10 % droop:
-- 1 mA load: `C = 1.67 µF` → 1.11 mm² — infeasible.
-- 100 µA average load: `C = 167 nF` → 0.11 mm². **Feasible**.
+- 1 mA load: `C = 1.67 µF` → **1110 mm²** — infeasible (corrected
+  2026-05-04 — was "1.11 mm²" with 1000× cap-arithmetic error).
+- 100 µA average load: `C = 167 nF` → **111 mm²**. **INFEASIBLE
+  on-die** (corrected 2026-05-04 — was "0.11 mm² Feasible";
+  same 1000× error). The 500 ms ping-off survival window is
+  not on-die-feasible at this density; either C3 ping-snatcher
+  must use a much shorter holdup window (e.g. 5 ms, giving
+  C ≥ 1.67 nF → 1.1 mm² — still tight but feasible) or off-die
+  storage is required.
 
 ### 5.7 PCB coil self-resonance
 
