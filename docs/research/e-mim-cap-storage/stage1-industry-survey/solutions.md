@@ -57,11 +57,30 @@ Free fill in std-cell rows; LibreLane default behaviour.
 
 ## Family 8 — Hybrid HV-dump architecture
 
-A 1 nF / 1000 µm² MIM_1f0 at 20 V stores 200 nJ; same area
-MIM_2f0 at 6.6 V stores ~43 nJ. **MIM_1f0 stores ~4.6× more
-energy per unit area than MIM_2f0** when the cap actually sees
-rated voltage. Pairing MIM_1f0 with the rectifier-output node
-before regulation is a non-obvious architectural win.
+> **Correction 2026-05-04** (reviewer-1): the prior text said
+> "1 nF / 1000 µm² MIM_1f0 at 20 V stores 200 nJ" — the area
+> was 1000× too small. 1000 µm² × 1 fF/µm² = 1 pF (not 1 nF),
+> storing 0.2 nJ at 20 V (not 200 nJ). To store 200 nJ at 20 V
+> you need 1 nF in **1 mm²** (1×10⁶ µm²), not 1000 µm². This
+> is a residual instance of the programme-wide cap-arithmetic
+> 1000× error that survived the initial sweep.
+
+**Energy-density comparison** (E/A from E = ½·density·V²):
+- MIM_1f0 at 20 V: ½ × 1 fF/µm² × 400 V² = **200 fJ/µm²**.
+- MIM_2f0 at 6.6 V: ½ × 2 fF/µm² × 43.6 V² = **43.6 fJ/µm²**.
+- Ratio = **4.59×** (verified, unchanged).
+
+**Absolute storage at 1 mm²** (10⁶ µm²):
+- MIM_1f0 at 20 V: 1 nF storing **200 nJ**. (Was incorrectly
+  attributed to 1000 µm².)
+- MIM_2f0 at 6.6 V: 2 nF storing 43.6 nJ.
+
+**MIM_1f0 stores ~4.6× more energy per unit area than MIM_2f0**
+when the cap actually sees rated voltage. Pairing MIM_1f0 with
+the rectifier-output node before regulation is a non-obvious
+architectural win — but for non-trivial energy storage (e.g.
+≥10 nJ for an LED pulse) the area scales linearly: 100 nJ in
+MIM_1f0 needs ~0.5 mm², not negligible.
 
 ## Stage-2 / Stage-3 handoff
 

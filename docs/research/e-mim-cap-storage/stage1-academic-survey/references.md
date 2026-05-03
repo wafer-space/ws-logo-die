@@ -344,14 +344,21 @@ philosophy to bulk-cap storage.
 
 ---
 
-## G1 — Liu Sensors 2018 RFID/NFC frontend
+## G1 — Bhattacharyya Sensors 2018 RFID/NFC frontend
 
-**Citation.** Liu et al., "An Ultra-Low-Power RFID/NFC Frontend
-IC Using 0.18 µm CMOS," *Sensors*, 18(5):1452, 2018.
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Liu et al." Reviewer-1's spot-check against
+> the MDPI Sensors mirror confirms the actual lead author is
+> **Bhattacharyya et al.** Updated below.
+
+**Citation.** Bhattacharyya et al., "An Ultra-Low-Power
+RFID/NFC Frontend IC Using 0.18 µm CMOS," *Sensors*, 18(5):1452,
+2018.
 
 **Type.** Peer-reviewed open-access (MDPI Sensors).
 
-**Verification.** `OA` (industry-survey sister report).
+**Verification.** `OA` (industry-survey sister report);
+author-list re-verified by reviewer-1 on 2026-05-04.
 
 **Relevance.** **Negative result confirmation**: even an academic
 ultra-low-power 0.18 µm NFC frontend uses Cst = 10 µF *external*.
@@ -370,16 +377,31 @@ arXiv preprint 2112.15552; PMC9581110.
 
 **Verification.** `OA` via arXiv 2112.15552 + PMC9581110.
 
-**Relevance.** Canonical "no bulk cap" implant design; runs
-directly off rectified ME-harvested current with brown-out gate.
+**Relevance.** ~~Canonical "no bulk cap" implant design; runs
+directly off rectified ME-harvested current with brown-out
+gate.~~
+
+> **Correction 2026-05-04** (reviewer-1): the prior summary
+> claimed this paper has "no bulk storage; brown-out gate".
+> Reviewer-1 verified the actual arXiv abstract explicitly says
+> each implant integrates "an energy storage capacitor".
+> **The "no bulk cap" claim does NOT hold** — this anchor is
+> not load-bearing for NA-1. Stage-2 must downgrade or replace
+> NA-1 evidence. Updated relevance: this paper is still useful
+> as a *low-cap* implant reference (cap is on-die but small),
+> but it is not "cap-less". Specific cap value pending re-read.
 
 ---
 
-## G3 — Khan arXiv 2602.02376 mm-implant PMU
+## G3 — Zou arXiv 2602.02376 mm-implant PMU
 
-**Citation.** "An Efficient Power Management Unit with Continuous
-MPPT and Energy Recycling for Wireless Millimetric Biomedical
-Implants," arXiv 2602.02376.
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Khan". Reviewer-1's spot-check against the
+> arXiv mirror confirms actual lead author is **Zou et al.**
+
+**Citation.** Zou et al., "An Efficient Power Management Unit
+with Continuous MPPT and Energy Recycling for Wireless
+Millimetric Biomedical Implants," arXiv 2602.02376.
 
 **Type.** Preprint (peer-review status unverified).
 

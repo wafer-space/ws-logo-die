@@ -22,9 +22,9 @@ This file mirrors §3 of `report.md` at architecture-detail level.
 | AS-8 | 2:1 / 3:2 fully-integrated SC step-down | 0.5-2 mm², 80-87 % peak | Le, Salem, NSF 2-stage | mature 180 nm |
 | AS-9 | Hot-swap / multi-port zero-current bank-switching | extra switches; idle banks isolated | MDPI Energies 11(8) 2018 | published battery-mgmt |
 | AS-10 | Active leakage-cancellation feedback | small OTA per switch; ~10x effective leak reduction | Hashimoto ICCAD 2001 | published low-power |
-| AS-11 | Bulk-cap-less brown-out gating (implant approach) | zero cap area | Yang JSSC 2022 | published bio-implant |
+| AS-11 | Bulk-cap-less brown-out gating (implant approach) | zero cap area (claim — see correction note) | Yang JSSC 2022 | **CAVEAT 2026-05-04**: reviewer-1 found the cited Yang JSSC 2022 paper *does* integrate an energy-storage capacitor per its arXiv abstract. The "zero cap area" claim is not robustly anchored in this paper; AS-11 should be Stage-2-downgraded to "small-cap brown-out gating" pending a new anchor. |
 | AS-12 | Output-cap-less LDO + slew-enhancement | ~640 nA Iq | Sensors 2024 NB-IoT | published IoT |
-| AS-13 | MPPT + energy-recycling continuous replenisher | small cap + active loop | Khan arXiv 2602.02376 | preprint |
+| AS-13 | MPPT + energy-recycling continuous replenisher | small cap + active loop | Zou arXiv 2602.02376 (corrected from "Khan" 2026-05-04 per reviewer-1) | preprint |
 | AS-14 | On-chip cap-bank automatic resonance tuner | ~0.1-1 mm² tuning bank | Trigui 2024 | published |
 
 ## Architecture exemplars

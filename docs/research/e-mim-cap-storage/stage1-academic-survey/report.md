@@ -45,9 +45,13 @@ Headline conclusions, **without picking a winner**:
    caps.
 4. **Biomedical-implant literature confirms the negative
    result** that fully on-die µF-scale storage is *not* practiced
-   at 180 nm. Liu Sensors 2018 needs 10 µF external; Yang JSSC
+   at 180 nm. Bhattacharyya Sensors 2018 (corrected from "Liu"
+   per reviewer-1) needs 10 µF external; Yang JSSC
    2022 (magnetoelectric implant) operates with no bulk storage,
-   gated by a brown-out detector; Khan arXiv 2602.02376 uses
+   gated by a brown-out detector (caveat: Yang's actual paper
+   integrates a small energy-storage cap per arXiv abstract —
+   reviewer-1 finding); Zou arXiv 2602.02376 (corrected from
+   "Khan" per reviewer-1) uses
    continuous MPPT replenisher.
 5. **Leakage-cancellation (Hashimoto ICCAD 2001) and multi-port
    ZCS bank-switching (MDPI Energies 2018)** each provide ~10x
@@ -167,14 +171,20 @@ bulk cap by design" philosophy.
 
 ### Family G — Biomedical-implant on-die storage
 
-**G1 — Liu Sensors 2018 RFID/NFC frontend at 0.18 µm.** Cst =
-10 µF *external* + 5 pF on-die. Confirms negative result.
+**G1 — Bhattacharyya Sensors 2018 RFID/NFC frontend at 0.18 µm**
+(corrected from "Liu" 2026-05-04 per reviewer-1 spot-check).
+Cst = 10 µF *external* + 5 pF on-die. Confirms negative result.
 
 **G2 — Yang et al. JSSC 2022 magnetoelectric bio-implant.**
-Coordinated multi-site stimulation. No bulk storage; brown-out
-gate on rectified current. arXiv 2112.15552 + PMC9581110.
+Coordinated multi-site stimulation. ~~No bulk storage; brown-
+out gate on rectified current.~~ **Caveat 2026-05-04**
+(reviewer-1): the arXiv abstract for 2112.15552 explicitly
+says each implant integrates "an energy storage capacitor" —
+the prior summary is incorrect. The implant *does* have a
+storage cap; it is small but present.
 
-**G3 — Khan et al. arXiv 2602.02376.** Continuous-MPPT +
+**G3 — Zou et al. arXiv 2602.02376** (corrected from "Khan"
+2026-05-04 per reviewer-1 spot-check). Continuous-MPPT +
 energy-recycling PMU.
 
 **G4 — Trigui et al. 2024 on-chip resonance tuning.** All-on-die
@@ -249,8 +259,16 @@ pinned); 4 cross-cited through sister industry-survey.
 ## 7. Negative results
 
 - **NA-1 — Pure on-die µF storage at 180 nm is NOT practiced in
-  any peer-reviewed silicon paper this survey found.** Liu 2018
-  external 10 µF; Yang 2022 brown-out-only; Khan 2026 MPPT loop.
+  any peer-reviewed silicon paper this survey found.**
+  Bhattacharyya 2018 (corrected from "Liu" — reviewer-1)
+  external 10 µF; Yang 2022 has *small* on-die storage cap
+  (corrected from "brown-out-only" — reviewer-1 verified
+  arXiv abstract); Zou 2026 (corrected from "Khan" —
+  reviewer-1) MPPT loop. **Caveat 2026-05-04**: NA-1 is no
+  longer triple-anchored as "cap-less"; the Yang paper has a
+  small cap. The negative result holds for *µF-class* on-die
+  storage (no paper found) but the language has been
+  softened.
 - **NA-2 — Pelliconi & Hong cross-coupled CPs collapse below
   ~1 V V_in.** Below ~0.6 V (typical ambient-RF rectifier
   output) efficiency collapses; cite Karthaus / Sze sub-50 mV
