@@ -28,7 +28,7 @@ Legend: `—` not started, `▶` in flight, `✓` signed-off draft exists,
 | # | Item | Stage 1 ind. | Stage 1 acad. | Stage 1 1st-princ. | Stage 2 synth. | Stage 3 short | Stage 4 deep dive | Stage 5 impl. |
 |---|---|---|---|---|---|---|---|---|
 | (a) | [Internal oscillator](a-internal-oscillator/README.md) | ◐ | — | ✓ | — | — | — | — |
-| (b) | [NFC energy harvest](b-nfc-harvesting/README.md) | ▶ | — | ✓ | — | — | — | — |
+| (b) | [NFC energy harvest](b-nfc-harvesting/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (c) | [Qi power harvest](c-qi-harvesting/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (d) | [2.4 GHz ambient harvest](d-rf-2g4-harvesting/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (e) | [On-die MIM cap storage](e-mim-cap-storage/README.md) | ◐ | — | ✓ | — | — | — | — |
