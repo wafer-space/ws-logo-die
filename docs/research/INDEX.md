@@ -34,7 +34,7 @@ Legend: `—` not started, `▶` in flight, `✓` signed-off draft exists,
 | (e) | [On-die MIM cap storage](e-mim-cap-storage/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (f) | [LED twinkle drivers](f-led-twinkle-drivers/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (g) | [VGA wrapper cleanup](g-vga-wrapper-cleanup/README.md) | ◐ | — | ✓ | — | — | — | — |
-| (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ▶ | — | ✓ | — | — | — | — |
+| (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (i) | [Power-domain isolation](i-power-domain-isolation/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (j) | [eFuses / OTP](j-efuses-otp/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (k) | [BLE (aspirational)](k-aspirational-ble/README.md) | ✓ | — | ✓ | — | — | — | — |
