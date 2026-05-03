@@ -166,33 +166,53 @@ paired eFuse architecture cuts cell count and improves sense
 margin vs single-ended-with-reference; D-flip-flop-based sense
 amp.
 
-### WANG-2014-ASICON [P]
+### LIU-2015-ISNE [P] (corrected from "WANG-2014-ASICON" 2026-05-04)
 
-W. Wang et al., "A gate-oxide-breakdown antifuse OTP ROM array
-based on TSMC 90nm process", in *2014 IEEE 12th ASICON
-Proceedings*. URL:
-`ieeexplore.ieee.org/document/7132015`. **Type:** Peer-
-reviewed. **Verification:** ResearchGate paper-page metadata
-verified; full text paywalled. **Relevance:** 6.5 V optimal
-programming voltage at 90 nm; 3T variant reduces stddev
-15.3–80.3 % vs 2T at 18 % area cost.
+> **Correction 2026-05-04** (reviewer-1): the prior entry had
+> author "W. Wang et al.", venue "2014 IEEE 12th ASICON", and
+> the title above. Reviewer-1 verified the actual paper at the
+> matching technical content is **Liu/Zheng/Sun, 2015 ISNE**.
+> Authorship + venue + year all wrong in the prior version.
 
-### LEE-2011-JSTS [P]
+Liu/Zheng/Sun (corrected from "W. Wang et al." 2026-05-04 per
+reviewer-1), "A gate-oxide-breakdown antifuse OTP ROM array
+based on TSMC 90nm process", **2015 ISNE** (corrected from
+"2014 ASICON"). **Type:** Peer-reviewed. **Verification:**
+abstract-only via reviewer-1's spot-check; full text paywalled.
+**Relevance:** 6.5 V optimal programming voltage at 90 nm; 3T
+variant reduces stddev 15.3–80.3 % vs 2T at 18 % area cost.
 
-J. Lee et al., "A 32-KB standard CMOS antifuse one-time
-programmable ROM embedded in a 16-bit microcontroller", *JSTS*
-2011. URL: `researchgate.net/publication/2983238`. **Type:**
-Peer-reviewed. **Verification:** ResearchGate metadata.
-**Relevance:** Largest standard-CMOS antifuse OTP at 0.18 µm
-class — 32 Kb integrated in production 16-bit MCU.
+### CHA-2006-JSSC [P] (corrected from "LEE-2011-JSTS" 2026-05-04)
 
-### KIM-2007-OTPROM [P]
+> **Correction 2026-05-04** (reviewer-1): the prior entry had
+> author "J. Lee et al.", venue "JSTS", year "2011".
+> Reviewer-1 verified the actual paper at the matching
+> technical content is **Cha et al., JSSC 2006**. Authorship
+> + venue + year all wrong in the prior version.
 
-S.-S. Kim et al., "Three-transistor one-time programmable (OTP)
-ROM cell array using standard CMOS gate oxide antifuse",
-ResearchGate publication 3254633. **Type:** Peer-reviewed.
-**Verification:** ResearchGate metadata. **Relevance:** Earliest
-3T-cell description; the cell that Wang 2014 builds on.
+Cha et al. (corrected from "J. Lee et al." 2026-05-04 per
+reviewer-1), "A 32-KB standard CMOS antifuse one-time
+programmable ROM embedded in a 16-bit microcontroller",
+**JSSC 2006** (corrected from "JSTS 2011"). **Type:**
+Peer-reviewed. **Verification:** abstract-only via reviewer-1
+spot-check. **Relevance:** Largest standard-CMOS antifuse OTP
+at 0.18 µm class — 32 Kb integrated in production 16-bit MCU.
+
+### KIMLEE-2003-EDL [P] (corrected from "KIM-2007-OTPROM" 2026-05-04)
+
+> **Correction 2026-05-04** (reviewer-1): the prior entry had
+> author "S.-S. Kim et al.", year "2007", venue "OTPROM".
+> Reviewer-1 verified the actual paper at the matching
+> technical content is **Kim & Lee, IEEE EDL 2003**.
+> Authorship + venue + year all wrong in the prior version.
+
+Kim & Lee (corrected from "S.-S. Kim et al." 2026-05-04 per
+reviewer-1), "Three-transistor one-time programmable (OTP) ROM
+cell array using standard CMOS gate oxide antifuse", **IEEE
+EDL 2003** (corrected from "2007 OTPROM"). **Type:**
+Peer-reviewed. **Verification:** abstract-only via reviewer-1
+spot-check. **Relevance:** Earliest 3T-cell description; the
+cell that Liu 2015 (corrected from "Wang 2014") builds on.
 
 ### HAN-2019-EDL [W]
 
@@ -222,12 +242,20 @@ architecture", US Patent 7,402,855, issued 22 July 2008
 that became the Sidense / Synopsys DesignWare antifuse OTP IP;
 8 V program in 1.8 V process.
 
-### TONTI-PATENT-US-7485944 [G]
+### KOTHANDARAMAN-PATENT-US-7485944 [G] (corrected from "TONTI-PATENT-US-7485944" 2026-05-04)
 
-W. R. Tonti, "Programmable electronic fuse", US Patent
-7,485,944, IBM. **Type:** US patent. **Verification:** Google
-Patents free full-text. **Relevance:** Corroborates Tonti 2003
-silicon results — programming voltage 3.3–5.0 V, current
+> **Correction 2026-05-04** (reviewer-1): the prior entry
+> attributed US 7,485,944 to "W. R. Tonti" but reviewer-1
+> verified via Google Patents free full-text that the actual
+> assignee is **Kothandaraman & S. S. Iyer**, IBM. Updated
+> below.
+
+C. Kothandaraman & S. S. Iyer (corrected from "W. R. Tonti"
+2026-05-04 per reviewer-1), "Programmable electronic fuse",
+US Patent 7,485,944, IBM. **Type:** US patent.
+**Verification:** Google Patents free full-text spot-checked
+2026-05-04 by reviewer-1. **Relevance:** Corroborates Tonti
+2003 silicon results — programming voltage 3.3–5.0 V, current
 10–15 mA, pulse 150–250 µs.
 
 ---
@@ -381,7 +409,7 @@ case mentioned in sister industry-survey report.
 | W (WebFetch verified) | 7 | KIM-2011-JSTS, HAN-2019-EDL, HOLLEMAN-2007-WVU, HASLER-2005-GATECH, TINAJERO-PEREZ-2014, JESD22-A108/A110/A113 |
 | G (Google Patents free) | 2 | SIDENSE-US-7402855, TONTI-PATENT-US-7485944 |
 | S (search-result-only) | 1 | CHOI-2007-IRPS |
-| P (paywall — abstract / DOI verified only) | 15 | TIAN-2006, ROBSON-2007-CICC, KALNITSKY-1999, ALAVI-1997, COLGAN-1996, HUANG-1996, CHOI-2012-JCSU, WANG-2014-ASICON, LEE-2011-JSTS, KIM-2007-OTPROM, LOMBARDO-2005-JAP, SUNE-2001-IRPS, STATHIS-2001-IRPS, MUKHOPADHYAY-2008-DSN, CHA-2011-IEDM, HYDE-1999-IEDM |
+| P (paywall — abstract / DOI verified only) | 15 | TIAN-2006, ROBSON-2007-CICC, KALNITSKY-1999, ALAVI-1997, COLGAN-1996, HUANG-1996, CHOI-2012-JCSU, **LIU-2015-ISNE** (was WANG-2014-ASICON, corrected per reviewer-1), **CHA-2006-JSSC** (was LEE-2011-JSTS, corrected per reviewer-1), **KIMLEE-2003-EDL** (was KIM-2007-OTPROM, corrected per reviewer-1), LOMBARDO-2005-JAP, SUNE-2001-IRPS, STATHIS-2001-IRPS, MUKHOPADHYAY-2008-DSN, CHA-2011-IEDM, HYDE-1999-IEDM |
 | Tertiary | 1 | WIKIPEDIA-EFUSE |
 | **Total** | **29** | |
 

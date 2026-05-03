@@ -13,8 +13,18 @@ Group key:
 
 ## POLY-EFUSE-COSI2 (CoSi₂ silicide-EM eFuse)
 
-**Anchor papers:** Kothandaraman 2002 EDL; Tonti 2003 IRW;
-Tonti 2008 SSIRI; Tian 2006 IRPS (90 nm successor study).
+> **Correction 2026-05-04** (reviewer-1): the prior anchor list
+> attributed Tonti 2003 IRW to the **CoSi₂** topology bucket,
+> but the cached PDF (line 30) explicitly states Tonti 2003
+> studies **WSi₂ (Tungsten Silicide)**, not CoSi₂. CoSi₂ is
+> anchored solely by **Kothandaraman 2002 EDL**. Tonti 2003
+> belongs in the WSi₂ topology bucket below.
+
+**Anchor papers (corrected):** **Kothandaraman 2002 EDL** is the
+primary CoSi₂ anchor. Tonti 2008 SSIRI extends with array-level
+yield data (silicide-agnostic). Tian 2006 IRPS is a 90 nm
+successor study. (Tonti 2003 IRW removed from this entry —
+that paper's silicide is WSi₂; see POLY-EFUSE-WSI2 below.)
 
 **Mechanism.** N⁺-doped polysilicon line clad with CoSi₂
 (50 nm) plus a thin TiN/SiN cap; narrowed to a "neck" of

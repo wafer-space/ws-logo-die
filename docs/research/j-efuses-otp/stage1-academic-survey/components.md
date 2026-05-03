@@ -82,13 +82,25 @@ Per Tonti 2003 BPM design (Fig 4) and Robson 2007 CICC §3:
 3. `LOAD_DATA` — shift register load via DQ pad
 4. `PROGRAM_PULSE_TRAIN` — 25 × 10 µs pulses with 10 µs gaps
 5. `VERIFY_READ` — sense each programmed bit
-6. `RE_PROGRAM` — additional pulse if intact (yield recovery)
+6. ~~`RE_PROGRAM` — additional pulse if intact (yield recovery)~~ (DROPPED 2026-05-04 per reviewer-1)
 7. `LOCK` — set lock fuse to prevent further programming
 8. `RETURN_TO_IDLE`
 
-The `RE_PROGRAM` state is the *yield-recovery* mechanism that
-Tonti 2003 implies but doesn't explicitly name. **It is the
-single biggest test-flow improvement** for screening out the
+> **Correction 2026-05-04** (reviewer-1): the `RE_PROGRAM`
+> state has been **dropped from the FSM**. Tonti 2008 SSIRI
+> lines 87-93 of the cached PDF explicitly say eFuse
+> programming is **"limited to one chance"** because partial
+> programming locks the current path — making a second pulse
+> physically incapable of completing the fusing. The yield-
+> recovery story below is therefore wrong; the correct
+> architecture relies on **redundancy or yield margins**, not
+> retries.
+
+The ~~`RE_PROGRAM` state is the *yield-recovery* mechanism that
+Tonti 2003 implies but doesn't explicitly name~~ (retracted —
+reviewer-1; Tonti 2008 contradicts the implied recovery
+behaviour). ~~**It is the single biggest test-flow improvement**
+for screening out the~~
 80 % E-Fuse A-style fragility risk: any fuse that doesn't sense
 as programmed after the first 25-pulse train gets a *second*
 train. Most failed-to-blow bits will succeed on the second
