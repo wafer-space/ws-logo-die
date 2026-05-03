@@ -46,27 +46,47 @@ Trans. Circuits Syst. II: Express Briefs, vol. 61, no. 10, pp.
   Hosseini level-shifter paper and is what the brief almost
   certainly meant.
 
-### LS-LUO2018 / LS-HOSS2019 — TVLSI Regulated Cross-Coupled (RCC)
+### LS-KAB2019 — Kabirpour & Jalali, TCAS-II 2019 — Regulated Cross-Coupled (RCC) (corrected from "LS-HOSS2019" 2026-05-04)
 
-R. Hosseini, M. Maghami, M. Bahmani, B. Bolurian, R. Lotfi, and
-A. M. Sodagar, **"A Low-Power and High-Speed Voltage Level
-Shifter Based on a Regulated Cross-Coupled Pull-Up Network,"**
-IEEE Trans. Very Large Scale Integr. (VLSI) Syst., vol. 27, no.
-1, pp. 245–249, Jan. 2019. DOI: 10.1109/TVLSI.2018.2872330.
+> **Correction 2026-05-04** (reviewer-1): the prior entry had
+> author + venue + DOI **all wrong**. Listed: "Hosseini/
+> Maghami/Bahmani/Bolurian/Lotfi/Sodagar TVLSI 2019, DOI
+> 10.1109/TVLSI.2018.2872330". The cited DOI **returns 404**.
+> Reviewer-1 verified the actual paper at the technical
+> content described is **Kabirpour & Jalali, IEEE TCAS-II
+> 2019, DOI 10.1109/TCSII.2018.2872814**. Authorship + venue
+> + DOI all corrected.
+>
+> The technical paraphrase (80 mV → 1.8 V post-layout sim at
+> 180 nm, 123 nW) is correct and matches the actual Kabirpour
+> & Jalali paper. The architectural verdict (RCC is the
+> headline level-shifter topology directly applicable to
+> GF180MCU's process node) survives the re-attribution.
+>
+> The orchestrator quoted the prior (wrong) attribution in
+> commit 6e84042 and 256a00a; those commit messages are
+> superseded by this correction.
 
-- Type: peer-reviewed, IEEE TVLSI.
-- Verification: `paywall — abstract-only verification` via IEEE
-  Xplore 8476228 and the nxfee / xilirprojects reference
-  summaries that quote the abstract verbatim.
+**Citation (corrected)**: M. Kabirpour and M. Jalali,
+**"A Low-Power and High-Speed Voltage Level Shifter Based on
+a Regulated Cross-Coupled Pull-Up Network,"** IEEE Trans.
+Circuits and Systems II: Express Briefs, 2019. **DOI:
+10.1109/TCSII.2018.2872814** (corrected from
+10.1109/TVLSI.2018.2872330 which returns 404).
+
+- Type: peer-reviewed, IEEE TCAS-II (corrected from TVLSI).
+- Verification: `paywall — abstract-only verification`;
+  reviewer-1 verified the corrected DOI resolves to the
+  paper at the matching technical content 2026-05-04.
 - Relevance: this is the **regulated cross-coupled (RCC)**
-  topology that the brief and the industry-survey both call out
-  as the headline "80 mV → 1.8 V boost" result at 180 nm. Post-
-  layout sim in 0.18 µm reports 123.1 nW power dissipation and
-  23.7 ns delay at 0.4/1.8 V supplies, 1 MHz input — i.e. the
-  D-family primitive that **directly maps to GF180MCU's process
-  node** and to the "harvested-rail brown-out scenario" R4. The
-  brief's "80 mV → 1.8 V at 180 nm" anchor is this paper, not a
-  boost converter.
+  topology that the brief and the industry-survey both call
+  out as the headline "80 mV → 1.8 V boost" result at 180 nm.
+  Post-layout sim in 0.18 µm reports 123.1 nW power
+  dissipation and 23.7 ns delay at 0.4/1.8 V supplies, 1 MHz
+  input — i.e. the D-family primitive that **directly maps to
+  GF180MCU's process node** and to the "harvested-rail
+  brown-out scenario" R4. The brief's "80 mV → 1.8 V at
+  180 nm" anchor is this paper, not a boost converter.
 
 ### LS-TANG2014 — Tang, Berkeley TR EECS-2014-203
 
