@@ -9,7 +9,7 @@ would settle it.
 
 **Question:** The Wilson-mirror TC-2 (LUT2010) is measured
 silicon at 130 nm — one process node from GF180MCU. The
-RCC TC-3 (HOSS2019) is post-layout sim at the *exact* node
+RCC TC-3 (KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1)) is post-layout sim at the *exact* node
 (180 nm). Which is the lower risk for porting?
 
 **Decision gated:** Stage-3 / Stage-4 deep-dive shortlist.

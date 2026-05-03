@@ -122,7 +122,7 @@ the contention current at sub-300-mV inputs.
 
 Anchored in: LS-LUT2010, LS-HOSS2014.
 
-### TC-3 — Regulated cross-coupled (RCC) hybrid (HOSS2019, TVLSI)
+### TC-3 — Regulated cross-coupled (RCC) hybrid (KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1), TVLSI)
 
 The headline academic data point for this report.
 Cross-coupled DCVS pull-up *with the pull-up strength itself
@@ -143,7 +143,7 @@ hit even at deep-sub-Vt input. Post-layout sim in 0.18 µm
   exactly our voltage span.** If any single academic
   topology imports cleanly to GF180MCU it is this one.
 
-Anchored in: LS-HOSS2019 (TVLSI). Industry-survey calls
+Anchored in: LS-KAB2019 (corrected from LS-KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1) 2026-05-04 per reviewer-1; actual paper is Kabirpour & Jalali TCAS-II 2019, not Hosseini TVLSI 2019; see references.md) (TVLSI). Industry-survey calls
 the same data point a "boost converter" — that is incorrect;
 the published artefact is a *level shifter*, not a power
 converter. (The closest measured-silicon boost-converter
@@ -349,7 +349,7 @@ spec for the harvested-rail PCOMP guard.
 ## 6. References
 
 See [`references.md`](references.md). 14 entries: 5
-level-shifter papers (LS-LUT2010, LS-HOSS2014, LS-HOSS2019,
+level-shifter papers (LS-LUT2010, LS-HOSS2014, LS-KAB2019 (corrected from LS-KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1) 2026-05-04 per reviewer-1; actual paper is Kabirpour & Jalali TCAS-II 2019, not Hosseini TVLSI 2019; see references.md),
 LS-TANG2014, LS-WIECK2010, LS-WIECK2008); 2 retention-flop
 (PG-MUTOH1995, PG-SHIN2009); 2 cold-start boost-converter
 (MD-SHRIV2015, MD-RAMA2011); 3 latch-up / guard-ring
@@ -401,7 +401,7 @@ characterisation.
 
 ### NR3 — RCC level shifter is post-layout sim, not measured silicon
 
-The HOSS2019 RCC level shifter — the project's
+The KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1) RCC level shifter — the project's
 strongest topology candidate — is reported as
 post-layout simulation in 0.18 µm, **not measured
 silicon**. While extensive subsequent-paper
@@ -451,7 +451,7 @@ checking) will be inert.
 
 OQ1. **TC-2 vs TC-3 — measured-130 nm vs sim-180 nm?**
 LUT2010 measured silicon at 130 nm (1 process node away);
-HOSS2019 post-layout sim at 180 nm (our exact node).
+KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1) post-layout sim at 180 nm (our exact node).
 Which is the better risk profile? Decision blocks Stage-4
 deep-dive scoping.
 
@@ -533,7 +533,7 @@ Three *non-obvious* findings the sister reports may have
 missed:
 
 1. **The "80 mV → 1.8 V at 180 nm" anchor in the brief is
-   a level shifter, not a boost converter** (HOSS2019
+   a level shifter, not a boost converter** (KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1)
    TVLSI, post-layout sim). The industry-survey's framing
    of this as a boost converter conflates two papers. The
    actual measured-silicon ultra-low-V boost converter is

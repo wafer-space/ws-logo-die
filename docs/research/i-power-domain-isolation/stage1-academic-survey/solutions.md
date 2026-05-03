@@ -11,7 +11,7 @@ is the *handoff index* for Stage-2 synthesis.
 |---|---|---|---|
 | TC-1 DCVS | cross-coupled CMOS, no bias | Rabaey 2009 (textbook), LS-WIECK2010 | textbook; failure mode at sub-Vt VIN |
 | TC-2 Wilson | current-mirror low-VIN | LS-LUT2010, LS-HOSS2014 | 130 nm CMOS, measured silicon, ~190 mV min VIN |
-| TC-3 RCC | regulated cross-coupled hybrid | LS-HOSS2019 (TVLSI) | **180 nm CMOS, post-layout sim**, 80 mV → 1.8 V, 123 nW |
+| TC-3 RCC | regulated cross-coupled hybrid | LS-KAB2019 (corrected from LS-KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1) 2026-05-04 per reviewer-1; actual paper is Kabirpour & Jalali TCAS-II 2019, not Hosseini TVLSI 2019; see references.md) (TVLSI) | **180 nm CMOS, post-layout sim**, 80 mV → 1.8 V, 123 nW |
 | TC-4 HV-up | bootstrap-capacitor 1.8 V→32 V | LS-TANG2014 (Berkeley TR) | measured silicon, 0 nA static, 16 ns / 8.2 ns |
 
 ## Retention / power-gating families (E-family)

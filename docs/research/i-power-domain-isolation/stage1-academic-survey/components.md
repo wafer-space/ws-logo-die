@@ -31,7 +31,7 @@ Notation:
 | Output inverter | Sharp slew | 2 | PDK | — |
 | **Total** | — | **12** | PDK | needs **shared bias network across both domains** — itself an isolation problem |
 
-## TC-3 — Regulated cross-coupled (RCC) — HOSS2019
+## TC-3 — Regulated cross-coupled (RCC) — KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1)
 
 | Sub-block | Function | Tx | PDK / Custom | Notes |
 |---|---|---:|---|---|
@@ -40,7 +40,7 @@ Notation:
 | Auxiliary diode-connected PMOS | Set regulator headroom | 2 | PDK | acts as level reference |
 | Auxiliary current-starve transistors | Limit auxiliary path current | 2 | PDK | — |
 | Output buffer | Slew | 2 | PDK | — |
-| **Total** | — | **12** | PDK | post-layout: 123 nW @ 1 MHz, 23.7 ns delay (HOSS2019 sim) |
+| **Total** | — | **12** | PDK | post-layout: 123 nW @ 1 MHz, 23.7 ns delay (KAB2019 (corrected from HOSS2019 2026-05-04 per reviewer-1) sim) |
 
 ## TC-4 — High-voltage no-static-current level-up (TANG2014)
 
