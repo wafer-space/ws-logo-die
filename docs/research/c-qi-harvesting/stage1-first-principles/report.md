@@ -296,17 +296,44 @@ For our µW-load free-rider:
 1.5 fF/µm² = **139 mm²**. Chip is ~1 mm². **139× the chip.** A1/A3
 infeasible.
 
-**Bulk storage cap (rail filter):** holding µW load through 500 ms
-ping-off at < 10 % droop:
-- 1 mA load: `C = 1.67 µF` → **1110 mm²** — infeasible (corrected
-  2026-05-04 — was "1.11 mm²" with 1000× cap-arithmetic error).
-- 100 µA average load: `C = 167 nF` → **111 mm²**. **INFEASIBLE
-  on-die** (corrected 2026-05-04 — was "0.11 mm² Feasible";
-  same 1000× error). The 500 ms ping-off survival window is
-  not on-die-feasible at this density; either C3 ping-snatcher
-  must use a much shorter holdup window (e.g. 5 ms, giving
-  C ≥ 1.67 nF → 1.1 mm² — still tight but feasible) or off-die
-  storage is required.
+**Bulk storage cap (rail filter):** holding load through 500 ms
+ping-off at < 10 % droop on a 3 V rail (ΔV ≤ 0.3 V):
+
+`C = I × dt / ΔV = I × 0.5 s / 0.3 V`
+
+- **1 mA load**: C = **1.67 mF** → at 1.5 fF/µm², area =
+  **1.11 × 10⁶ mm²** = **1.1 m²** — INFEASIBLE on-die by ~10⁶×.
+- **100 µA average load**: C = **167 µF** → **111 000 mm²** —
+  INFEASIBLE on-die.
+- **10 µA average load**: C = **16.7 µF** → **11 100 mm²** —
+  still INFEASIBLE on-die.
+
+**Mitigations**:
+- Shorten the ping-snatcher holdup window from 500 ms to 5 ms
+  (C ≥ 1.67 µF for 1 mA load → 1110 mm² area — still
+  infeasible).
+- Shorten further to 50 µs (C ≥ 16.7 nF → 11 mm² — still
+  marginal vs 2.25 mm² die).
+- Drop the load to ~1 µA (C ≥ 1.67 µF for 500 ms holdup →
+  1110 mm² area — infeasible).
+- Accept brown-out and use the rectifier as a pulse source
+  during pings only.
+
+> **Correction history 2026-05-04**:
+> - **First correction** (commit 18505ee): scaled the AREAS by
+>   1000× (1.11 mm² → 1110 mm²) but kept the C values as
+>   "1.67 µF" / "167 nF". This left the cap values internally
+>   inconsistent.
+> - **Second correction** (this commit, post-(c)-reviewer-1):
+>   the C values themselves were also 1000× too small
+>   (treating µF as 10⁶ pF when correct is 10⁹ pF; or
+>   equivalently treating mF as µF). Correct C for 1 mA ×
+>   500 ms / 0.3 V is **1.67 mF**, not 1.67 µF. At 1.5 fF/µm²
+>   the area is **1.11 × 10⁶ mm²**, not 1110 mm².
+>
+> The qualitative "infeasible on-die" verdict survived both
+> corrections; the magnitude of the gap is now ~10⁶× rather
+> than ~10³× rather than ~1×.
 
 ### 5.7 PCB coil self-resonance
 

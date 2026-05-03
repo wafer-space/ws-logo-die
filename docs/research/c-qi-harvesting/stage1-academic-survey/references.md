@@ -103,15 +103,24 @@ Citation IDs are stable short names re-used in `report.md`.
 
 ### [ChengKi2016] — primary-equalised reconfigurable rectifier (TBioCAS)
 
-- **Citation:** Cheng, L., Ki, W.-H., Lu, Y., and Yim, T.-S. (2016).
-  "Reconfigurable Resonant Regulating Rectifier With Primary
-  Equalization for Extended Coupling- and Loading-Range in
-  Bio-Implant Wireless Power Transfer." *IEEE Transactions on
-  Biomedical Circuits and Systems*, 10(3), 608–622.
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Cheng, L., Ki, W.-H., Lu, Y., and Yim, T.-S."
+> Reviewer-1 verified that the actual authors are
+> **Li/Meng/Tsui/Ki** — Cheng/Lu/Yim are NOT authors of the
+> paper at this DOI. Updated below; downstream references
+> should use the corrected attribution.
+
+- **Citation:** Li, Meng, Tsui, Ki (corrected from "Cheng/Ki/Lu/
+  Yim" 2026-05-04 per reviewer-1; PubMed PMID re-check
+  recommended), 2016. "Reconfigurable Resonant Regulating
+  Rectifier With Primary Equalization for Extended Coupling- and
+  Loading-Range in Bio-Implant Wireless Power Transfer." *IEEE
+  Transactions on Biomedical Circuits and Systems*, 10(3),
+  608–622.
 - **DOI:** 10.1109/TBCAS.2015.2480060
 - **Type:** Peer-reviewed journal, IEEE TBioCAS.
-- **Verification:** **paywall — abstract-only verification.** PubMed
-  PMID 26742141 confirms title, authors, journal, year, abstract.
+- **Verification:** **paywall — abstract-only verification.**
+  Reviewer-1 spot-checked author list 2026-05-04.
 - **Relevance:** Companion to [ChengKi2017]. Demonstrates that *both
   rectifier mode and primary-side amplitude* can be co-controlled to
   extend the workable coupling-and-loading range by 2.5–3×.
@@ -194,14 +203,21 @@ Citation IDs are stable short names re-used in `report.md`.
 
 ### [QuangHa2015-WideTriple] — wide-input triple-mode rectifier 8 W
 
-- **Citation:** Quang, P. H. and Lee, J.-W. (2016). "A Design of
-  Wide-Input-Range Triple-Mode Active Rectifier With Peak Efficiency
-  of 94.2 % and Maximum Output Power of 8 W for Wireless Power
-  Receiver in 0.18 µm BCD." *Analog Integrated Circuits and Signal
-  Processing*, 87(1), 27–38.
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Quang, P. H. and Lee, J.-W." Reviewer-1
+> verified actual authors are **Park et al.** — Quang is NOT
+> on this paper.
+
+- **Citation:** Park et al. (corrected from "Quang & Lee"
+  2026-05-04 per reviewer-1), 2016. "A Design of Wide-Input-
+  Range Triple-Mode Active Rectifier With Peak Efficiency of
+  94.2 % and Maximum Output Power of 8 W for Wireless Power
+  Receiver in 0.18 µm BCD." *Analog Integrated Circuits and
+  Signal Processing*, 87(1), 27–38.
 - **DOI:** 10.1007/s10470-015-0650-8
 - **Type:** Peer-reviewed journal, Springer AICSP.
 - **Verification:** **paywall — abstract-only verification.**
+  Reviewer-1 spot-checked author list 2026-05-04.
 - **Relevance:** Demonstrates a *triple-mode* (full sync, half sync,
   passive bridge) topology that auto-selects mode based on input
   amplitude. High-power but the auto-mode-select idea is portable
@@ -298,7 +314,14 @@ Citation IDs are stable short names re-used in `report.md`.
 
 ### [LeeKim2021-Energies] — adaptive delay-compensation rectifier
 
-- **Citation:** Lee, J. and Kim, M. (2021). "A CMOS Active Rectifier
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Lee, J. and Kim, M." Reviewer-1 verified
+> actual authors are **Zhang/Ma/Tang** — no Lee/Kim on this
+> paper.
+
+- **Citation:** Zhang/Ma/Tang (corrected from "Lee & Kim"
+  2026-05-04 per reviewer-1; full author list pending re-fetch
+  from MDPI Energies), 2021. "A CMOS Active Rectifier
   with Efficiency-Improving and Digitally Adaptive Delay
   Compensation for Wireless Power Transfer Systems." *Energies*,
   14(23), 8089.
