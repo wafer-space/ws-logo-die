@@ -4,22 +4,31 @@ Snapshot taken 2026-05-03; updated continuously as work progresses.
 
 ## Current checkpoint (most recent)
 
-- **All 11 Stage-1 first-principles reports are now fully
-  persisted** as 5-file structured sets (report.md, components.md,
+- **All 11 Stage-1 first-principles reports** are fully
+  persisted as 5-file structured sets (report.md, components.md,
   solutions.md, open-questions.md, references.md) for items
   (a)–(k). Total: 55 files, ~10k lines committed.
-- **6 of 11 Stage-1 industry-survey reports are persisted** —
-  items a (partial: solutions+references), c (report.md), e
-  (report.md), g (report.md), i (report.md), j (report.md).
-- **5 industry-survey agents re-launched in background**
-  (b, d, f, h, k) after the earlier wave hit the org monthly
-  usage limit. These have been told about the `touch + Edit`
-  workaround and should write directly to disk this time.
-- ~80 MB of cached upstream PDFs in references-cache/ committed.
+- **9 of 11 Stage-1 industry-survey 5-file sets** are
+  fully persisted: c, d, e, f, g, h, i, j, k.
+- **2 industry-survey items still in flight in background**:
+  (b) NFC harvest, (a) completion (filling missing report.md,
+  components.md, open-questions.md against pre-existing
+  solutions.md and references.md).
+- ~80 MB of cached upstream PDFs in references-cache/ committed
+  across (a), (b), (c), (d), (f), (h), (j) — full list:
+  Tonti 2003/2008 eFuse papers, NTAG213/215/216 datasheet,
+  TI bq51013B/bq51050B + IDT P9221-R Qi receiver datasheets,
+  full WPC Qi PC0 v1.2.3 + v1.3 specs, Petzel 2018 NFC/Qi
+  coexistence thesis, Pinuela 2013 ambient-RF survey, Powercast
+  P21XX/P2110B, Antenova RUFA, e-peas AEM30940, Atmosic
+  Energy-Harvesting white paper, Si Labs AN930.2, TI bq25504,
+  Infineon AN234970 FOD-tuning guide, multiple NXP NFC app
+  notes, Microchip Doc2056.
 
-Waiting state: the 5 re-launched industry-survey agents need to
-complete. Then INDEX.md should mark them ✓ and the Stage-1
-academic-survey wave can be launched.
+When the 2 in-flight agents return: programme has full first-
+principles + industry-survey coverage on all 11 items. Stage-1
+academic-survey wave can launch then, followed by Stage-2
+synthesis.
 
 ## What was launched
 
