@@ -162,7 +162,7 @@ penalty as series-leakage divider.
 
 #### 3.A.3 `dickson-pmos-cross-coupled-differential`
 
-The Yan et al. 2024 RFIC paper, the Awad MDPI 2022 paper anchored in
+The Yan et al. 2024 RFIC paper, the Pakkirisami Churchill 2022 MDPI (corrected from "Awad MDPI 2022" 2026-05-04 per reviewer-1) paper anchored in
 the first-principles report, and Kadali 2021 all use a *differential*
 cross-coupled rectifier as a key efficiency lever (PCE 47–86 % peak in
 the surveyed papers). **Industry use:** dominant in modern UHF/2.4 GHz
@@ -454,23 +454,41 @@ against physics and cross-checks them.
 Verified from cached P2110B datasheet (2016/12 rev): "Operation down
 to -12 dBm input power." -12 dBm = 63 µW input. With the e-peas-
 documented ~50 % conversion at high input dropping to ~10 % at
--15 dBm, this is *plausible* at 915 MHz. Friis at 915 MHz with
-20 dBm AP and 2 dBi RX antenna:
+-15 dBm, this is *plausible* at 915 MHz.
 
-P_rx[dBm] = 20 + 0 + 2 - 20·log₁₀(4π·d/λ), λ=327.6 mm at 915 MHz.
+> **Correction 2026-05-04** (reviewer-1 EIRP-scenario slip):
+> the prior version of this section gave d ≈ 4.0 m at 915 MHz
+> and d ≈ 1.5 m at 2.45 GHz from a "20 dBm AP + 2 dBi rx"
+> scenario. Reviewer-1 verified those distances actually
+> require **32 dBm EIRP (1 W cooperative source like
+> Energous)**, not the 22 dBm EIRP a real consumer Wi-Fi AP
+> emits. Corrected distances below are for 100 mW Wi-Fi
+> (22 dBm EIRP). The report silently switched between
+> scenarios; Stage-2 must use the consistent corrected numbers.
 
-For -12 dBm received: 20·log₁₀(4π·d/λ) = 34 dB → d ≈ 4.0 m.
+Friis at 915 MHz with **22 dBm EIRP** (100 mW conducted +
+2 dBi rx):
 
-So **P2110B threshold matches a 4 m distance from a Wi-Fi-class TX
-at 915 MHz with a textbook antenna** — comfortably feasible in a
-"keep the card near the AP" scenario at 915 MHz. **Re-doing for
-2.45 GHz** (λ = 122 mm), same -12 dBm threshold:
+P_rx[dBm] = 22 - 20·log₁₀(4π·d/λ), λ=327.6 mm at 915 MHz.
 
-20·log₁₀(4π·d/λ) = 34 dB → d ≈ 1.5 m at 2.45 GHz.
+For -12 dBm received: 20·log₁₀(4π·d/λ) = 34 dB → **d ≈ 1.31 m**
+(corrected from "4.0 m" 2026-05-04). For real-world Wi-Fi
+deployments this means the card must be **within ~1.3 m**
+of the AP at 915 MHz to harvest enough power for the P2110B
+threshold.
+
+**Re-doing for 2.45 GHz** (λ = 122 mm), same -12 dBm threshold:
+
+20·log₁₀(4π·d/λ) = 34 dB → **d ≈ 0.49 m at 2.45 GHz**
+(corrected from "1.5 m" 2026-05-04).
 
 The 2.45 GHz penalty is exactly the 8.4 dB of additional FSPL —
-which is the Friis-equation core fact. The first-principles report's
-"twinkle requires < 2 m" verdict is, again, confirmed independently.
+which is the Friis-equation core fact. The first-principles
+report's "twinkle requires < 2 m" verdict is **confirmed and
+sharpened** — at 22 dBm EIRP from 100 mW Wi-Fi, the card needs
+to be **within 0.5 m at 2.45 GHz**, not 1.5 m. The "keep card
+near AP" use case becomes "card adjacent to AP" — much more
+restrictive than the prior text implied.
 
 ### 5.2 e-peas table re-check (5 m, 1 W EIRP)
 
@@ -489,7 +507,7 @@ input (~25 % from their Fig. 2) = 10.7 µW. **Matches their claimed
 e-peas don't publish 2.4 GHz tables; we extrapolate. Same 5 m, 1 W
 EIRP geometry at 2.45 GHz: FSPL is 8.4 dB worse → P_rx = -22.1 dBm
 = 6.2 µW. RF→DC efficiency at -22 dBm drops to ~3–5 % per the
-Awad MDPI 2022 anchor → **0.2–0.3 µW DC**. Drop EIRP to a more
+Pakkirisami Churchill 2022 MDPI (corrected from "Awad MDPI 2022" 2026-05-04 per reviewer-1) anchor → **0.2–0.3 µW DC**. Drop EIRP to a more
 realistic Wi-Fi 100 mW (20 dBm): another 10 dB hit → 0.6 µW
 RF input → ~30 nW DC. **Below the BQ25504 130 mV operating
 threshold** — i.e. the conventional commercial PMU back-end won't

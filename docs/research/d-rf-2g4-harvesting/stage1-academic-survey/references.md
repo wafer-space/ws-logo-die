@@ -165,11 +165,19 @@ References are grouped by topic; numbering is local to this file.
 - **Relevance:** first systematic reconfigurable-stage-count
   design; conceptual ancestor of Yan 2024.
 
-### B.6 Honma et al. 2019 (Electronics) -- DTMOS CCDD on 65 nm SOTB
+### B.6 Nguyen et al. 2019 (Electronics) -- DTMOS CCDD on 65 nm SOTB (corrected from "Honma" 2026-05-04)
 
-- **Citation:** Honma et al., "A 2.77 uW Ambient RF Energy
-  Harvesting Using DTMOS Cross-Coupled Rectifier on 65 nm
-  SOTB and Wide Bandwidth System Design", *Electronics*
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Honma et al." Reviewer-1 verified via the
+> MDPI Electronics open-access page that the actual authors
+> are **Nguyen, Sato, Ishibashi**. Updated below; downstream
+> references throughout the academic-survey reports use the
+> corrected attribution.
+
+- **Citation:** Nguyen, Sato, Ishibashi (corrected from "Honma
+  et al." 2026-05-04 per reviewer-1), "A 2.77 uW Ambient RF
+  Energy Harvesting Using DTMOS Cross-Coupled Rectifier on
+  65 nm SOTB and Wide Bandwidth System Design", *Electronics*
   (MDPI), Vol. 8, No. 10, Article 1173, 2019.
 - **DOI:** 10.3390/electronics8101173.
 - **Type:** peer-reviewed open-access journal paper.

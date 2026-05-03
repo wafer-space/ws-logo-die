@@ -19,11 +19,20 @@
   per-stage gain in §5 calculations and topology-S2/S4
   viability.
 
-## R2 — Awad et al., MDPI Sensors 2022, fully-integrated 2.4 GHz ambient RF harvester
+## R2 — Pakkirisami Churchill et al., MDPI Sensors 2022, fully-integrated 2.4 GHz ambient RF harvester
 
-- **Citation:** Awad et al., "A Fully-Integrated Ambient RF
-  Energy Harvesting System with 423-µW Output Power", *Sensors*
-  (MDPI), 22(12), 4415, 2022. DOI: 10.3390/s22124415.
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Awad et al." Reviewer-1 verified via PMC9227311
+> that DOI 10.3390/s22124415 actually resolves to **Pakkirisami
+> Churchill, Ramiah, Chong, Chen, Mak, Martins**. The (d)
+> academic-survey caught this as their Q1 but the upstream
+> reports did not propagate the fix. Updated below.
+
+- **Citation:** Pakkirisami Churchill, Ramiah, Chong, Chen, Mak,
+  Martins (corrected from "Awad et al." 2026-05-04 per
+  reviewer-1), "A Fully-Integrated Ambient RF Energy Harvesting
+  System with 423-µW Output Power", *Sensors* (MDPI), 22(12),
+  4415, 2022. DOI: 10.3390/s22124415.
 - **URL:** https://www.mdpi.com/1424-8220/22/12/4415 (returned
   403 on direct fetch); mirrored at
   https://pmc.ncbi.nlm.nih.gov/articles/PMC9227311/

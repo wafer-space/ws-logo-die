@@ -38,7 +38,7 @@ it and a guess at how it would be settled.
   honesty calibration; Stage-3 selection of operating mode
   `mode-cooperative-source` vs `mode-true-ambient`.
 
-## Q3. Does the cross-coupled differential rectifier (Yan 2024 / Awad 2022 / Kadali 2021 family) require a true differential antenna, or can a single-pin antenna feed a 2.4 GHz on-die transformer with sufficient Q to run the differential rectifier?
+## Q3. Does the cross-coupled differential rectifier (Yan 2024 / Pakkirisami Churchill 2022 (corrected from "Awad 2022" 2026-05-04 per reviewer-1) / Kadali 2021 family) require a true differential antenna, or can a single-pin antenna feed a 2.4 GHz on-die transformer with sufficient Q to run the differential rectifier?
 
 - **Why it matters:** The card's PCB IFA is single-ended; if we
   must use the cross-coupled differential rectifier (best PCE),

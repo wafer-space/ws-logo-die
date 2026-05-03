@@ -42,7 +42,7 @@ counterparts in *italics*).
   rectifier stage).
 - Per-stage MIM coupling caps (2 per stage, balanced).
 - Storage cap.
-- *Industry analogue:* Yan et al. 2024 RFIC, Awad MDPI 2022,
+- *Industry analogue:* Yan et al. 2024 RFIC, Pakkirisami Churchill 2022 MDPI (corrected from "Awad MDPI 2022" 2026-05-04 per reviewer-1),
   Kadali 2021 (all 180 nm CMOS academic-but-industry-relevant).
 
 ## §3.A.5(a) — Kotani aux-bias chain

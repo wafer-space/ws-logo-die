@@ -279,9 +279,9 @@ Cached PDFs live in `../references-cache/`.
   `mode-true-ambient` is sub-nW total at 2.4 GHz absent a
   cooperating source.
 
-## I17 — Awad et al., 2022 MDPI Sensors
+## I17 — Pakkirisami Churchill et al. (corrected from "Awad et al." 2026-05-04 per reviewer-1), 2022 MDPI Sensors
 
-- **Citation:** Awad et al., "A Fully-Integrated Ambient RF
+- **Citation:** Pakkirisami Churchill et al. (corrected from "Awad et al." 2026-05-04 per reviewer-1), "A Fully-Integrated Ambient RF
   Energy Harvesting System with 423 µW Output Power," Sensors
   (MDPI) 22(12):4415, 2022. DOI 10.3390/s22124415.
 - **Verification status:** **VERIFIED** by the parallel
