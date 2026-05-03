@@ -70,13 +70,24 @@ our power budget is reproducible at our exact node.
 
 ### `[Myny-2017-ISSCC]` -- Flexible metal-oxide NFC tag, ISSCC 2017
 
-**Citation.** K. Myny, S. Steudel, S. Smout, P. Vicca, F. Furthner,
-M. Willegems, A. Tripathi, B. Cobb, M. Beenhakker, A. K. Tripathi,
-J. Genoe, P. Heremans, "15.2 A flexible ISO14443-A compliant
-7.5 mW 128 b metal-oxide NFC barcode tag with direct clock
-division circuit from 13.56 MHz carrier," *IEEE Int. Solid-State
-Circuits Conf. (ISSCC)*, San Francisco, CA, 5-9 February 2017,
-pp. 258-259. DOI: 10.1109/ISSCC.2017.7870359.
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> list included **"P. Vicca, F. Furthner, A. Tripathi (×2),
+> B. Cobb, M. Beenhakker, P. Heremans"** — none of which are
+> actual co-authors of this paper per IMEC institutional
+> repository + Google Scholar cross-check. **Real co-authors**
+> (per reviewer-1 verification): K. Myny, P. Lai,
+> P. Papadopoulos, K. De Roose, S. Ameys, M. Willegems,
+> S. Smout, S. Steudel, W. Dehaene, J. Genoe. Updated below.
+
+**Citation.** K. Myny, P. Lai, P. Papadopoulos, K. De Roose,
+S. Ameys, M. Willegems, S. Smout, S. Steudel, W. Dehaene,
+J. Genoe (corrected 2026-05-04 per reviewer-1; prior author
+list included multiple hallucinated names — see correction
+note above), "15.2 A flexible ISO14443-A compliant 7.5 mW
+128 b metal-oxide NFC barcode tag with direct clock division
+circuit from 13.56 MHz carrier," *IEEE Int. Solid-State
+Circuits Conf. (ISSCC)*, San Francisco, CA, 5-9 February
+2017, pp. 258-259. DOI: 10.1109/ISSCC.2017.7870359.
 
 **Type.** Peer-reviewed IEEE conference paper (ISSCC).
 
@@ -278,18 +289,31 @@ IETF datatracker.
 **Relevance.** vCard 4.0 wire format. Used as the size-bound
 reference for sister-report payload sizing.
 
-### `[RFC2425]` / `[RFC2426]` -- vCard 2.1 / 3.0
+### `[RFC2425]` / `[RFC2426]` -- vCard 3.0 (NOT vCard 2.1)
+
+> **Correction 2026-05-04** (reviewer-1): the prior heading
+> "vCard 2.1 / 3.0" conflated two specs. **RFC 2425 + RFC 2426
+> together specify vCard 3.0**, not 2.1. **vCard 2.1 is the
+> IMC specification** (Internet Mail Consortium, 1996) and is
+> NOT an IETF RFC at all. If the (h) industry-survey's finding
+> "vCard 2.1 wins ~30 B" is correct (vCard 2.1 has shorter wire
+> format than 3.0), then the **citation should be the IMC
+> vCard 2.1 spec, not RFC 2425/2426**. Stage-2 must reconcile
+> this. vCard 4.0 is RFC 6350.
 
 **Citation.** F. Dawson and T. Howes, "MIME Content-Type for
 Directory Information," IETF RFC 2425 (1998); F. Dawson and
 T. Howes, "vCard MIME Directory Profile," IETF RFC 2426 (1998).
+**These specify vCard 3.0**, not 2.1. The vCard 2.1 spec is the
+IMC document at <https://web.archive.org/web/2008/http://www.imc.org/pdi/vcard-21.txt>.
 
-**Type.** Open standard (IETF RFCs).
+**Type.** Open standard (IETF RFCs for v3.0).
 
 **Verification status.** Datatracker URLs verified by previous
-sister researchers; not re-fetched here.
+sister researchers; not re-fetched here. Reviewer-1 flagged the
+2.1-vs-3.0 conflation 2026-05-04.
 
-**Relevance.** vCard 2.1/3.0 wire formats. The sister industry
+**Relevance.** vCard 3.0 wire format. The sister industry
 survey's "vCard 2.1 wins ~30 B" finding is at this level; we did
 not find a peer-reviewed academic comparison of vCard versions
 (see `Q-as-3`).

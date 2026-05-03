@@ -362,7 +362,10 @@ repository for `[Myny-2017-ISSCC]`).
 ## 7. Negative results
 
 **7.1 -- `T5T` (ISO 15693) is the academic implant-tag default
-*because it kills iOS 11/12 readership*.** `[Bhattacharyya-2018]`,
+~~*because it kills iOS 11/12 readership*.~~ for sub-mW + range;
+iOS 11/12 reach loss is a consequence, not a cause** (corrected
+2026-05-04 per reviewer-1 — the prior framing reversed the
+causality). `[Bhattacharyya-2018]`,
 `[Dehennis-2016-TBioCAS]`, `[Anabtawi-2016-BHI]` all converge on
 ISO 15693 specifically because (a) lower data rate -> lower
 baseband power, (b) longer read range -> friendlier through-tissue

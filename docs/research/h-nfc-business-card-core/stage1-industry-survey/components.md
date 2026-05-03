@@ -147,9 +147,14 @@ even on a 32 MHz Atmel AVR the higher rates are tight `[ChameleonMini]`.
 - First-principles §5.2 sized R_mod = 2 kΩ → ~0.56 mW average, well
   inside the harvester budget. **R_mod ≈ 100 Ω**, the "aggressive
   shunt" extreme, is cited in §5.2 as 10× over budget; cross-checked
-  against `[Hackaday-PowerFreeNFC]` (which runs at 3.5 mA total ≈
-  11.5 mW from a 15 mW field — confirms a few-mW modulator allocation
-  is the right order of magnitude).
+  against `[Hackaday-PowerFreeNFC]` (which runs at ~~3.5 mA total
+  ≈ 11.5 mW from a 15 mW field~~ — see correction note below).
+  > **Correction 2026-05-04** (reviewer-1): the Hackaday project
+  > page actually says **"4.5 mA budget from 3.3 V/15 mW reader;
+  > 3.5 mA is the MCU's stand-alone draw"** — the prior text
+  > conflated the two figures. The architectural conclusion
+  > ("a few-mW modulator allocation is the right order of
+  > magnitude") survives with ≫10× headroom either way.
 - Drive logic: AND the 847.5 kHz subcarrier with the Manchester bit
   clock; drive the modulator gate when both are 1. The combinational
   cell is ~3 gates.
