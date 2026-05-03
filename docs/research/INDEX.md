@@ -33,7 +33,7 @@ Legend: `—` not started, `▶` in flight, `✓` signed-off draft exists,
 | (d) | [2.4 GHz ambient harvest](d-rf-2g4-harvesting/README.md) | ✓ | ✓ | ✓ | — | — | — | — |
 | (e) | [On-die MIM cap storage](e-mim-cap-storage/README.md) | ◐ | ✓ | ✓ | — | — | — | — |
 | (f) | [LED twinkle drivers](f-led-twinkle-drivers/README.md) | ✓ | ✓ | ✓ | — | — | — | — |
-| (g) | [VGA wrapper cleanup](g-vga-wrapper-cleanup/README.md) | ◐ | — | ✓ | — | — | — | — |
+| (g) | [VGA wrapper cleanup](g-vga-wrapper-cleanup/README.md) | ◐ | ✓ | ✓ | — | — | — | — |
 <!-- (g) industry-survey is intentionally a single-file deliverable per per-item README §"narrow research load" -->
 <!-- and (i)/(j) are also intentionally single report.md (their solutions/components/open-questions/references can be merged from first-principles sister) -->
 | (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ✓ | — | ✓ | — | — | — | — |
