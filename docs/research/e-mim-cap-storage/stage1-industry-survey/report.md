@@ -4,7 +4,7 @@ item_name: mim-cap-storage
 stage: 1
 angle: industry-survey
 researcher: agent-stage1-industry-1of3
-status: in-review
+status: persisted-from-conversation-log; split-into-5-file-structure
 last-updated: 2026-05-03
 ---
 
@@ -45,91 +45,19 @@ Headline conclusions:
 
 (See sister `stage1-first-principles/report.md` §2.)
 
-## 3. Solution-space map — 10 cap-storage families
+## 3. Solution-space map
 
-### Family 1 — Native MIM in `gf180mcuD`
-
-**MIM-2f0-M4M5** (`cap_mim_2f0_m4m5_noshield`, Option B 5LM):
-- SPICE: `sm141064_mim.ngspice` lines 252-279. `c_cox = 1.99e-3
-  pF/µm² × mim_corner`, `gleak ≈ 1.9 pA/µm²`.
-- Magic gencell `gf180mcu::cap_mim_2p0fF`.
-- KLayout PCell `cap_mim.py` with `mim_min_l = mim_min_w = 5`,
-  `mim_cap_area = 10 000 µm²`.
-- DRC `mim_b.drc` rules MIMTM.1-12; MIMTM.8a ≥25 µm², MIMTM.8b
-  ≤10 000 µm².
-
-**MIM-1f5-M4M5**: 1.5 fF/µm², ≤10 V op, BV 10-30 V. Use case: NFC
-rectifier output before regulation.
-
-**MIM-1f0-M4M5**: 1.0 fF/µm², ≤20 V op, BV 20-40 V. Use case:
-charge-pump nodes / eFuse program rail.
-
-**MIM-{…}-M2M3** (Option A, 3LM): same SPICE, but bottom plate is
-metal-2. Rare; not selectable on `gf180mcuD` 5LM stack.
-
-### Family 2 — MOS-cap (gate-oxide capacitance)
-
-`cap_nmos_03v3` / `cap_pmos_03v3`: peak ~3.98 fF/µm² inversion.
-`cap_nmos_06v0` / `cap_pmos_06v0`: peak ~2.18 fF/µm².
-**`cap_nmos_06v0` is the device used inside `fillcap_*` cells.**
-
-### Family 3 — MOM / vertical-fringe / inter-metal
-
-**No PCell, no SPICE subckt.** Magic-extracted overlap densities
-from `gf180mcuD.tech`: `metal4↔metal5 = 39.351 aF/µm²`. Five-layer
-M1-M5 MOM stack ≈ ~0.35 fF/µm² total. **6× worse than MIM** and
-consumes all metals. Discard for storage.
-
-### Family 4 — Standard-cell fill cap arrays (`fillcap_*`)
-
-`gf180mcu_fd_sc_mcu7t5v0__fillcap_{4,8,16,32,64}`. fillcap_64 LEF
-size 35.840 × 3.920 = 140.5 µm²; 16 × 0.82 µm² = 13.1 µm² active;
-**~28.6 fF / fillcap_64**, 0.20 fF/µm² apparent density. Free fill
-in std-cell rows; LibreLane default.
-
-### Family 5 — Switched-cap charge pump / Dickson
-
-Dickson and Pelliconi/cross-coupled. Stage caps 1-10 pF MIM. Stores
-energy by *raising V on a small cap* (E = ½CV²) rather than piling
-up charge. Doesn't solve "sustain a 100 ms pulse" by itself.
-
-### Family 6 — Capacitor multiplier (Miller)
-
-Multiplies *effective* C for filter-pole purposes, doesn't multiply
-*stored energy*. Useless for rail-droop survival.
-
-### Family 7 — Switched-cap DC-DC
-
-Trades cap area for switching frequency. At 180 nm, switching loss
-caps efficiency around 70 % (vs >90 % at deep-sub-µm).
-
-### Family 8 — Hybrid: small high-V cap dump + level-shifted pump
-
-A 1 nF / 1000 µm² MIM_1f0 at 20 V stores 200 nJ; same area MIM_2f0
-at 6.6 V stores ~43 nJ. **MIM_1f0 stores ~4.6× more energy per unit
-area than MIM_2f0** when the cap actually sees rated voltage.
-**Strong candidate.**
-
-### Family 9 — Deep-trench capacitor (DTC)
-
-Density 50-500 fF/µm² (100×-250× MIM). Tower Semi 180 nm BCD
-(trench-isolation only, no public DTC PCell), TSMC 180 nm with DTC
-(some product families). **None in `gf180mcuD`** — verified.
-
-### Family 10 — Ferroelectric / RRAM / MRAM
-
-**None in `gf180mcuD`.** Out of scope.
-
-### Discarded approaches
-
-PIP / poly-poly cap (not in PDK); junction caps (poor density,
-strong VC); LC-tank-as-storage (resonator, not storage); bondpad-
-as-cap (~0.1 pF/pad × 44 pads ≈ 4 pF, useless); external cap
-(forbidden).
+See [`solutions.md`](solutions.md). 10 cap-storage families
+catalogued: MIM (3 density × 4 stacks), MOS-cap, MOM, fillcap,
+charge-pump (Dickson/Pelliconi), capacitor multiplier (Miller),
+SC DC-DC, hybrid HV-dump, deep-trench (NOT in PDK), and
+ferroelectric/RRAM (NOT in PDK).
 
 ## 4. Sub-block breakdown
 
-(See sister `stage1-first-principles/components.md`.)
+See [`components.md`](components.md) for industry-survey-
+specific sub-block findings (PCell names, SPICE deck pointers,
+DRC constraints, hybrid HV-dump architecture sub-blocks).
 
 ## 5. First-principles sanity checks
 
@@ -144,22 +72,11 @@ Industry-survey-specific cross-checks:
 
 ## 6. References
 
-| ID | Citation | Verification |
-|---|---|---|
-| GF-PDK-MIM-RTD | "10.4.2 MIM Option B" | WebFetch 2026-05-02 |
-| GF-PDK-MIMA-RTD | "10.4.1 MIM Option A" | WebFetch 2026-05-02 |
-| GF-PDK-ELEC-6_4 | DRM elec_specs/elec_specs_6_4.html | WebFetch 2026-05-02 |
-| GF-PDK-LAYERS | DRM 4.1 Drawn layer definition | WebFetch 2026-05-02 |
-| MOSBIUS-DEV | mosbiuschip/chipathon2025/`all_devices.md` | WebFetch 2026-05-02 |
-| GF-PDK-FILES | local `gf180mcu_pdk/gf180mcuD/libs.{ref,tech}/…` | direct file read |
-| GAMBINO-2019 | "Reliability of an Al₂O₃/SiO₂ MIM Capacitor for 180nm (3.3V) Technology", IRPS 2019 | indirect (paywall, ResearchGate 403); confirmed via search |
-| SKY130-DEV | "Device Details — SkyWater SKY130 PDK" | WebFetch 2026-05-02 |
-| LIU-2018 | "An Ultra-Low-Power RFID/NFC Frontend IC Using 0.18 µm CMOS", *Sensors* 18(5):1452 | WebFetch 2026-05-02 |
-| NTAG213-AN11276 | NXP AN11276, "NTAG Antenna Design Guide" | WebSearch 2026-05-02 (PDF 404; multiple secondary sources confirm 50 pF) |
-| TOWER-180BCD | towersemi.com/technology/power-management/180nm-power-management/ | WebSearch 2026-05-02 |
-| EDABOARD-IBM | edaboard.com IBM 180nm HV thread | WebSearch 2026-05-02 |
-| DICKSON-MDPI | "Signal Amplification by Means of a Dickson Charge Pump" | WebSearch 2026-05-02 |
-| GF180-MIM-DENSITY-DRC | local mim_a.drc / mim_b.drc rules | direct file read |
+See [`references.md`](references.md) for the full annotated
+bibliography. Headline: 14 references, 7 WebFetched + verified,
+3 from direct file reads, 1 IRPS 2019 paywalled (cited by abstract
+match), and the GAMBINO-2019 reliability paper (only public
+reliability anchor for the GF180 MIM stack).
 
 ## 7. Negative results
 
@@ -185,15 +102,12 @@ Industry-survey-specific cross-checks:
 
 ## 8. Open questions
 
-- **OQ-1 — Which metal layers does `big_logo` actually use?**
-- **OQ-2 — Move v2 from 5LM to 6LM stack?**
-- **OQ-3 — How much fillcap_* is the current chip ALREADY
-  placing?**
-- **OQ-4 — Which `--variant` (A..F) is the wafer.space MPW
-  shuttle?**
-- **OQ-5 — How much current does NFC modulation half-cycle pull?**
-- **OQ-6 — Does `Metal2_ignore_active` remain valid signoff under
-  GF MPW rules?**
+See [`open-questions.md`](open-questions.md). 8 specific
+questions covering: `big_logo` metal layer (gates MIM stack
+choice), 5LM→6LM stack option, current fillcap_* placement
+count, MPW `--variant` selection, NFC modulator current draw,
+`Metal2_ignore_active` signoff validity, hybrid HV-dump area
+budget, MIM-vs-fillcap ratio optimisation.
 
 ## 9. Comparison readiness
 
