@@ -36,7 +36,7 @@ Legend: `—` not started, `▶` in flight, `✓` signed-off draft exists,
 | (g) | [VGA wrapper cleanup](g-vga-wrapper-cleanup/README.md) | ◐ | ✓ | ✓ | — | — | — | — |
 <!-- (g) industry-survey is intentionally a single-file deliverable per per-item README §"narrow research load" -->
 <!-- and (i)/(j) are also intentionally single report.md (their solutions/components/open-questions/references can be merged from first-principles sister) -->
-| (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ✓ | — | ✓ | — | — | — | — |
+| (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ✓ | ✓ | ✓ | — | — | — | — |
 | (i) | [Power-domain isolation](i-power-domain-isolation/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (j) | [eFuses / OTP](j-efuses-otp/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (k) | [BLE (aspirational)](k-aspirational-ble/README.md) | ✓ | — | ✓ | — | — | — | — |
