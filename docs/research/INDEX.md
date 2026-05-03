@@ -27,13 +27,15 @@ Legend: `—` not started, `▶` in flight, `✓` signed-off draft exists,
 
 | # | Item | Stage 1 ind. | Stage 1 acad. | Stage 1 1st-princ. | Stage 2 synth. | Stage 3 short | Stage 4 deep dive | Stage 5 impl. |
 |---|---|---|---|---|---|---|---|---|
-| (a) | [Internal oscillator](a-internal-oscillator/README.md) | ◐ | — | ✓ | — | — | — | — |
+| (a) | [Internal oscillator](a-internal-oscillator/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (b) | [NFC energy harvest](b-nfc-harvesting/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (c) | [Qi power harvest](c-qi-harvesting/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (d) | [2.4 GHz ambient harvest](d-rf-2g4-harvesting/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (e) | [On-die MIM cap storage](e-mim-cap-storage/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (f) | [LED twinkle drivers](f-led-twinkle-drivers/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (g) | [VGA wrapper cleanup](g-vga-wrapper-cleanup/README.md) | ◐ | — | ✓ | — | — | — | — |
+<!-- (g) industry-survey is intentionally a single-file deliverable per per-item README §"narrow research load" -->
+<!-- and (i)/(j) are also intentionally single report.md (their solutions/components/open-questions/references can be merged from first-principles sister) -->
 | (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ✓ | — | ✓ | — | — | — | — |
 | (i) | [Power-domain isolation](i-power-domain-isolation/README.md) | ◐ | — | ✓ | — | — | — | — |
 | (j) | [eFuses / OTP](j-efuses-otp/README.md) | ◐ | — | ✓ | — | — | — | — |
