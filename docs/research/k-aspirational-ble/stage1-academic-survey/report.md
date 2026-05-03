@@ -84,13 +84,26 @@ winner:
    published BLE silicon stores burst energy on-die.  **First-
    principles sec.5.7 verdict is corroborated by 100 % of the
    measured-silicon literature.**
-8. **The "20 dB power gap" between ambient-RF harvesting and
-   100 ms BLE adverts is silicon-confirmed** by Sano JSSC 2019:
-   even at 25 % system efficiency in 28 nm, the chip needs >= 50 uW
+8. **The "power gap" between ambient-RF harvesting and 100 ms
+   BLE adverts is silicon-confirmed** by Sano JSSC 2019: even at
+   25 % system efficiency in 28 nm, the chip needs >= 50 uW
    continuous DC to support periodic adverts at < 1 s interval.
-   Ambient harvesting at typical 1 uW/cm^2 x 6 cm^2 aperture x 30 %
-   rectifier = ~2 uW DC, **20 dB short**.  The gap is real and
-   silicon design alone cannot close it.
+   The gap is **scenario-dependent**:
+   - **Median-ambient** (1 µW/cm² × 6 cm² IFA × 30 % rectifier
+     = ~2 µW DC): **17 dB short** (≈"20 dB" headline rounded).
+   - **Stricter (+4 dBm AP at 2 m, 1 cm² rx)**: **48 dB short**.
+   - **Best-case dedicated power-bridge (Energous +27 dBm at
+     30 cm)**: gap closes to within 3-6 dB, but requires a
+     companion non-card transmitter.
+
+   The gap is real across all realistic scenarios; silicon
+   design alone cannot close it.
+
+   > **Correction 2026-05-04** (reviewer-1): the prior version
+   > of this point quoted a single "20 dB" number. The reviewer's
+   > recalculation showed the gap is scenario-dependent in the
+   > 17-48 dB range. The headline "20 dB" was the median-ambient
+   > rounding; updated to a scenario range above.
 
 ## 2. Requirements as understood
 

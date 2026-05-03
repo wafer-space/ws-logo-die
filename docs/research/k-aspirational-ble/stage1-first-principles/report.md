@@ -45,7 +45,17 @@ down-selection):
    ≈1.7 mW DC. A 180 nm integer-N PLL plus a divide-by-2 final
    stage typically burns 3–5 mW. Add modulator and buffer: total
    radio current ≈6–7 mW peak. **Synthesiser power dominates total
-   event energy by ~3× over the PA itself.**
+   event energy by ~1.8× over the PA in 180 nm**, declining to
+   ~1× at 28 nm where digital-PLL synthesis costs much less.
+
+   > **Correction 2026-05-04** (reviewer-1): the prior version
+   > of this point said "~3× over the PA". The §5.5 table this
+   > headline summarises actually shows 1.7 mW PA + 3.0 mW synth
+   > = 4.7 mW total radio with 1.76× ratio (synth/PA), not 3×.
+   > The industry-survey honestly reports ≈ 2× (commit-time
+   > self-correction), and academic-survey Sano-2018 anchor in
+   > 28 nm gives parity. Updated to "~1.8× in 180 nm, ~1× in
+   > 28 nm".
 5. **A free-running ring DCO will *not* meet the BLE adjacent-
    channel mask** (≥−20 dBc at ±2 MHz). A free-running 2.4 GHz
    ring osc has typical SSB phase noise ≈−80 dBc/Hz at 1 MHz; the
@@ -356,10 +366,13 @@ Both share the 2.4 GHz IFA. No useful sub-band separation.
 ## 10. Author's notes
 
 - Single most useful insight: **at 0 dBm BLE, the synthesiser
-  dominates total event energy ~3× over the PA**. This inverts the
-  intuition from higher-power TX designs and means PA-class
-  optimisation has 2–3× *less* leverage than synth-power
-  optimisation.
+  dominates total event energy ~1.8× over the PA in 180 nm**
+  (corrected 2026-05-04 from "~3×" per reviewer-1; see also §1
+  point 4 and §5.5 table). This inverts the intuition from
+  higher-power TX designs and means PA-class optimisation has
+  ≈half *less* leverage than synth-power optimisation in
+  180 nm. At 28 nm the synth/PA ratio drops to ~1× (parity per
+  Sano-2018 measurements).
 - The **storage-cap wall** (§5.7, §7.4) is a genuinely hard
   constraint not mentioned in the TODO.md brief.
 - The "antenna shared with (d)" requirement is harmless from

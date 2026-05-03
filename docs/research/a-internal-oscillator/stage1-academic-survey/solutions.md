@@ -56,13 +56,16 @@ auto-zero, swap-and-average, or duty-cycle balancing.
 
 ### AC-RC-2 -- 254-nW 20 kHz RC with 21 ppm/C minimum
 
-- Reference: K.-J. Hsiao, "A 254-nW 20-kHz On-Chip RC Oscillator
-  With 21-ppm/C Minimum Temperature Stability and 10-ppm Long
-  Term Stability," IEEE JSSC (open-access via PMC10361407),
-  2023. **Verification:** PMC mirror confirms full-text
-  open-access at
+- Reference: **Mirchandani and Shrivastava** (corrected 2026-05-04
+  per reviewer-1 — was previously attributed to "K.-J. Hsiao"
+  which was an author misattribution), "A 254-nW 20-kHz On-Chip
+  RC Oscillator With 21-ppm/C Minimum Temperature Stability and
+  10-ppm Long Term Stability," IEEE JSSC (open-access via
+  PMC10361407), 2023. **Verification:** PMC mirror confirms
+  full-text open-access at
   `https://pmc.ncbi.nlm.nih.gov/articles/PMC10361407/` --
-  resolved 2026-05-03.
+  resolved 2026-05-03; reviewer-1 spot-checked the author list
+  against the PMC mirror on 2026-05-04 and corrected.
 - Topology: dual-RC, swap-cap, with curvature-compensated bias
   current. Adds a tracking PTAT/CTAT sub-bias that flattens the
   RC TC curve at a chosen mid-temperature.
@@ -241,30 +244,43 @@ sub-threshold current rather than channel-saturation drive.
 Gate-leakage and body-bias compensations make this stable
 across PVT.
 
-### AC-SUB-1 -- Dynamic Leakage Suppression (DLS) ring oscillator
+### AC-SUB-1 -- CERO (Constant Energy-per-Cycle) and DLS ring oscillators
 
-- Reference: I. Lee, D. Blaauw, D. Sylvester, "A Constant
+> **Correction 2026-05-04** (reviewer-1): the prior section
+> heading was "Dynamic Leakage Suppression (DLS) ring oscillator"
+> and conflated two distinct topologies. **PMC4989868 (Lee 2016
+> JSSC) is a CERO topology, NOT DLS.** The DLS topology is the
+> Lee 2020 CICC paper. Both anchors are useful and are now
+> separated below.
+
+- **CERO** (Constant Energy-per-Cycle) anchor — Reference:
+  I. Lee, D. Blaauw, D. Sylvester, "A Constant
   Energy-Per-Cycle Ring Oscillator Over a Wide Frequency Range
   for Wireless Sensor Nodes," IEEE JSSC, vol. 51, no. 3, pp.
   697-711, Mar 2016. DOI: 10.1109/JSSC.2016.2517133.
   **Verification:** open-access PMC mirror at
   `https://pmc.ncbi.nlm.nih.gov/articles/PMC4989868/`
-  resolved 2026-05-03.
-- Plus: I. Lee, R. Yang, et al., "An On-Chip Ultra-Low-Power
+  resolved 2026-05-03. Topology: per-cycle energy is set by a
+  fixed-charge transfer element, so f scales linearly with V_DD
+  while energy/cycle stays constant — making the topology
+  brown-out tolerant by construction.
+- **DLS** (Dynamic Leakage Suppression) anchor — Reference:
+  I. Lee, R. Yang, et al., "An On-Chip Ultra-Low-Power
   Hz-Range Ring Oscillator Based on Dynamic Leakage
   Suppression Logic," IEEE Custom Integrated Circuits
   Conference (CICC) 2020, DOI 10.1109/CICC48029.2020.9182936.
   paywall -- abstract-only verification at IEEE Xplore (NOT
   fetched per stage guidance); Semantic Scholar abstract
-  confirms 0.24 V to 1.8 V operation, picowatt order.
-- Topology: each stage is a stack of OFF transistors; the
-  exponentially small gate-leakage current charges/discharges
-  the stage caps. Ring frequency is in the Hz range; energy
-  per cycle is constant over a wide V_DD range, which makes
-  the topology *brown-out tolerant by construction.*
-- For wafer.space: directly applicable as the always-on
-  brown-out timer (industry-survey `G2` slot). Not relevant
-  for housekeeping clock (too slow).
+  confirms 0.24 V to 1.8 V operation, picowatt order. Topology:
+  each stage is a stack of OFF transistors; the exponentially
+  small gate-leakage current charges/discharges the stage caps.
+  Ring frequency is in the Hz range.
+- For wafer.space: **CERO** is directly applicable as the
+  brown-out-tolerant housekeeping clock (because energy/cycle
+  is constant over V_DD, the clock survives rail droop without
+  retiming). **DLS** is the always-on Hz-range timer (industry-
+  survey `G2` slot — see CORRECTIONS.md re: topology-ID
+  collision). Not relevant for housekeeping at higher rates.
 
 ### AC-SUB-2 -- 4.5 pW timer using gate-leakage of MOS caps
 

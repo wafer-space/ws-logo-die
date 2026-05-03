@@ -49,11 +49,11 @@ The wrong arithmetic gave `1 µF = 0.5 mm²` (off by exactly 1000×).
 | (f) | `stage1-first-principles/report.md` | line 352 T4 bucket cap | ✓ corrected (this commit) |
 | (b) | `stage1-first-principles/components.md` | line 19, 97, 101 | ✓ verified correct (no fix) |
 | (b) | `stage1-first-principles/report.md` | §5 (~57k µm² tuning cap, ~4 mm² storage) | ✓ verified correct |
-| (b) | `stage1-industry-survey/report.md` | line 564, 858 | ⚠ minor 2× discrepancy on 12 nF claim (4 mm² vs 8 mm²); pending |
-| (d) | `stage1-academic-survey/components.md` | line 132 | pending audit |
-| (h) | various | pending audit |
-| (i) | various | pending audit |
-| (j) | various | pending audit |
+| (b) | `stage1-industry-survey/report.md` | line 564, 858 | ⚠ minor 2× discrepancy on 12 nF claim (4 mm² vs 8 mm²); pending. Not 1000×. |
+| (d) | `stage1-academic-survey/components.md` | line 132 | ✓ verified correct (commit 18505ee+1). The (d) academic-survey explicitly catches the µF infeasibility and recommends scaling flash energy to 0.04-0.16 uJ, which scales C to 35-140 nF (feasible on-die). Good arithmetic. |
+| (h) | `stage1-industry-survey/open-questions.md` line 143 | ✓ verified correct. 50 pF = 50e3 fF / 1.5 fF/µm² = 33333 µm² matches the report's "25 000–50 000 µm²". |
+| (i) | (no fF/µm² site found) | ✓ no cap-arithmetic to audit |
+| (j) | `stage1-first-principles/report.md` line 219 | ✓ verified correct. "10 pF × 2 stages = 20 000 µm² at 1 fF/µm² ≈ 0.02 mm²" matches 20 pF / (1e6 µm²/mm² × 1 fF/µm² × 1e-3 nF/fF) = 20 nF/mm² → 0.001 mm². Hmm: 20 pF / 1 fF/µm² = 20 000 µm² = 0.02 mm². Correct. |
 
 ## Other reviewer-1 findings still pending
 
