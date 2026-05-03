@@ -23,7 +23,7 @@ identifiers maintained from industry-survey.
 | ACAD-A | Sigma-delta brightness modulation | Hofer & Schmid 2018 *IEEE TPE* 33(11); Berkeley EECS-2017-73 thesis (OA) | Industry survey cited NXP patent EP2081414 only — academic anchor stronger |
 | ACAD-B | Chaotic-oscillator TRNG | Yang 2015; Pareschi 2010 *TCAS-I* 57(11); Mathew 2014 | Sub-µW pattern-gen TRNG not in sister reports |
 | ACAD-C | On-die LED in passive RFID tag | Karthaus & Fischer 2003 *JSSC* 38(10) | Industry survey cited NTAG21xF / EM4423 datasheets but not academic primary |
-| ACAD-D | Vision-psychophysics primary sources | Hecht-Shlaer 1942; Davis 2015 *PLOS ONE*; Davis 2023 *Frontiers*; Tyler & Hamer 1993 *Vision Research* | Sister reports cited Wikipedia for CFF / Talbot-Plateau |
+| ACAD-D | Vision-psychophysics primary sources | Hecht-Shlaer 1942; Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1) *PLOS ONE*; Greene & Morrison 2023 (corrected from "Davis 2023" 2026-05-04 per reviewer-1) *Frontiers*; Tyler & Hamer 1993 *Vision Research* | Sister reports cited Wikipedia for CFF / Talbot-Plateau |
 | ACAD-E | PAR1789 academic traceability | Bullough 2011 *LR&T* 43(3); Wilkins/Veitch/Lehman 2010 *PESGM* | Industry-survey numerical thresholds traceable to these primary sources |
 | ACAD-F | Peripheral CFF extension | Tyler & Hamer 1993 *Vision Research* 33(10) | Industry survey treated CFF as single number; academic literature distinguishes foveal vs peripheral |
 
@@ -43,7 +43,7 @@ angle:
   topology; 16.7 µW whole-tag (Karthaus 2003) is the lowest known
   silicon-measured power point including LED indicator.
 - **T4 (charge-pumped bucket-dump) — with the 2× Talbot–Plateau
-  correction** (Davis 2015) — strongest for rail-decoupling.
+  correction** (Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1)) — strongest for rail-decoupling.
 - **ACAD-A ΔΣ brightness modulation** — strong replacement for
   PWM in PAR1789-stricter regimes.
 

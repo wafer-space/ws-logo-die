@@ -56,7 +56,7 @@ open-source survey).**
 | T1 | η = V_f/V_rail; ±30 % I PVT | ~10k µm² | Trivial | Red/orange/yellow on intermittent rail | Blue/white |
 | T2 | Constant I; 0.4-1.5 V headroom; 1-3 mA Iq | ~50k µm² + bandgap | Mature commercial | Display matrices on stiff rail | µW-mW harvested |
 | T3 | T2 + per-LED trim DAC | T2 + ~5k µm² + counter | Mature | Multi-LED matched | Single-LED energy-budgeted |
-| T4 | η ≈ 50 %; 1000× rail-coupling reduction; brown-out smooth | 10 nF MIM ~50k µm² + 2 sw | RFID/NFC IC tradition | Brown-out-prone rails | Steady illumination |
+| T4 | η ≈ 50 %; 1000× rail-coupling reduction; brown-out smooth | 10 nF MIM **~5 mm² @ 2 fF/µm²** (corrected 2026-05-04 from "~50k µm²" with 100× cap-arithmetic error; bucket cap must shrink to ≤4 nF or move off-die) + 2 sw | RFID/NFC IC tradition | Brown-out-prone rails | Steady illumination |
 | T5 | n/a | impossible on this die | **Rejected** | n/a | Everything |
 | T6 | η ≈ 30-40 %; drives blue/white | T4 + 1 cap + 3 sw | Mature (Dickson 1976) | Blue/white at 3.3 V | When red is sufficient |
 | T7 | η = V_f/V_rail max; ±3× PVT | ~2k µm² | Trivial; 2024 candle-LED | Single colour, area-limited | Brightness uniformity |

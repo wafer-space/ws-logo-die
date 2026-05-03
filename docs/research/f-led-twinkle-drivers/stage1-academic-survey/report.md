@@ -22,7 +22,7 @@ modulator papers, and chaotic-oscillator true-RNG papers.
 Headline conclusions:
 
 1. **Talbot–Plateau is quantitatively wrong at sub-µs flashes by
-   ~2×** (Davis 2015 *PLOS ONE* PMC4395448; Davis 2023 *Frontiers*
+   ~2×** (Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1) *PLOS ONE* PMC4395448; Greene & Morrison 2023 (corrected from "Davis 2023" 2026-05-04 per reviewer-1) *Frontiers*
    PMC10172486). The first-principles and industry-survey reports
    both invoke Talbot–Plateau as if it held to arbitrary precision
    — it does not at the pulse durations the T4 charge-pump
@@ -43,12 +43,20 @@ Headline conclusions:
    stronger.
 
 3. **Hecht-Shlaer 1942 photon-count floor is *tighter* than the
-   first-principles report's estimate** by ~5×: dark-adapted
-   threshold ≈ 0.1 µA red-LED current, not 0.5 µA. Regime-
-   dependent (ambient-lit vs dark-adapted). For ambient 2.4 GHz
-   harvesting at ~µW/cm² densities (TODO §(d)), this is the
-   binding constraint and may make the card legitimately dark —
-   a *perception* problem, not a circuit problem.
+   first-principles report's estimate** ~~by ~5×: dark-adapted
+   threshold ≈ 0.1 µA red-LED current, not 0.5 µA~~.
+
+   > **Correction 2026-05-04** (reviewer-1): the µA-class
+   > translation from 5-14 photons is **~10⁵× too coarse** —
+   > actual dark-adapted threshold is **picoamps**. The 5-14
+   > photon historical claim itself stands; the µA translation
+   > does not. The architectural implication of this finding
+   > inverts: at picoamp threshold, ANY LED current is visible
+   > in the dark, so the visibility floor is no longer a binding
+   > constraint at all. Ambient-RF harvested mode that previously
+   > looked "borderline visible" is actually "comfortably
+   > visible" once the threshold is corrected. **This flips a
+   > Stage-2 architectural conclusion.**
 
 ## 2. Requirements as understood
 
@@ -92,7 +100,7 @@ Headline conclusions:
 - **ACAD-C — On-die LED in passive RFID tag** (Karthaus & Fischer
   2003 *JSSC* 38(10)). Closest published silicon to our use case.
 - **ACAD-D — Vision-psychophysics primary sources** (Hecht-Shlaer
-  1942 *J. Gen. Physiol.*; Davis 2015 *PLOS ONE*; Davis 2023
+  1942 *J. Gen. Physiol.*; Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1) *PLOS ONE*; Greene & Morrison 2023 (corrected from "Davis 2023" 2026-05-04 per reviewer-1)
   *Frontiers*; Bullough et al. *LR&T* 43(3) 2011; Wilkins/Veitch/
   Lehman *PESGM* 2010; Tyler & Hamer 1993 *Vision Research*
   33(10)).
@@ -123,7 +131,7 @@ See [`components.md`](components.md).
 
 ### 5.1 Talbot–Plateau correction
 
-Davis 2015 *PLOS ONE* PMC4395448 measured perceived brightness vs
+Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1) *PLOS ONE* PMC4395448 measured perceived brightness vs
 duty cycle at sub-µs pulse durations, finding a **2× deviation
 from Talbot–Plateau** in the regime our T4 charge-pump bucket-dump
 operates (1 µs pulses).
@@ -137,8 +145,14 @@ calculated perceived brightness.
 Hecht et al. 1942 measured the absolute visual threshold at
 ~5–14 photons at the cornea. Translating to LED current via
 photometric efficacy and pupil area:
-- Dark-adapted: ~0.1 µA red-LED current (5× tighter than the
-  first-principles report's 0.5 µA estimate).
+- ~~Dark-adapted: ~0.1 µA red-LED current (5× tighter than the
+  first-principles report's 0.5 µA estimate).~~
+
+  > **Correction 2026-05-04** (reviewer-1): the µA-class
+  > translation is ~10⁵× too coarse. Reviewer-1's recalc puts
+  > the dark-adapted threshold at **picoamps**, not microamps.
+
+  Dark-adapted (corrected): ~picoamp red-LED current.
 - Ambient-lit: ~5–10 µA (roughly matching the first-principles
   estimate).
 
@@ -173,8 +187,8 @@ compliance. This is two distinct frequency regimes.
 
 ## 6. References
 
-See [`references.md`](references.md). 5 open-access (Davis 2015,
-Davis 2023, Hecht-Shlaer 1942, Berkeley EECS-2017-73, AzoM
+See [`references.md`](references.md). 5 open-access (Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1),
+Greene & Morrison 2023 (corrected from "Davis 2023" 2026-05-04 per reviewer-1), Hecht-Shlaer 1942, Berkeley EECS-2017-73, AzoM
 PAR1789), 8 paywalled (cited by DOI per the no-IEEE-Xplore web-
 access guidance).
 
@@ -222,7 +236,7 @@ persisted directly from the agent's structured return; the
 companion files are summarised from the same return.
 
 Most-load-bearing finding for Stage-2: the **2× Talbot–Plateau
-correction** (Davis 2015) propagates into T4 sizing and changes
+correction** (Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1)) propagates into T4 sizing and changes
 the perceived-brightness budget for any pulsed-LED architecture.
 This needs to be threaded through (e) MIM-cap-storage as well —
 the storage cap delivers a pulse, the pulse drives an LED, the

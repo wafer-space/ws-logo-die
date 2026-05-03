@@ -46,7 +46,15 @@ The wrong arithmetic gave `1 µF = 0.5 mm²` (off by exactly 1000×).
 | (k) | `stage1-academic-survey/report.md` | §5.5 | ✓ corrected (commit f54e478) |
 | (k) | `stage1-academic-survey/components.md` | §3.5 loop filter | ✓ corrected (commit f54e478) |
 | (c) | `stage1-first-principles/report.md` | §5.6 bulk storage cap | ✓ corrected (this commit) |
-| (f) | `stage1-first-principles/report.md` | line 352 T4 bucket cap | ✓ corrected (this commit) |
+| (f) | `stage1-first-principles/report.md` | line 352 T4 bucket cap | ✓ corrected (commit 18505ee) |
+| (f) | `stage1-first-principles/solutions.md` | line 20 T4 row | ✓ corrected (this commit; reviewer-1 found this incomplete-sweep instance) |
+| (f) | `stage1-industry-survey/report.md` | line 637 T4 row | ✓ corrected (this commit) |
+| (f) | `stage1-industry-survey/solutions.md` | line 59 T4 row | ✓ corrected (this commit) |
+| (f) | `stage1-academic-survey` Davis→Greene | 4 places | ✓ corrected (this commit; programme-wide pattern: Hsiao/Sun/Liu/Khan/Davis all misattributed by Stage-1 agents) |
+| (f) | `stage1-academic-survey/references.md` REF-PW-2 Karthaus 2003 | LED-budget headline | ✓ retracted (this commit). The 16.7 µW figure is an RF receiver-sensitivity threshold for a 0.5 µm CMOS RFID transponder, NOT a whole-tag-including-LED budget for 0.18 µm. Stage-2 must replace this anchor. |
+| (f) | `stage1-academic-survey` Hecht-Shlaer | "0.1 µA red-LED" → picoamps | ✓ caveat added (this commit; reviewer-1 found ~10⁵× error in the photon→current translation). Architectural implication: at picoamp threshold, ANY LED current is visible in the dark, **flipping the "ambient-RF mode legitimately dark" verdict** to "ambient-RF mode comfortably visible". |
+| (f) | `stage1-academic-survey/report.md` §5.3 PAR1789 | tier-mixing | pending — academic mixes <90 Hz formula coefficients with ">90 Hz" labels, yielding spurious "f ≥ 40 Hz" floor. Industry-survey has the correct 1.25 kHz / 3 kHz tiers; Stage-2 should use industry-survey numbers. |
+| (f) | topology IDs T2/T3/T5 across angles | collision present | pending — same (a)-style collision pattern; T5 worst (FP/IS = "rejected boost"; AC = "live SC voltage doubler"). Defer to Stage-2 namespacing. |
 | (b) | `stage1-first-principles/components.md` | line 19, 97, 101 | ✓ verified correct (no fix) |
 | (b) | `stage1-first-principles/report.md` | §5 (~57k µm² tuning cap, ~4 mm² storage) | ✓ verified correct |
 | (b) | `stage1-industry-survey/report.md` | line 564, 716, 760, 858 | ✓ corrected (this commit) — 12 nF / 16 nF claims were 2× off (4 mm² × 1.5 fF/µm² = 6 nF; × 2.0 fF/µm² = 8 nF). Per (e) industry-survey, stacked-MIM is NOT offered in gf180mcuD, so vertical-stack doubling is not a valid escape. |

@@ -2,7 +2,7 @@
 
 ## Q-AC1 — How much does the 2× Talbot–Plateau correction propagate?
 
-Davis 2015 *PLOS ONE* PMC4395448 reports a 2× deviation from
+Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1) *PLOS ONE* PMC4395448 reports a 2× deviation from
 Talbot–Plateau at sub-µs pulse durations. T4 charge-pump bucket-
 dump architecture (first-principles §3.5) operates at 1 µs pulses.
 

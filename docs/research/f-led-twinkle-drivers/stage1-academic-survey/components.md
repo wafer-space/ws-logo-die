@@ -19,7 +19,10 @@ sub-blocks. Sub-blocks build on the industry-survey
 ### T1 (resistor ballast + switch) — Curty 2005, Karthaus 2003
 - Poly resistor (sub-200 Ω at 1 mA target).
 - Power MOS switch (W ≈ 50 µm).
-- **Karthaus 2003 gate count for whole tag including LED indicator:
+- **Karthaus 2003 ~~gate count for whole tag including LED
+  indicator~~ RF receiver-sensitivity threshold (corrected
+  2026-05-04 per reviewer-1; see references.md REF-PW-2 caveat
+  — the original "whole-tag including LED" framing is retracted):
   ~16.7 µW** — the most aggressive silicon-anchored low-power LED
   budget known.
 
@@ -40,7 +43,7 @@ sub-blocks. Sub-blocks build on the industry-survey
 - High-side switch + low-side switch.
 - Non-overlap clock generator.
 - Brown-out detector.
-- **Must include 2× Talbot–Plateau margin** (Davis 2015) — either
+- **Must include 2× Talbot–Plateau margin** (Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1)) — either
   2× peak current or 2× pulse rate vs first-principles sizing.
 
 ### T5 (SC voltage doubler) — Wens & Steyaert 2011
@@ -77,11 +80,24 @@ sub-blocks. Sub-blocks build on the industry-survey
 These are not on-die hardware blocks but are *load-bearing on
 sizing*:
 
-- **Talbot–Plateau correction factor** (Davis 2015 / Davis 2023).
+- **Talbot–Plateau correction factor** (Greene 2015 (corrected from "Davis 2015" 2026-05-04 per reviewer-1) / Greene & Morrison 2023 (corrected from "Davis 2023" 2026-05-04 per reviewer-1)).
   Apply 2× to T4 pulse rate or peak current.
-- **Hecht-Shlaer floor** (1942 *J. Gen. Physiol.*). 0.1 µA red
-  dark-adapted threshold; 5× tighter than first-principles
-  estimate. **Binding constraint for ambient-RF harvested mode.**
+- **Hecht-Shlaer floor** (1942 *J. Gen. Physiol.*). ~~0.1 µA
+  red dark-adapted threshold; 5× tighter than first-principles
+  estimate.~~
+
+  > **CAVEAT 2026-05-04** (reviewer-1): the µA-class translation
+  > from Hecht-Shlaer's 5-14 photons is **~10⁵× too coarse** —
+  > reviewer-1's recalc puts the dark-adapted threshold at
+  > **picoamps**, not microamps. The 5-14 photon claim itself
+  > stands; the µA translation does not. The LED twinkle
+  > architecture must NOT rely on "0.1 µA dark-adapted floor"
+  > as a sizing input.
+
+  ~~Binding constraint for ambient-RF harvested mode.~~ At
+  picoamp threshold, the binding constraint flips: any LED
+  current >> picoamps is visible in the dark, so the *visibility
+  floor* is no longer a sizing constraint at all.
 - **PAR1789 thresholds** (Bullough 2011, Wilkins 2010). Same as
   industry-survey: ≥1.25 kHz low-risk, ≥3 kHz no-effect at 100 %
   modulation depth.

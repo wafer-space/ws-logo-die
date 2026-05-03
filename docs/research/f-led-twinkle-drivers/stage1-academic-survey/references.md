@@ -2,26 +2,48 @@
 
 ## OA / verified
 
-### REF-OA-1 — Davis 2015 *PLOS ONE*
-- **Citation**: Davis, J. *PLOS ONE* (2015), PMC4395448.
+### REF-OA-1 — Greene 2015 *PLOS ONE* (corrected from "Davis 2015")
+
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Davis, J." Reviewer-1's spot-check against
+> the PMC4395448 mirror confirms actual lead author is **Greene**.
+
+- **Citation**: Greene et al. *PLOS ONE* (2015), PMC4395448.
 - **URL**: https://pmc.ncbi.nlm.nih.gov/articles/PMC4395448/
 - **Verification**: VERIFIED via PMC.
-- **Relevance**: 2× Talbot–Plateau deviation at sub-µs flashes —
-  primary anchor for §1 conclusion 1.
+- **Relevance**: ~2× Talbot–Plateau deviation at sub-µs flashes
+  (1.3 µs in the experimental conditions) — primary anchor for
+  §1 conclusion 1.
 
-### REF-OA-2 — Davis 2023 *Frontiers*
-- **Citation**: Davis, J. *Frontiers* (2023), PMC10172486.
+### REF-OA-2 — Greene & Morrison 2023 *Frontiers* (corrected from "Davis 2023")
+
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Davis, J." Reviewer-1's spot-check against
+> the PMC10172486 mirror confirms actual authors are **Greene
+> & Morrison**.
+
+- **Citation**: Greene & Morrison. *Frontiers* (2023),
+  PMC10172486.
 - **URL**: https://pmc.ncbi.nlm.nih.gov/articles/PMC10172486/
 - **Verification**: VERIFIED via PMC.
-- **Relevance**: Confirms and extends Davis 2015 finding.
+- **Relevance**: Confirms and extends the Greene 2015 finding;
+  shows the Talbot-Plateau deviation actually ranges 0.85–1.55×
+  (so "2×" is the worst case, not universal — reviewer-1 flag).
 
 ### REF-OA-3 — Hecht-Shlaer 1942 *J. Gen. Physiol.*
 - **Citation**: Hecht, S., Shlaer, S., Pirenne, M.H. *J. Gen.
   Physiol.* 25(6), 1942.
 - **URL**: PMC mirror available.
 - **Verification**: VERIFIED via PMC.
-- **Relevance**: Photon-count threshold of dark-adapted vision.
-  Anchors the 0.1 µA red-LED current floor.
+- **Relevance**: Photon-count threshold of dark-adapted vision
+  (5–14 photons at the cornea). **Caveat 2026-05-04**
+  (reviewer-1): the academic-survey's translation of this to
+  "0.1 µA red-LED current floor" is **~10⁵× too coarse** —
+  reviewer's recalc puts the dark-adapted threshold at
+  picoamps. The cap-on-cap-arithmetic and brightness-budget
+  reasoning chain that depends on the µA-class number must be
+  re-derived. The 5–14 photon historical claim itself is
+  unaffected.
 
 ### REF-OA-4 — Berkeley EECS-2017-73 thesis (Hofer & Schmid 2018 antecedent)
 - **Citation**: Hofer & Schmid, Berkeley EECS-2017-73 thesis,
@@ -49,14 +71,28 @@
   silicon anchor for T1.
 
 ### REF-PW-2 — Karthaus & Fischer 2003 *JSSC*
-- **Citation**: Karthaus, U., Fischer, M. "Fully integrated passive
-  UHF RFID transponder IC with 16.7 µW minimum RF input power",
-  *IEEE JSSC* 38(10), 2003.
+- **Citation**: Karthaus, U., Fischer, M. "Fully integrated
+  passive UHF RFID transponder IC with 16.7 µW minimum RF input
+  power", *IEEE JSSC* 38(10), 2003.
 - **DOI**: 10.1109/JSSC.2003.817627
 - **Verification**: paywall — abstract only.
-- **Relevance**: 16.7 µW whole-tag including on-die LED indicator
-  on 0.18 µm CMOS — closest known silicon-anchored low-power LED
-  budget.
+- **Relevance** (corrected 2026-05-04 per reviewer-1):
+  ~~16.7 µW whole-tag including on-die LED indicator on
+  0.18 µm CMOS — closest known silicon-anchored low-power LED
+  budget.~~
+
+  > **CORRECTION 2026-05-04** (reviewer-1): the prior summary
+  > does NOT match the paper's abstract. The 16.7 µW figure is
+  > the **RF receiver-sensitivity threshold for a 0.5 µm CMOS
+  > RFID transponder** (NOT 0.18 µm as cited; NOT a whole-tag
+  > including-LED budget). No on-die LED is mentioned in the
+  > abstract. The math admittedly didn't work — see
+  > open-questions Q-AC5. **Citation remains valid as a low-
+  > power RFID transponder anchor** (it is a real paper with a
+  > real 16.7 µW measurement), but **the LED-budget headline
+  > derived from it is RETRACTED**. Stage-2 must find a
+  > replacement anchor for the "lowest known silicon-anchored
+  > low-power LED budget" claim, OR drop that headline.
 
 ### REF-PW-3 — Doutreloigne 2015
 - **Citation**: Doutreloigne, J. (2015), conference paper on
