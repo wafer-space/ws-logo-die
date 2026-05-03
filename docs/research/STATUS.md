@@ -2,26 +2,33 @@
 
 Snapshot taken 2026-05-03; updated continuously as work progresses.
 
-## Current checkpoint (2026-05-04)
+## Current checkpoint (2026-05-04, end of Stage-1 review wave)
 
 - **All 11 Stage-1 first-principles reports** persisted as 5-file
   structured sets for items (a)–(k).
 - **All 11 Stage-1 academic-survey reports** persisted as 5-file
-  structured sets for items (a)–(k). Wave completed 2026-05-04
-  with one-at-a-time retry mode after the IEEE-Xplore-watchdog
-  stall problem in the first parallel-11 attempt.
-- **6 of 11 Stage-1 industry-survey 5-file sets** are fully
-  persisted: a, b, d, f, h, k.
-- **5 industry-survey items at single-file `report.md` only**:
-  c, e, g, i, j. Per INDEX.md line 38, (g)/(i)/(j) are
-  *intentionally* single-file (their solutions/components/
-  open-questions/references can be merged from first-principles
-  sister). (c) and (e) report.md content is complete and
-  self-contained but the 4-file split has not been split out.
-- **Reviewer wave starting**: first reviewer launched 2026-05-04
-  on (a) oscillator (all 3 angles fully persisted).
-- ~80 MB of cached upstream PDFs in references-cache/ across
-  (a), (b), (c), (d), (f), (h), (j).
+  structured sets for items (a)–(k).
+- **8 of 11 Stage-1 industry-survey 5-file sets** are fully
+  persisted: a, b, c, d, e, f, h, k. (g), (i), (j) intentionally
+  single-file per INDEX.md line 38.
+- **All 11 Stage-1 reviewer reports complete** (commits f33e4e0,
+  4623e0d, 6071a06, 8581843, 22f20db, 33d6ed3, 69e11fa, a30f6e3,
+  a60c64b, 14fd03c, 275768a, fede4c2). **Verdict: revisions-
+  requested across all 11 items.** Programme-wide patterns:
+  - **Citation-author hallucination: 11/11 items** — universal.
+    ~20 confirmed misattributions documented in CORRECTIONS.md.
+  - **Cap-arithmetic prefix slips: 5/11** (a/c/e/f/k, plus 2× in b).
+  - **Topology-ID collisions: 3/11** (a, f, i — i worst).
+  - **Suspicious convergence: 2/11** (b, h — both with explicit
+    cross-citation between sister angles).
+- **Architectural verdicts have survived in every reviewed item**
+  but several flipped magnitude or direction post-correction
+  (BLE infeasibility ~3.5× → ~900× over die; Hecht-Shlaer µA →
+  picoamps inverts the "ambient mode legitimately dark" verdict;
+  Qi 500 ms holdup at 1 mA: 1.11 mm² → 1.1 m²).
+- ~98 MB of cached upstream PDFs in references-cache/ across
+  (a), (b), (c), (d), (f), (g), (h), (j).
+- ~100 commits this wave.
 
 ## Stage-1 → Stage-2 readiness matrix
 
