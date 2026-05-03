@@ -86,7 +86,7 @@ pattern, their wrapper-style choices are directly precedent for our
 choice on (g).
 
 **Settles via:** Targeted search. The IEEE ESL Caravel-vector-
-accelerator paper (Filip et al. 2024) is similar in spirit (a
+accelerator paper (Baungarten-Leon et al. 2024 (corrected from 'Filip et al.' 2026-05-04 per reviewer-1)) is similar in spirit (a
 custom accelerator wrapped for a fixed-shuttle host) but not
 TT-derived. Worth a quarter-day of search in Stage 2.
 

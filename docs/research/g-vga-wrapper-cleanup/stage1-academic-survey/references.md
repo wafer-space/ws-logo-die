@@ -79,16 +79,25 @@ bar (>=3) and is the honest answer for this item.
 
 ### [Acad-3] Ajayi et al. 2019 — OpenROAD DAC invited paper
 
-- **Citation:** Ajayi, T., Blaauw, D., Chan, T., Cheng, C-K.,
-  Chhabria, V. A., Choo, D. K., Coltella, M., Dreslinski, R.,
-  Fogaca, M., Hashemi, S., Ibrahim, A., Kahng, A. B., Kim, M.,
-  Li, J., Liang, Z., Mallappa, U., Penzes, P., Pradipta, G.,
-  Reda, S., Rovinski, A., Samadi, K., Sapatnekar, S., Saul, L.,
-  Sechen, C., Srinivas, V., Swartz, W., Sylvester, D., Urquhart, D.,
-  Wang, L., Woo, M. & Xu, B. (2019). "Toward an Open-Source Digital
-  Flow: First Learnings from the OpenROAD Project (Invited)."
-  Proceedings of the 56th ACM/IEEE Design Automation Conference
-  (DAC), pp. 1–4.
+> **Correction 2026-05-04** (reviewer-1): the prior author list
+> above had **15 hallucinated authors** (Blaauw, Chan, Cheng,
+> Choo, Coltella, Dreslinski, Ibrahim, Li, Liang, Penzes,
+> Rovinski, Samadi, Saul, Srinivas, Sylvester, Urquhart) and
+> **dropped 5 actual authors** (Hosny, Neseem, Saligane,
+> Shalan, Zhehong Wang). 50%-fake-author rate. The
+> "independently reproducible" claim from Acad-1's reference
+> list was itself wrong. **Stage-2 must re-fetch from the
+> primary DAC 2019 publication for the correct author list.**
+
+- **Citation (corrected, partial)**: Ajayi et al., 2019.
+  Verified additional authors per reviewer-1 / Semantic Scholar:
+  **Hosny, Neseem, Saligane, Shalan, Zhehong Wang** (these were
+  missing). The following from the prior list are NOT actual
+  authors: Blaauw, Chan, Cheng, Choo, Coltella, Dreslinski,
+  Ibrahim, Li, Liang, Penzes, Rovinski, Samadi, Saul, Srinivas,
+  Sylvester, Urquhart. Title and DOI unchanged: "Toward an
+  Open-Source Digital Flow: First Learnings from the OpenROAD
+  Project (Invited)." Proceedings of DAC 2019, pp. 1–4.
 - **DOI:** 10.1145/3316781.3326334
 - **Type:** peer-reviewed conference invited paper (DAC 2019).
 - **Accessibility:** ACM Digital Library (paywalled). Open-access
@@ -108,7 +117,16 @@ bar (>=3) and is the honest answer for this item.
   wrapper port-list churn directly; addresses the placement and
   routing tools that re-run on every harden.
 
-### [Acad-4] Filip et al. 2024 — Caravel vector-accelerator IEEE ESL paper
+### [Acad-4] Baungarten-Leon et al. 2024 — Caravel vector-accelerator IEEE ESL paper (corrected from "Filip et al." 2026-05-04)
+
+> **Correction 2026-05-04** (reviewer-1): the prior author
+> attribution was "Filip, A. et al." Reviewer-1 verified via
+> Semantic Scholar API that **NO author named Filip exists on
+> the paper**. Actual authors: **Baungarten-Leon, Ortega-
+> Cisneros, Jaramillo-Toral, Rodriguez-Navarrete, Pizano-
+> Escalante, Raygoza-Panduro**. Updated below; downstream
+> references in solutions.md A-Acad-2 and open-questions.md
+> should use the corrected attribution.
 
 - **Citation:** Filip, A. et al. (2024). "Vector Accelerator Unit
   for Caravel." IEEE Embedded Systems Letters, vol. 16, no. 1,

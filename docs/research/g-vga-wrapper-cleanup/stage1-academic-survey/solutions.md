@@ -63,7 +63,7 @@ be a misuse of the source.
 **Source:** Shalan, M. & Edwards, T. (2020). "Building OpenLANE: A
 130nm OpenROAD-based Tapeout-Proven Flow: Invited Paper." 2020
 IEEE/ACM ICCAD, pp. 1–6. doi:10.1145/3400302.3415735. Also referenced
-by Filip, A. et al. (2024). "Vector Accelerator Unit for Caravel."
+by Baungarten-Leon et al. (2024) (corrected from 'Filip et al.' 2026-05-04 per reviewer-1). "Vector Accelerator Unit for Caravel."
 IEEE Embedded Systems Letters, 16(1), pp. 73–76.
 doi:10.1109/LES.2023.3267341.
 
@@ -203,7 +203,7 @@ options regardless of any academic endorsement.
 | Approach short-name | Paper(s) | Position | Maps to |
 |---|---|---|---|
 | A-Acad-1 | Venn 2024 (SSC-M) | endorse fixed-pin shuttle wrapper, tie off unused bits | G2 / G8; A1 / A2 |
-| A-Acad-2 | Shalan & Edwards 2020 (ICCAD); Filip 2024 (ESL) | endorse Caravel golden-template, tie off unused | G2 / G8; A2 |
+| A-Acad-2 | Shalan & Edwards 2020 (ICCAD); Baungarten-Leon et al. 2024 (corrected from 'Filip 2024' 2026-05-04 per reviewer-1) (ESL) | endorse Caravel golden-template, tie off unused | G2 / G8; A2 |
 | B-Acad-1 | Ghazy & Shalan 2020 (WOSET) | endorse re-harden on RTL change | G1; B1 |
 | B-Acad-2 | Ghazy & Shalan 2020 (WOSET §III) | I/O placement is re-optimised every harden | corollary of B-Acad-1 |
 | C-Acad-1 | (silent) | no academic position on dead-bit DFT reuse | G3 / G6; C1 |
