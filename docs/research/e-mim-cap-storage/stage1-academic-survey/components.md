@@ -85,7 +85,7 @@ flying caps.
 | Compensation current source | matched current mirror |
 | Tuning DAC (optional) | resistor ladder + digital trim |
 
-## AS-11 brown-out-only (Yang/Khan)
+## AS-11 brown-out-only (Yang / Zou — corrected from "Khan" 2026-05-04 per reviewer-1; see academic-survey solutions.md AS-11 caveat re Yang storage cap)
 
 | Block | PDK realisation |
 |---|---|
