@@ -2,33 +2,45 @@
 
 Snapshot taken 2026-05-03; updated continuously as work progresses.
 
-## Current checkpoint (most recent)
+## Current checkpoint (2026-05-04)
 
-- **All 11 Stage-1 first-principles reports** are fully
-  persisted as 5-file structured sets (report.md, components.md,
-  solutions.md, open-questions.md, references.md) for items
-  (a)–(k). Total: 55 files, ~10k lines committed.
-- **9 of 11 Stage-1 industry-survey 5-file sets** are
-  fully persisted: c, d, e, f, g, h, i, j, k.
-- **2 industry-survey items still in flight in background**:
-  (b) NFC harvest, (a) completion (filling missing report.md,
-  components.md, open-questions.md against pre-existing
-  solutions.md and references.md).
-- ~80 MB of cached upstream PDFs in references-cache/ committed
-  across (a), (b), (c), (d), (f), (h), (j) — full list:
-  Tonti 2003/2008 eFuse papers, NTAG213/215/216 datasheet,
-  TI bq51013B/bq51050B + IDT P9221-R Qi receiver datasheets,
-  full WPC Qi PC0 v1.2.3 + v1.3 specs, Petzel 2018 NFC/Qi
-  coexistence thesis, Pinuela 2013 ambient-RF survey, Powercast
-  P21XX/P2110B, Antenova RUFA, e-peas AEM30940, Atmosic
-  Energy-Harvesting white paper, Si Labs AN930.2, TI bq25504,
-  Infineon AN234970 FOD-tuning guide, multiple NXP NFC app
-  notes, Microchip Doc2056.
+- **All 11 Stage-1 first-principles reports** persisted as 5-file
+  structured sets for items (a)–(k).
+- **All 11 Stage-1 academic-survey reports** persisted as 5-file
+  structured sets for items (a)–(k). Wave completed 2026-05-04
+  with one-at-a-time retry mode after the IEEE-Xplore-watchdog
+  stall problem in the first parallel-11 attempt.
+- **6 of 11 Stage-1 industry-survey 5-file sets** are fully
+  persisted: a, b, d, f, h, k.
+- **5 industry-survey items at single-file `report.md` only**:
+  c, e, g, i, j. Per INDEX.md line 38, (g)/(i)/(j) are
+  *intentionally* single-file (their solutions/components/
+  open-questions/references can be merged from first-principles
+  sister). (c) and (e) report.md content is complete and
+  self-contained but the 4-file split has not been split out.
+- **Reviewer wave starting**: first reviewer launched 2026-05-04
+  on (a) oscillator (all 3 angles fully persisted).
+- ~80 MB of cached upstream PDFs in references-cache/ across
+  (a), (b), (c), (d), (f), (h), (j).
 
-When the 2 in-flight agents return: programme has full first-
-principles + industry-survey coverage on all 11 items. Stage-1
-academic-survey wave can launch then, followed by Stage-2
-synthesis.
+## Stage-1 → Stage-2 readiness matrix
+
+| Item | first-principles | industry-survey | academic-survey | reviewer | Stage-2 ready |
+|---|---|---|---|---|---|
+| (a) | ✓ 5-file | ✓ 5-file | ✓ 5-file | in flight | after review |
+| (b) | ✓ 5-file | ✓ 5-file | ✓ 5-file | — | after review |
+| (c) | ✓ 5-file | ◐ report.md | ✓ 5-file | — | after split + review |
+| (d) | ✓ 5-file | ✓ 5-file | ✓ 5-file | — | after review |
+| (e) | ✓ 5-file | ◐ report.md | ✓ 5-file | — | after split + review |
+| (f) | ✓ 5-file | ✓ 5-file | ✓ 5-file | — | after review |
+| (g) | ✓ 5-file | ◐ report.md (intentional) | ✓ 5-file | — | after review |
+| (h) | ✓ 5-file | ✓ 5-file | ✓ 5-file | — | after review |
+| (i) | ✓ 5-file | ◐ report.md (intentional) | ✓ 5-file | — | after review |
+| (j) | ✓ 5-file | ◐ report.md (intentional) | ✓ 5-file | — | after review |
+| (k) | ✓ 5-file | ✓ 5-file | ✓ 5-file | — | after review |
+
+11/11 items have ≥3 angles persisted. Stage-2 synthesis can
+begin per item once reviewer signs off Stage-1.
 
 ## What was launched
 
