@@ -66,7 +66,12 @@ note where the 180 nm port is non-trivial.
 
 ### 3.5 Loop filter (passive)
 - 100 pF + 5 kohm + 10 nF (off-die or large on-die MIM).
-- 10 nF on-die @ 2 fF/um^2 -> 5000 um^2 = 0.005 mm^2.
+- 10 nF on-die @ 2 fF/um^2 -> 5e6 um^2 = 5 mm^2 (corrected
+  2026-05-04 — was "5000 um^2 = 0.005 mm^2" with 1000x
+  cap-arithmetic error). **5 mm² exceeds the 2.25 mm² die by
+  ~2x** — even the loop filter alone is infeasible at this
+  spec; loop-bandwidth and crossover frequency must be raised
+  10x or the loop filter must move off-die.
 
 ### 3.6 Multi-modulus divider
 - /N divider for BLE channels 37/38/39 (/940 / /941 / /942).

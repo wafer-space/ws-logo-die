@@ -128,14 +128,30 @@ energy.**
 
 ### 5.3 Per-consumer demand vs feasibility
 
+> **Correction 2026-05-04** (reviewer-1 finding from (a) and (k)):
+> the prior version of this table used 1000×-too-small areas
+> throughout (treating 1 µF as 10⁶ fF when correct is 10⁹ fF;
+> i.e. confusing µF with nF). §5.4 below uses the *correct*
+> arithmetic — only this §5.3 table was wrong. The architectural
+> verdicts have been re-derived; **most lines flip from
+> "feasible" to "infeasible" or "tight"**.
+
 | Consumer | I, dt, ΔV | C_min | Area at MIM-2.0 | Verdict |
 |---|---|---|---|---|
-| NFC sub-carrier 1-cycle (847.5 kHz, 5 mA, ΔV=0.3 V) | — | **9.8 nF** | 0.005 mm² | **Trivially feasible** |
-| NFC sub-carrier 10-cycle burst | — | **98 nF** | 0.05 mm² | **Easily feasible** |
-| LED twinkle 5 mA × 100 µs at 3 V | ΔV=1 V | **500 nF** | 0.25 mm² | **Feasible** |
-| LED long-pulse 5 mA × 100 ms (TODO target) | ΔV=1 V | **500 µF** | 250 mm² | **INFEASIBLE — pivot needed** |
-| eFuse program 100 mA × 10 µs at 5 V | ΔV=1 V | **1.0 µF** | 0.5 mm² | **Feasible but ~5 % of core** |
-| BLE TX burst 10 mW × 200 µs at 3.3 V | ΔV=0.5 V | **1.2 µF** | 0.6 mm² | **Feasible but tight** |
+| NFC sub-carrier 1-cycle (847.5 kHz, 5 mA, ΔV=0.3 V) | — | **9.8 nF** | **4.9 mm²** | **Larger than v2 die** — pivot to MOS-cap fill OR shrink target ΔV |
+| NFC sub-carrier 10-cycle burst | — | **98 nF** | **49 mm²** | **INFEASIBLE on-die** at MIM-2.0 |
+| LED twinkle 5 mA × 100 µs at 3 V | ΔV=1 V | **500 nF** | **250 mm²** | **INFEASIBLE on-die** at MIM-2.0 |
+| LED long-pulse 5 mA × 100 ms (TODO target) | ΔV=1 V | **500 µF** | **250 000 mm²** (= 25 cm²) | **INFEASIBLE — pivot needed** |
+| eFuse program 100 mA × 10 µs at 5 V | ΔV=1 V | **1.0 µF** | **500 mm²** | **INFEASIBLE on-die** — must reduce I_program duty (e.g. 100 mA × 1 µs train) and/or rely on direct rectifier-to-eFuse path |
+| BLE TX burst 10 mW × 200 µs at 3.3 V | ΔV=0.5 V | **1.2 µF** | **600 mm²** | **INFEASIBLE on-die** (matches (k) BLE storage-cap-wall finding) |
+
+The architectural implication: **on-die-only bulk storage is
+infeasible for any of the bursty consumers**. Mitigations are
+event-by-event:
+- NFC sub-carrier: drop ΔV target to ~50 mV (loosens 6× → still ~1 mm², borderline) or accept rectifier ripple absorbing the load directly.
+- LED twinkle: pulse current down 10× to ~500 µA (linear scaling: 25 mm² still infeasible) or shorten pulses 10× (~25 mm², still infeasible). True fix: **pulse from rectifier directly, not from cap**. This is what item (f) academic-survey's T1 (Curty/Karthaus 2003 RFID-IC pattern) does.
+- eFuse program: shorten to 1 µs pulse trains (Tonti 2003 IRW finding from (j) academic-survey), reducing C_min to 100 nF (50 mm² — still tight; further mitigation: direct DVDD-to-eFuse path).
+- BLE: confirms (k) infeasibility at 180 nm without primary battery.
 
 ### 5.4 Surprising leakage vs ambient-RF crossover
 

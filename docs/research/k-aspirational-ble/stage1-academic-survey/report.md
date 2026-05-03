@@ -341,9 +341,11 @@ disqualifying**.
 Roy 2018 burst-mode TX explicitly uses a **47 uF off-die supercap**
 to support 1 mW peak bursts.  Our die area constraint
 (<= 2.25 mm^2 total) cannot host even 1 uF on-die at MIM density
-2 fF/um^2 (would need 0.5 mm^2 just for cap, leaving no room for
-the radio).  **The peer-reviewed silicon record contains zero
-counter-examples** to the storage-cap wall.
+2 fF/um^2 (would need **500 mm^2** just for cap, ~220x the entire
+die area, leaving no room for the radio — corrected 2026-05-04
+from "0.5 mm^2" with 1000x cap-arithmetic error).  **The
+peer-reviewed silicon record contains zero counter-examples** to
+the storage-cap wall.
 
 ### 5.6 Energy-per-bit extrapolation to 180 nm
 

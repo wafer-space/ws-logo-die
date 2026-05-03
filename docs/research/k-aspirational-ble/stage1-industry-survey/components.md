@@ -252,10 +252,10 @@ Estimated area (very rough, scaled from published silicon):
 | Antenna match | 0.05 mm² |
 | Bandgap + LDO + brown-out | 0.05 mm² |
 | Link-layer HDL (synthesised) | 0.05 mm² (low gate count) |
-| Storage cap (per µF MIM) | 0.5 mm² / µF |
+| Storage cap (per µF MIM) | **500 mm² / µF** (corrected 2026-05-04 — was 0.5 mm² with 1000× cap-arithmetic error) |
 | **Subtotal w/o storage** | ≈ **0.55 mm²** |
-| **w/ even 1 µF on-die storage** | ≈ **1.05 mm²** |
-| **w/ 4 µF on-die storage** | ≈ **2.55 mm²** (exceeds full die) |
+| **w/ even 1 µF on-die storage** | ≈ **500 mm²** (exceeds 2.25 mm² die by ~220×) |
+| **w/ 4 µF on-die storage** | ≈ **2000 mm²** (exceeds full die by ~900×) |
 
 ## 9. Block-level open-source IP availability
 

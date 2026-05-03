@@ -30,14 +30,27 @@ Both ends of the spectrum represented:
 
 ## Per-consumer mapping
 
-| Consumer | Recommended strategy | C target | Area |
+> **Correction 2026-05-04** (reviewer-1 finding): per-consumer
+> areas in this table previously used a 1000×-too-small factor
+> (treating µF as 10⁶ fF when correct is 10⁹ fF). The corrected
+> areas below flip most "feasible" verdicts to "infeasible".
+> See report.md §5.3 for the corrected per-consumer table with
+> mitigation paths.
+
+| Consumer | Recommended strategy | C target | Area at MIM-2.0 (corrected) |
 |---|---|---|---|
-| NFC sub-carrier (~10 nF) | S1 or S2 | 10–100 nF | 0.005-0.05 mm² |
-| LED twinkle 100 µs pulse | S1 | 500 nF | 0.25 mm² |
+| NFC sub-carrier (~10 nF) | S1 or S2 | 10–100 nF | **5–50 mm²** — INFEASIBLE except at relaxed ΔV |
+| LED twinkle 100 µs pulse | S1 | 500 nF | **250 mm²** — INFEASIBLE on-die |
 | LED long-pulse 100 ms | **S6** (continuous harvest, NOT stored) | n/a | n/a |
-| eFuse program burst | S1 with HV variant | 1 µF | 0.5 mm² |
-| BLE TX burst | S1 or S5 | 1.2 µF | 0.6 mm² |
+| eFuse program burst | S1 with HV variant | 1 µF | **500 mm²** — INFEASIBLE on-die; needs Tonti 2003 pulse-train + direct DVDD path |
+| BLE TX burst | S1 or S5 | 1.2 µF | **600 mm²** — INFEASIBLE on-die (matches (k) storage-cap-wall) |
 | Ambient RF mode | **S8** mandatory | scaled | scaled |
+
+**Architectural implication**: on-die-only bulk storage is the
+binding constraint for v2's bursty consumers. Stage-2 must
+consider direct rectifier-to-load paths (no cap intermediation),
+Tonti pulse-train architectures (shorten pulse to fit available
+cap), and relaxed ΔV targets.
 
 ## Stage-2 / Stage-3 handoff
 

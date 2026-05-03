@@ -380,11 +380,16 @@ first-principles 4 mW estimate (S5 in the FP table).
 Atmosic application notes for the ATM3 series specify **external
 storage of 100 µF or more for energy-harvesting battery-free
 operation**. On-die storage is not used. At gf180mcuD MIM density
-2 fF/µm² that is 50 mm² die area — far beyond `ws-logo-die`.
+2 fF/µm² that is **50 000 mm²** die area (corrected 2026-05-04 —
+was "50 mm²" with 1000× cap-arithmetic error) — far beyond
+anything implementable in any silicon process.
 
-**The first-principles "8 mm² MIM > whole die" finding is
+**The first-principles "MIM > whole die" finding is
 corroborated** by industry's universal practice of pairing
-harvested-BLE silicon with off-die storage capacitors.
+harvested-BLE silicon with off-die storage capacitors. The gap
+is now correctly stated as ~900× per µF, not ~3.5× as the
+prior version implied — it does not change the "infeasible"
+verdict but it changes the magnitude of the gap.
 
 ### 5.7 Ambient-RF supports BLE — vendor-side cross-check
 

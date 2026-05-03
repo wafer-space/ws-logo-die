@@ -4,7 +4,7 @@ item_name: internal-oscillator
 stage: 1
 angle: first-principles
 researcher: stage1-first-principles agent (parallel instance 1 of 3)
-status: draft
+status: revisions-requested-then-corrected-inline-2026-05-04
 last-updated: 2026-05-02
 ---
 
@@ -396,15 +396,22 @@ Q_intrinsic = ω·L/R = 2π·13.56e6·1.3e-6 / 3.4 ≈ 32.
 With the rectifier OFF (field-absent mode), the antenna sees only
 its tuning cap and the cross-coupling FETs: loaded-Q drops by maybe
 2–3× from on-die parasitics → Q ~12. Cross-coupled FETs need to
-present `g_m ≥ 2/R_p = 2/(ω·L·Q) = 2/(45·12) ≈ 4 mA/V`. At 100 µA
+present `g_m ≥ 2/R_p = 2/(ω·L·Q) = 2/(111·12) ≈ 1.5 mA/V`. At 100 µA
 bias each, V_eff ≈ 0.2 V (subthreshold-edge), `g_m = 2·I_D/V_eff =
-1 mA/V`. **Insufficient by 4×.** Need to increase bias current to
-~400 µA (or use larger devices for lower V_eff).
+1 mA/V`. **Insufficient by ~1.5×.** Need to increase bias current
+to ~150 µA (or use larger devices for lower V_eff).
 
-So C3 is *physically possible* but at a higher current cost than I
-first claimed. **Headline correction: C3 needs ~500 µA active
-current**, not 100 µA. Still a candidate, but the power case is
-weaker.
+So C3 is *physically possible* at marginally higher current cost
+than the 100 µA target. **Headline correction (post-review): C3
+needs ~150 µA active current**, not 100 µA. Still a strong
+candidate, with the power case weaker by 50% rather than 4×.
+
+> **Correction 2026-05-04** (reviewer-1): the prior version of this
+> §5.4 used `ω·L = 45 Ω` from the (k) BLE 2.4 GHz Friis sanity-
+> check (line 361), but for an NFC PCB loop at 13.56 MHz the
+> correct ω·L = 2π·13.56e6·1.3e-6 = 110.76 Ω. The g_m and
+> bias-current numbers above are now consistent with §5.4's
+> own `Q_intrinsic` derivation on line 394.
 
 ### 5.5 Sub-threshold ring at 1 V V_DD (D1)
 
@@ -497,11 +504,31 @@ present.* In field-absent mode, the chip falls back to ±2 %
 NFC field-rise to first useful clock edge: 5 ms allowed. During
 that window, the chip's quiescent current is supplied by the
 rectifier's storage cap (item (e)). Storage cap voltage droop:
-Δv = I_q · t / C. For I_q = 100 µA and t = 5 ms: Δv = 0.5 V·µF /
-C. To keep droop below 0.5 V (so the bandgap doesn't crash) we need
-C ≥ 1 nF on the harvested rail. **Within MIM budget** (1 nF is
-500 × 1000 µm² at 2 fF/µm² = 0.5 mm², which fits comfortably under
-the logo).
+Δv = I_q · t / C. For I_q = 100 µA and t = 5 ms:
+Q = I_q · t = 500 nC; for Δv ≤ 0.5 V (so the bandgap doesn't
+crash) we need C ≥ 500 nC / 0.5 V = **1 µF** on the harvested
+rail. **NOT within on-die MIM budget**: 1 µF at 2 fF/µm² is
+**5×10⁸ µm² = 500 mm²**, exceeding the whole v2 die area
+(~2.25 mm²) by ≈220×.
+
+**Implications**: at the requested 100 µA quiescent through 5 ms
+cold-start, on-die-only storage is **infeasible**. Three viable
+fixes:
+1. Reduce I_q during cold-start to ~1 µA → C ≥ 10 nF (~5 mm²,
+   still painful but not impossible if the storage cap can be
+   built at MIM_1f0 with ~20 V cold-start swing).
+2. Shorten cold-start window to 50 µs → C ≥ 10 nF.
+3. Accept brown-out during cold-start; reset is on the bus
+   anyway.
+
+> **Correction 2026-05-04** (reviewer-1): the prior version of
+> this §5.11 said "C ≥ 1 nF on the harvested rail. Within MIM
+> budget (0.5 mm²)" — the correct C is **1 µF (1000× larger)**.
+> The arithmetic error was treating 1 µF as 10⁶ fF; the correct
+> conversion is 1 µF = 10⁹ fF. The qualitative architectural
+> conclusion is now reversed: cold-start storage is **not
+> feasible on-die** at the original 100 µA × 5 ms target,
+> requiring the architectural mitigations above.
 
 ## 6. References
 

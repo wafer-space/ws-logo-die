@@ -66,9 +66,19 @@ down-selection):
    2.4 GHz unaided.
 8. **Storage cap is the dominating area cost.** Sustaining a
    1.5 ms /10 µJ advert burst across a 3.3 V → 2.5 V droop demands
-   ≈4 µF. At gf180mcuD MIM density 2 fF/µm² that is **≈2 mm² of
-   die per µF**, i.e. ≈8 mm² of dedicated MIM-cap. **The chip is
-   not big enough.**
+   ≈4 µF. At gf180mcuD MIM density 2 fF/µm² that is **≈500 mm² of
+   die per µF**, i.e. ≈2000 mm² of dedicated MIM-cap. **The chip
+   is not even close to big enough — the burst storage cap alone
+   exceeds the die area by ~900×.**
+
+   > **Correction 2026-05-04** (reviewer-1 finding): the prior
+   > version of this point quoted "≈2 mm² of die per µF" and
+   > "≈8 mm² of dedicated MIM-cap". Those numbers were 1000×
+   > too small (treating µF as 10⁶ fF when correct is 10⁹ fF).
+   > The qualitative verdict is unchanged ("the chip is not big
+   > enough") but the magnitude is dramatically larger; this
+   > argument applies regardless of architectural choices and
+   > therefore strengthens the (k) infeasibility verdict.
 
 ## 2. Requirements as understood
 
@@ -210,17 +220,23 @@ Single-channel: ≈3.5 µJ.
 
 E = ½ C (V₁² − V₂²); 3.3 V → 2.5 V droop.
 
-| Burst E | Required C |
-|---|---|
-| 1 µJ | 0.43 µF |
-| 5 µJ | 2.16 µF |
-| 10 µJ | 4.31 µF |
+| Burst E | Required C | Area at MIM-2.0 (corrected) |
+|---|---|---|
+| 1 µJ | 0.43 µF | **215 mm²** |
+| 5 µJ | 2.16 µF | **1080 mm²** |
+| 10 µJ | 4.31 µF | **2155 mm²** |
 
-At MIM density 2 fF/µm²: 1 µF = 0.5 mm²; 4.3 µF = **8.6 mm²**.
+At MIM density 2 fF/µm²: 1 µF = **500 mm²**; 4.3 µF = **2155 mm²**.
 
 **Pessimism required.** ws-logo-die v2 die is ≤2.25 mm² total.
-Even a single-channel 1-packet burst (3.5 µJ → 1.5 µF → 3 mm²) is
-too large.
+Even a single-channel 1-packet burst (3.5 µJ → 1.5 µF →
+**~750 mm²**) exceeds the die by ≈330×.
+
+> **Correction 2026-05-04** (reviewer-1 finding): the table
+> previously gave 0.5 mm² / 8.6 mm² / 3 mm² respectively — all
+> 1000× too small (µF treated as 10⁶ fF; correct is 10⁹ fF).
+> The architectural conclusion ("die not big enough") survives
+> and is dramatically reinforced.
 
 ### 5.8 Harvested-rail capability vs BLE demand
 
@@ -288,9 +304,11 @@ wafer.space logo. Mitigation: site spiral on Metal4 with ~1.5×
 lower Q.
 
 ### 7.4 Bursty TX from a 4 µF storage cap is not feasible on-die
-4 µF / 2 fF/µm² = 8 mm² die area. Total v2 area ≤2.25 mm². Implies
-single-channel single-packet adverts (1.5 µF → 3 mm² — *still*
-too much), or no burst at all.
+4 µF / 2 fF/µm² = **2000 mm²** die area (corrected 2026-05-04 —
+was 8 mm² with 1000× cap-arithmetic error). Total v2 area
+≤2.25 mm². Implies single-channel single-packet adverts (1.5 µF
+→ **~750 mm²** — *still* far too much), or no burst at all. The
+gap is ~900× per µF, not ~3.5× as the prior version implied.
 
 ### 7.5 ADPLL fails on area in 180 nm
 TDC area in 180 nm is ≈10× a 65 nm equivalent.
