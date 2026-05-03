@@ -446,22 +446,33 @@ The "stable id" column is the one used by §3 of the main report.
   We use it as a sanity check on the relative ordering of
   topologies; it specifically tabulates Vth dependence.
 
-### G3. Sun *et al.* PMC review on dynamic threshold-cancellation 2021
+### G3. ~~Sun *et al.* PMC review on dynamic threshold-cancellation 2021~~ — CITATION RETRACTED 2026-05-04
 
-- **Citation:** Sun H., Pan Y., et al., "A Dynamic Threshold
+> **Correction 2026-05-04** (reviewer-1 finding): the prior
+> citation here was a **misattribution**. PMC8538867 actually
+> resolves to a Godinho et al. paper on a circuit operating
+> at **800 Hz – 51.2 kHz, NOT 13.56 MHz**. It cannot anchor
+> any HF dynamic-Vth-cancellation claim for our NFC rectifier.
+> The G3 reference is therefore retracted.
+>
+> Reviewer-1 verified PMC8538867 → Godinho et al. directly via
+> the PMC mirror on 2026-05-04. Any solutions.md / report.md
+> claim that previously cited "G3" or "Sun 2021" should be
+> treated as **unsupported pending replacement**. Stage-2
+> synthesis must either find a real HF dynamic-Vth-cancellation
+> anchor or downgrade the academic-survey solution that relies
+> on this citation (see solutions.md line 226 — the dynamic-Vth-
+> cancellation mitigation).
+
+(Original entry preserved below for traceability of the
+correction; do not cite.)
+
+- ~~Citation: Sun H., Pan Y., et al., "A Dynamic Threshold
   Cancellation Technique for a High-Power Conversion Efficiency
-  CMOS Rectifier," *Sensors*, vol. 21, no. 20, art. 6883, Oct 2021.
-- **DOI:** 10.3390/s21206883
-- **PMC URL:** https://pmc.ncbi.nlm.nih.gov/articles/PMC8538867/
-  (verified live 2026-05-03)
-- **Type:** Peer-reviewed journal (open-access via Sensors).
-- **Verification status:** *open-access; PMC ID 8538867 verified.*
-- **Local cache:** intended path
-  `references-cache/Sun-Sensors-2021/` (not populated).
-- **Relevance:** A recent open-access *dynamic* threshold-
-  cancellation paper that compares against Kotani-static and
-  reports quantitative leakage numbers. Useful for the Stage 2
-  trade-off table.
+  CMOS Rectifier," *Sensors*, vol. 21, no. 20, art. 6883, Oct
+  2021.~~
+- ~~DOI: 10.3390/s21206883~~
+- ~~PMC URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC8538867/~~
 
 ---
 

@@ -223,7 +223,10 @@ R-IND-2).
 - **Failure mode where abandoned:** Static Vth-cancellation has a
   *leakage tax* — the always-on bias path leaks ~1–10 µA at room
   temperature, which is significant at low harvested power.
-  Mitigation: dynamic Vth-cancellation (G3 / Sun 2021). Also, the
+  Mitigation: dynamic Vth-cancellation (~~G3 / Sun 2021~~ —
+  citation retracted 2026-05-04 per reviewer-1; the *concept*
+  is still a valid Stage-2 candidate but lacks an anchor pending
+  replacement). Also, the
   bias arrangement is sensitive to PVT and can over-cancel,
   inducing reverse conduction.
 - **PDK consideration:** The Le 2008 floating-gate variant [B3]

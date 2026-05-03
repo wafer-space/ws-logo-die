@@ -560,10 +560,13 @@ GF180MCU's **1.5 fF/µm² MIM** (ground-truthed at line 14 of
 - 220 nF on-die ⇒ A_MIM = 220 × 10⁻⁹ / 1.5 × 10⁻¹⁵ F/µm² ≈
   **147,000,000 µm² = 147 mm²** of MIM area. **Infeasible** — die
   area is at most a few mm² total.
-- Realistic on-die cap ceiling (assume 20 % of a 4 mm² die for the
-  storage cap) is **~12 nF at 1.5 fF/µm²**. With the higher 2.0 fF/
-  µm² MIM (also available per `sm141064_mim.ngspice` line 68),
-  ~16 nF.
+- Realistic on-die cap ceiling: **~6 nF at 1.5 fF/µm² in 4 mm²**
+  (corrected 2026-05-04 — was 12 nF; the 4 mm² × 1.5 fF/µm²
+  arithmetic gives 6 nF, not 12). With the higher 2.0 fF/µm²
+  MIM (also available per `sm141064_mim.ngspice` line 68),
+  **~8 nF** (was 16). Stacked-MIM is NOT offered in gf180mcuD
+  (per (e) industry-survey solutions.md) so vertical-stack
+  doubling is not a valid escape.
 - Implication: **we cannot ride out the 5.1 ms Field-Off polling
   gap.** This is the single biggest delta-from-industry our design
   must accept and engineer around.
@@ -713,7 +716,8 @@ This reconciles the apparent paradox in the NT3H2x11 datasheet
 (which simultaneously requires a Field-Off ≥ 5.1 ms and only a
 220 nF cap): the load must shed itself during the gap.
 
-### 5.5 On-die 12 nF MIM cap: what does *that* buy us?
+### 5.5 On-die 6 nF MIM cap: what does *that* buy us?
+(corrected from "12 nF" 2026-05-04; reviewer-1 caught a 2× cap-arithmetic error.)
 
 Same formula. ΔV = 0.4 V, I = 1 mA (LED-only): `Δt = 4.8 µs`.
 At I = 5 mA: `Δt = 1 µs`. **The on-die cap holds for less than one
@@ -757,7 +761,7 @@ inside industry-proven territory. ✓
 | AS3955 5 mA @ 4.5 V (22.5 mW) | Faraday | Within bounds |
 | 220 nF external cap rides 50 µs mod pause at 5 mA | C·ΔV/I | ✓ (17.6 µs/cycle) |
 | 220 nF external cap rides 5.1 ms polling gap | C·ΔV/I | ✗ — must shed load |
-| 12 nF on-die cap rides 50 µs mod pause | C·ΔV/I | Fails at >0.1 mA load |
+| 6 nF on-die cap rides 50 µs mod pause (corrected 2026-05-04) | C·ΔV/I | Fails at >0.05 mA load (halved from "0.1 mA" — ratio scales linearly with cap) |
 | Industry Cic 17–97 pF range | LC at 13.56 MHz | Fits practical PCB-coil L 1.4–8 µH |
 
 ## 6. References
@@ -855,7 +859,7 @@ Stable short names from §3 are used.
 | B-IND-Bandgap UVLO | every tag with V_CC | precise, ~µA quiescent | small | high |
 | B-IND-Powercheck current detection | NTAG 5 | gates Vout enable | small | **high (defines the LED twinkle policy)** |
 | E-IND-ExtCap external 100–220 nF | every commercial tag | rides 50 µs mod pause and (with shed) 5.1 ms polling gap | none on-die | **excluded** by constraint #2 |
-| E-IND-OnDie MIM under logo | (none — bespoke) | ~12 nF achievable | 4 mm² @ 1.5 fF/µm² | **the binding constraint** |
+| E-IND-OnDie MIM under logo | (none — bespoke) | **~6 nF** achievable (corrected 2026-05-04 from "12 nF") | 4 mm² @ 1.5 fF/µm² | **the binding constraint — sharper than reported** |
 | E-IND-MOSCap decoupling | every digital block | 5–10 fF/µm², voltage-dependent | small | medium (digital decoupling supplement) |
 
 ## 10. Author's notes

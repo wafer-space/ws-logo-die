@@ -158,10 +158,15 @@ industry-survey report.
 ### 5.1 Faraday-law bound on harvested DC power
 
 The sister first-principles report §5.1, §5.8 derives:
-- ISO/IEC 14443-2 Hmin = 1.5 A/m, Hmax = 7.5 A/m (Class 1 PICC).
+- ISO/IEC 14443-2 Hmin = 1.5 A/m, Hmax = 7.5 A/m **(rms)**
+  (Class 1 PICC; ISO Tables 1-2 specify rms — corrected
+  2026-05-04 per reviewer-1).
 - For our 4-turn 80 × 50 mm PCB loop:
-  V_pk_induced = ω · μ₀ · A · N · H_pk ≈ **2.57 V at Hmin**,
-  **12.85 V at Hmax**.
+  V_pk_induced = √2 × ω · μ₀ · A · N · H_rms ≈ **3.63 V at Hmin**,
+  **18.18 V at Hmax** (corrected 2026-05-04 — was "2.57 V" /
+  "12.85 V" with the prior version treating ISO H as peak;
+  the industry-survey §5.1 had this correct from the start,
+  so this fix resolves the prior internal contradiction).
 - P_coupled ≈ k² · P_reader · η_match. At P_reader = 1 W,
   k = 0.15, η_match = 0.7: P_coupled ≈ 16 mW.
 
@@ -226,15 +231,20 @@ benchtop), not at our actual marginal field.
 
 ### 5.4 Brown-out boundary — the topology selector
 
-Sister first-principles §5.12 derives:
-- (R-PD-baseline 5 V Vth): Vpk_ant_min = 3.55 V → fails at Hmin
-  V_pk_induced = 2.57 V.
-- (R-PD-native): Vpk_ant_min = 2.28 V → works at Hmin.
+Sister first-principles §5.12 derives (after 2026-05-04 RMS→peak
+correction):
+- (R-PD-baseline 5 V Vth): Vpk_ant_min = 3.55 V → **marginal at
+  Hmin** V_pk_induced = 3.63 V (was "fails at 2.57 V" before
+  correction).
+- (R-PD-native): Vpk_ant_min = 2.28 V → **works comfortably at
+  Hmin** (1.35 V margin).
 
 The active-rectifier topologies have Vpk_ant_min ≈ V_REG + V_LDO_drop
-+ ε ≈ 2.2 V (no Vth tax). **Therefore: at compliance Hmin (1.5 A/m),
-R-PD-native and any R-AC-* topology deliver DC; R-PD-baseline
-(5 V Vth) does not.** This is the binding criterion.
++ ε ≈ 2.2 V (no Vth tax). **Therefore: at compliance Hmin
+(1.5 A/m rms), R-PD-native and any R-AC-* topology deliver DC
+comfortably; R-PD-baseline (5 V Vth) is marginal** (works only
+if Hmin holds; fails on excursion-low fields). This is the
+binding criterion.
 
 R-TC-Kotani also works at Hmin in principle but requires self-
 bootstrapping from a previous rectified output, so the *start-up*
@@ -243,10 +253,13 @@ completes.
 
 ### 5.5 V_REG smoothing-cap area constraint
 
-Sister industry-survey §5.5: an on-die 12 nF MIM cap holds the rail
-for 1 µs at 5 mA load. Sister first-principles §5.7: 6 nF needed
-for 847.5 kHz modulation pause. **These are consistent.** The
-academic record does not address this constraint because every
+Sister industry-survey §5.5 (corrected 2026-05-04): an on-die
+**6 nF** (was "12 nF") MIM cap holds the rail for 1 µs at 5 mA
+load. Sister first-principles §5.7: 6 nF needed for 847.5 kHz
+modulation pause. **After correction these are exactly
+consistent — both reports converge on 6 nF as the binding
+on-die ceiling, with zero slack.** The academic record does not
+address this constraint because every
 published silicon paper assumed *external* bulk capacitance.
 
 This is a research gap in the academic record for our project: no

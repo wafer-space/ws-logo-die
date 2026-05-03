@@ -257,8 +257,13 @@ Parameters: N=4, A = 4×10⁻³ m², ω = 8.52×10⁷ rad/s,
 ISO/IEC 14443-2 Hmin = 1.5 A/m, Hmax = 7.5 A/m (per widely-quoted
 app-note consensus; see OQ-3).
 
-- At Hmin = 1.5 A/m: V_pk_induced ≈ **2.57 V**.
-- At Hmax = 7.5 A/m: V_pk_induced ≈ **12.85 V**.
+- At Hmin = 1.5 A/m **(rms)**: V_pk_induced ≈ **3.63 V**
+  (corrected 2026-05-04 — ISO 14443-2 Tables 1-2 specify
+  H_min/H_max in **rms**; the prior "2.57 V" treated it as peak.
+  Industry-survey §5.1 had this correct from the start. Fix:
+  V_pk = √2 × V_rms, so 2.57 × √2 = 3.63 V).
+- At Hmax = 7.5 A/m **(rms)**: V_pk_induced ≈ **18.18 V**
+  (corrected from "12.85 V" via same √2 factor).
 
 These are open-circuit, **untuned**. With Q_loaded = 30 voltage
 gain, V_pk_tank reaches 77 V at Hmin or 386 V at Hmax — physically
@@ -311,7 +316,9 @@ Ripple frequency = 27.12 MHz (full-bridge doubles). Budget:
 
 ### 5.6 0 mm coupling — the over-voltage corner
 
-H_pk at tag ≤ 7.5 A/m (ISO Hmax). V_pk_open ≤ 12.85 V. With
+H_pk at tag ≤ 7.5 A/m **(rms)**, so V_pk_open ≤ **18.18 V**
+(corrected 2026-05-04 from "12.85 V" via the §5.1 RMS→peak fix).
+With
 Q_loaded = 30 and no clamp, V_pk_tank ≈ 386 V — process-fatal.
 
 The clamp must dissipate ~100s of mW continuously to keep V_RECT
@@ -378,13 +385,21 @@ V_REG_min = 1.8 V (lowest sensible digital rail). LDO drop-out =
 0.4 V → V_RECT_min = 2.2 V.
 
 - (R-D-native): Vpk_ant_min = 2.2 + 0.08 = **2.28 V** ← below
-  Hmin V_pk_induced = 2.57 V. ✓ works at compliance Hmin.
-- (R-D-5V): Vpk_ant_min = 2.2 + 1.35 = **3.55 V** ← above Hmin
-  V_pk_induced = 2.57 V. ✗ fails at compliance Hmin.
+  Hmin V_pk_induced = **3.63 V** (corrected 2026-05-04). **✓
+  works comfortably** at compliance Hmin (margin grows from
+  0.29 V to 1.35 V).
+- (R-D-5V): Vpk_ant_min = 2.2 + 1.35 = **3.55 V** ← below Hmin
+  V_pk_induced = **3.63 V** (corrected 2026-05-04). **⚠
+  marginal at compliance Hmin** (was previously "fails";
+  the √2 RMS→peak correction softens the verdict by 0.08 V to
+  "marginal" but does not eliminate the marginality).
 
-**This is the strongest first-principles argument for native-nFET
-rectification.** It is the difference between "works at 1.5 A/m
-compliance" and "doesn't."
+**This is still a strong first-principles argument for native-
+nFET rectification**, but the corrected magnitudes show the
+5V-bridge as *marginal* not *failing* at Hmin. Native-nFET
+maintains a comfortable margin where 5V-bridge needs Hmin to
+hold within ±2 % to operate. Reviewer-1 noted this verdict
+softening 2026-05-04.
 
 ## 6. References
 
