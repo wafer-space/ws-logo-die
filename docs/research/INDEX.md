@@ -39,7 +39,7 @@ Legend: `—` not started, `▶` in flight, `✓` signed-off draft exists,
 | (h) | [NFC business-card core](h-nfc-business-card-core/README.md) | ✓ | ✓ | ✓ | — | — | — | — |
 | (i) | [Power-domain isolation](i-power-domain-isolation/README.md) | ◐ | ✓ | ✓ | — | — | — | — |
 | (j) | [eFuses / OTP](j-efuses-otp/README.md) | ◐ | ✓ | ✓ | — | — | — | — |
-| (k) | [BLE (aspirational)](k-aspirational-ble/README.md) | ✓ | — | ✓ | — | — | — | — |
+| (k) | [BLE (aspirational)](k-aspirational-ble/README.md) | ✓ | ✓ | ✓ | — | — | — | — |
 
 Legend additions: `◐` = report.md persisted; secondary structured
 files (components/solutions/open-questions/references) still
